@@ -20,6 +20,6 @@ namespace LibSodium.Tests;
 		{
 			LibraryVersion.GetMajor().ShouldBe(Native.LIBSODIUM_VERSION_MAJOR);
 			LibraryVersion.GetMinor().ShouldBe(Native.LIBSODIUM_VERSION_MINOR);
-			LibraryVersion.GetString().ShouldBe("1.0.20");
+			LibraryVersion.GetString().ShouldBe(Native.SODIUM_VERSION_STRING);
 		}
 	}

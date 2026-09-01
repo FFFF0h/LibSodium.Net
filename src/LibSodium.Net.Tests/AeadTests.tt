@@ -39,7 +39,7 @@ namespace LibSodium.Tests;
 internal sealed class SkipIfAes256GcmUnavailableAttribute()
     : TUnit.Core.SkipAttribute("AES256-GCM is unavailable on this processor.")
 {
-    public override Task<bool> ShouldSkip(TUnit.Core.BeforeTestContext context) =>
+    public override Task<bool> ShouldSkip(TUnit.Core.TestRegisteredContext context) =>
         Task.FromResult(!Aes256Gcm.IsAvailable);
 }
 

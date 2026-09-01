@@ -8,8 +8,11 @@
 		{
 			Console.WriteLine("Hello, World!");
 
-			var entryPoint = typeof(LibSodium.Tests.AssertLite).Assembly.EntryPoint;
+			var entryPoint = typeof(LibSodium.Tests.AssertLite).Assembly.EntryPoint
+				?? throw new InvalidOperationException("The test assembly has no entry point.");
+			var task = entryPoint.Invoke(null, [args]) as Task<int>
+				?? throw new InvalidOperationException("The test assembly entry point did not return Task<int>.");
 
-			global::TestingPlatformEntryPoint.Main(args).GetAwaiter().GetResult();
+			Environment.ExitCode = task.GetAwaiter().GetResult();
 		}
 	}
