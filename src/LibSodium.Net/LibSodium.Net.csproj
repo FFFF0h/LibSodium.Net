@@ -25,7 +25,8 @@
 			HKDF HKDF-SHA256 HKDFSHA256 HKDF-SHA512 HKDFSHA512 crypto_kdf Key-Derivation
 			Poly1305 HMAC-SHA-256 HMACSHA256 HMAC-SHA-512 HMACSHA512 HMAC-SHA-512/256
 			ChaCha20 ChaCha20-IETF ChaCha20IETF XChaCha20 Salsa20 XSalsa20 HChaCha20
-			Ristretto Ristretto255
+			Ristretto Ristretto255 SHA3 SHA3-256 SHA3-512 SHAKE128 SHAKE256 TurboSHAKE Keccak
+			post-quantum ML-KEM ML-KEM768 X-Wing KEM IPcrypt
 		</PackageTags>
 		<AssemblyVersion>1.0.22.0</AssemblyVersion>
 		<FileVersion>1.0.22.0</FileVersion>

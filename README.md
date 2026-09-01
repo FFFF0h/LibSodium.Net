@@ -1,6 +1,4 @@
-# LibSodium.Net
-
-[![Build and Test](https://github.com/libSodium-net/LibSodium.Net/actions/workflows/build-and-test.yml/badge.svg)](https://github.com//libSodium-net/LibSodium.Net/actions/workflows/build-and-test.yml) [![NuGet](https://img.shields.io/nuget/v/LibSodium.Net.svg)](https://www.nuget.org/packages/LibSodium.Net/)
+﻿# LibSodium.Net
 
 **LibSodium.Net** is a modern, idiomatic .NET binding for the [libsodium](https://doc.libsodium.org/) cryptographic library. It gives developers full access to libsodium’s capabilities through a minimal, transparent, and ergonomic C# API.
 
