@@ -1,7 +1,6 @@
 ﻿#if ANDROID
 #pragma warning disable TUnit0031 // Async void methods are not allowed
-namespace LibSodium.Net.Tests.Android
-{
+namespace LibSodium.Net.Tests.Android;
 	[global::Android.App.Activity(
 		Label = "TestRunner",
 		MainLauncher = true,
@@ -35,6 +34,5 @@ namespace LibSodium.Net.Tests.Android
 			Finish();
 		}
 	}
-}
 #pragma warning restore TUnit0031
 #endif

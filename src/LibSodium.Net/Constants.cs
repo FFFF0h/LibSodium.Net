@@ -1,5 +1,5 @@
-﻿namespace LibSodium
-{
+﻿namespace LibSodium;
+
 	/// <summary>
 	/// Provides constant values used throughout the Na.Core library.
 	/// </summary>
@@ -19,4 +19,3 @@
 
 		internal const int DefaultBufferLen = 8192;
 	}
-}

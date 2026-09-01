@@ -1,9 +1,9 @@
-﻿using LibSodium.Interop;
-using System.Buffers.Binary;
+﻿using System.Buffers.Binary;
 using System.Runtime.CompilerServices;
+using LibSodium.Interop;
 
-namespace LibSodium
-{
+namespace LibSodium;
+
 	/// <summary>
 	/// Provides methods for working with arbitrary large little endian big unsigned integers in a secure way
 	/// (constant time for a given length)
@@ -113,4 +113,3 @@ namespace LibSodium
 			return Native.sodium_is_zero(b, (nuint)b.Length) == 1;
 		}
 	}
-}

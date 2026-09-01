@@ -1,8 +1,8 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace LibSodium.Interop
-{
+namespace LibSodium.Interop;
+
 	internal static partial class Native
 	{
 
@@ -72,4 +72,3 @@ namespace LibSodium.Interop
 		internal const byte CRYPTO_SECRET_STREAM_TAG_REKEY = 2;
 		internal const byte CRYPTO_SECRET_STREAM_TAG_FINAL = 3;
 	}
-}

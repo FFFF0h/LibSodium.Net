@@ -1,5 +1,5 @@
-﻿namespace LibSodium.LowLevel
-{
+﻿namespace LibSodium.LowLevel;
+
 	internal interface IAead
 	{
 		static abstract int KeyLen { get; }
@@ -36,4 +36,3 @@
 			ReadOnlySpan<byte> nonce,
 			ReadOnlySpan<byte> key);
 	}
-}

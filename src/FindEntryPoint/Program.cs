@@ -1,5 +1,5 @@
-﻿namespace FindEntryPoint
-{
+﻿namespace FindEntryPoint;
+
 	internal class Program
 	{
 #pragma warning disable TUnit0034 // Do not declare a main method
@@ -13,4 +13,3 @@
 			global::TestingPlatformEntryPoint.Main(args).GetAwaiter().GetResult();
 		}
 	}
-}

@@ -2,7 +2,6 @@
 
 
 using System.Buffers;
-using System.Security.Cryptography;
 
 namespace LibSodium;
 
@@ -94,7 +93,6 @@ public static class SecretStream
 	{
 		ArgumentNullException.ThrowIfNull(input, nameof(input));
 		ArgumentNullException.ThrowIfNull(output, nameof(output));
-		ArgumentNullException.ThrowIfNull(key, nameof(key));
 		byte[]? cipherBuffer = null;
 		byte[]? plainBuffer = null;
 		try
@@ -354,7 +352,6 @@ public static class SecretStream
 	{
 		ArgumentNullException.ThrowIfNull(input, nameof(input));
 		ArgumentNullException.ThrowIfNull(output, nameof(output));
-		ArgumentNullException.ThrowIfNull(key, nameof(key));
 		byte[]? cipherBuffer = null;
 		byte[]? plainBuffer = null;
 		try
@@ -374,7 +371,7 @@ public static class SecretStream
 		try
 		{
 			// Read header
-			await input.ReadExactlyAsync(headerBuffer).ConfigureAwait(false);
+			await input.ReadExactlyAsync(headerBuffer, cancellationToken).ConfigureAwait(false);
 
 			CryptoSecretStream.InitializeDecryption(stateBuffer, headerBuffer, key.Span);
 			bool tagFinalReached = false;
@@ -392,11 +389,10 @@ public static class SecretStream
 				}
 				var ad = firstChunk ? aad : ReadOnlyMemory<byte>.Empty;
 				firstChunk = false;
-				CryptoSecretStreamTag tag;
 				var plainLen = CryptoSecretStream.DecryptChunk(
 					stateBuffer,
 					plainBuffer,
-					out tag,
+					out CryptoSecretStreamTag tag,
 					cipherBuffer.AsSpan(0, chunkLength),
 					ad.Span
 				).Length;
@@ -741,11 +737,10 @@ public static class SecretStream
 				}
 				var ad = firstChunk ? aad : ReadOnlySpan<byte>.Empty;
 				firstChunk = false;
-				CryptoSecretStreamTag tag;
 				var clearSpan = CryptoSecretStream.DecryptChunk(
 					stateBuffer,
 					plainBuffer,
-					out tag,
+					out CryptoSecretStreamTag tag,
 					cipherBuffer.AsSpan(0, chunkLength),
 					ad
 				);

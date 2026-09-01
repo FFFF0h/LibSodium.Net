@@ -1,10 +1,8 @@
-﻿using System.Runtime.CompilerServices;
+﻿namespace LibSodium.Net.Tests;
 
-namespace LibSodium.Net.Tests
-{
 	internal class TextFileLogger
 	{
-		private static object lockObject = new object();
+		private static readonly Lock lockObject = new();
 
 		public static bool isInitialized = false;
 
@@ -59,4 +57,3 @@ namespace LibSodium.Net.Tests
 			}
 		}
 	}
-}

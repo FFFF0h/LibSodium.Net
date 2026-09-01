@@ -1,9 +1,7 @@
-﻿using TUnit.Assertions.AssertConditions.Throws;
+﻿using static LibSodium.SecretBox;
 
-using static LibSodium.SecretBox;
+namespace LibSodium.Tests;
 
-namespace LibSodium.Tests
-{
 	public class SecretBoxTests
 	{
 		private static byte[] GenerateRandomPlainText()
@@ -382,4 +380,3 @@ namespace LibSodium.Tests
 		}
 
 	}
-}

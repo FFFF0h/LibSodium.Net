@@ -1,9 +1,9 @@
-﻿using LibSodium.Interop;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using LibSodium.Interop;
 
-namespace LibSodium
-{
+namespace LibSodium;
+
 	/// <summary>
 	/// Provides methods for secure memory management using libsodium.
 	/// These methods help protect sensitive data from being swapped to disk or accessed by other processes.
@@ -530,11 +530,16 @@ namespace LibSodium
 		/// </summary>
 		public void Dispose()
 		{
+			Dispose(disposing: true);
+			GC.SuppressFinalize(this);
+		}
+
+		internal void Dispose(bool disposing)
+		{
 			if (IsDisposed) return;
 			IsDisposed = true;
 			Native.sodium_free(address);
 			address = 0;
-			GC.SuppressFinalize(this);
 		}
 
 		/// <summary>
@@ -542,8 +547,6 @@ namespace LibSodium
 		/// </summary>
 		~SecureMemory()
 		{
-			Dispose();
+			Dispose(disposing: false);
 		}
 	}
-
-}

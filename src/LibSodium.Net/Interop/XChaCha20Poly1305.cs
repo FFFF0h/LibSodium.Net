@@ -1,9 +1,8 @@
-﻿using System;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace LibSodium.Interop
-{
+namespace LibSodium.Interop;
+
 	internal static partial class Native
 	{
 		internal const int CRYPTO_AEAD_XChaCha20POLY1305_IETF_KEYBYTES = 32;
@@ -63,4 +62,3 @@ namespace LibSodium.Interop
 			ReadOnlySpan<byte> nonce,
 			ReadOnlySpan<byte> key);
 	}
-}

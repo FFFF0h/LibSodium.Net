@@ -1,7 +1,7 @@
 ﻿using LibSodium.LowLevel;
 
-namespace LibSodium
-{
+namespace LibSodium;
+
 	internal sealed class CryptoMacIncremental<T> : ICryptoIncrementalOperation where T : IMac
 	{
 
@@ -25,7 +25,7 @@ namespace LibSodium
 		{
 			if (isDisposed)
 			{
-				throw new ObjectDisposedException(nameof(CryptoMacIncremental<T>), "The incremental hash has already been disposed.");
+				throw new ObjectDisposedException(nameof(CryptoMacIncremental<>), "The incremental hash has already been disposed.");
 			}
 		}
 		public void Dispose()
@@ -70,4 +70,3 @@ namespace LibSodium
 				throw new LibSodiumException("Failed to update the incremental hashing operation.");
 		}
 	}
-}

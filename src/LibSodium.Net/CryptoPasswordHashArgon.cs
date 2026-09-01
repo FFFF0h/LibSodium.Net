@@ -1,33 +1,33 @@
 
-using LibSodium.Interop;
 using System.Text;
+using LibSodium.Interop;
 
-namespace LibSodium
+namespace LibSodium;
+
+/// <summary>
+/// Supported password hashing algorithms.
+/// </summary>
+public enum PasswordHashArgonAlgorithm
 {
     /// <summary>
-    /// Supported password hashing algorithms.
+    /// Argon2i version 1.3 — optimized for side-channel resistance.
     /// </summary>
-    public enum PasswordHashArgonAlgorithm
-    {
-        /// <summary>
-        /// Argon2i version 1.3 — optimized for side-channel resistance.
-        /// </summary>
-        Argon2i13 = Native.CRYPTO_PWHASH_ALG_ARGON2I13,
-
-        /// <summary>
-        /// Argon2id version 1.3 — hybrid mode (default and recommended).
-        /// </summary>
-        Argon2id13 = Native.CRYPTO_PWHASH_ALG_ARGON2ID13
-    }
+    Argon2i13 = Native.CRYPTO_PWHASH_ALG_ARGON2I13,
 
     /// <summary>
-    /// Provides password hashing and key derivation using Argon2.
+    /// Argon2id version 1.3 — hybrid mode (default and recommended).
     /// </summary>
-    /// <remarks>
-    /// Based on libsodium's crypto_pwhash API: https://doc.libsodium.org/password_hashing
-    /// </remarks>
-    public static class CryptoPasswordHashArgon
-    {
+    Argon2id13 = Native.CRYPTO_PWHASH_ALG_ARGON2ID13
+}
+
+/// <summary>
+/// Provides password hashing and key derivation using Argon2.
+/// </summary>
+/// <remarks>
+/// Based on libsodium's crypto_pwhash API: https://doc.libsodium.org/password_hashing
+/// </remarks>
+public static class CryptoPasswordHashArgon
+{
 		/// <summary>
 		/// Minimum allowed length in bytes for the derived key (16).
 		/// </summary>
@@ -107,13 +107,13 @@ namespace LibSodium
 		/// <exception cref="ArgumentException">If arguments are invalid.</exception>
 		/// <exception cref="LibSodiumException">If hashing fails.</exception>
 		public static void DeriveKey(
-            Span<byte> key,
-            ReadOnlySpan<byte> password,
-            ReadOnlySpan<byte> salt,
-            int iterations = InteractiveIterations,
-            int requiredMemoryLen = InteractiveMemoryLen,
-            PasswordHashArgonAlgorithm algorithm = PasswordHashArgonAlgorithm.Argon2id13)
-        {
+        Span<byte> key,
+        ReadOnlySpan<byte> password,
+        ReadOnlySpan<byte> salt,
+        int iterations = InteractiveIterations,
+        int requiredMemoryLen = InteractiveMemoryLen,
+        PasswordHashArgonAlgorithm algorithm = PasswordHashArgonAlgorithm.Argon2id13)
+    {
 			if (key.Length < MinKeyLen)
 				throw new ArgumentOutOfRangeException($"Key length must be at least {MinKeyLen} bytes.", nameof(key));
 
@@ -134,15 +134,15 @@ namespace LibSodium
 
 			LibraryInitializer.EnsureInitialized();
 
-            int result = Native.crypto_pwhash(
-                key, (ulong)key.Length,
-                password, (ulong)password.Length,
-                salt,
-                (ulong)iterations, (nuint)requiredMemoryLen, (int)algorithm);
+        int result = Native.crypto_pwhash(
+            key, (ulong)key.Length,
+            password, (ulong)password.Length,
+            salt,
+            (ulong)iterations, (nuint)requiredMemoryLen, (int)algorithm);
 
-            if (result != 0)
-                throw new LibSodiumException("DeriveKey failed. Possible out of memory.");
-        }
+        if (result != 0)
+            throw new LibSodiumException("DeriveKey failed. Possible out of memory.");
+    }
 
 		/// <summary>
 		/// Derives a secret key from a password and salt using Argon2.
@@ -333,4 +333,3 @@ namespace LibSodium
 			return VerifyPassword(hashedPassword, passwordUtf8);
 		}
 	}
-}

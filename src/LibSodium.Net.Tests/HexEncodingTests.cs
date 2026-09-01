@@ -1,7 +1,5 @@
-﻿using TUnit.Assertions.AssertConditions.Throws;
+﻿namespace LibSodium.Tests;
 
-namespace LibSodium.Tests
-{
 	public class HexEncodingTests
 	{
 		static byte[] bin = { 0x01, 0x23, 0x45, 0x67, 0x89, 0xAB, 0xCD, 0xEF };
@@ -91,4 +89,3 @@ namespace LibSodium.Tests
 			binSpanLen.ShouldBe(0);
 		}
 	}
-}

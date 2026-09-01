@@ -1,7 +1,7 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace LibSodium.Interop
-{
+namespace LibSodium.Interop;
+
 	internal static partial class Native
 	{
 		public const string CRYPTO_KDF_PRIMITIVE = "blake2b";
@@ -33,4 +33,3 @@ namespace LibSodium.Interop
 			ReadOnlySpan<byte> context,
 			ReadOnlySpan<byte> masterKey);
 	}
-}

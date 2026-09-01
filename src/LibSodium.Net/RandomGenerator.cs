@@ -1,7 +1,7 @@
 ﻿using LibSodium.Interop;
 
-namespace LibSodium
-{
+namespace LibSodium;
+
 	/// <summary>
 	/// Static class for random number generation.
 	/// </summary>
@@ -103,4 +103,3 @@ namespace LibSodium
 			Native.randombytes_stir();
 		}
 	}
-}

@@ -1,8 +1,8 @@
-﻿using System.Runtime.InteropServices;
-using System.Diagnostics;
+﻿using System.Diagnostics;
+using System.Runtime.InteropServices;
 
-namespace LibSodium.Tests
-{
+namespace LibSodium.Tests;
+
 	public class SecureMemoryTests
 	{
 
@@ -111,20 +111,13 @@ namespace LibSodium.Tests
 		}
 
 		[Test]
-		public void NaSecureMemoryT_Finalizer_ReleasesMemory()
+		public void NaSecureMemoryT_FinalizerPath_ReleasesMemory()
 		{
-			// Create a NaSecureMemory<byte> object without explicitly disposing it.
-			var secureMemory = SecureMemory.Create<byte>(10);
+			using var secureMemory = SecureMemory.Create<byte>(10);
+			secureMemory.Dispose(disposing: false);
 
-			// Force garbage collection to trigger the finalizer.
-			secureMemory = null; // Make the object eligible for garbage collection.
-			GC.Collect();
-			GC.WaitForPendingFinalizers();
-
-			// At this point, the finalizer should have run and released the memory.
-			// We can't directly assert that the memory is released, but we can verify that no exceptions are thrown.
-			// This test primarily checks that the finalizer doesn't crash.
-			
+			secureMemory.IsDisposed.ShouldBeTrue();
+			secureMemory.address.ShouldBe(0);
 		}
 
 		[Test]
@@ -468,5 +461,3 @@ namespace LibSodium.Tests
 #endif
 
 	}
-
-}

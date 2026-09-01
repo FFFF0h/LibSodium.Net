@@ -1,8 +1,8 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace LibSodium
-{
+namespace LibSodium;
+
 	/// <summary>
 	/// Holds the pointer and length of an *unmanaged* memory span for later recreation. **Use only with unmanaged memory.**
 	/// </summary>
@@ -79,4 +79,3 @@ namespace LibSodium
 			return new ReadOnlySpan<T>(pointer, length);
 		}
 	}
-}

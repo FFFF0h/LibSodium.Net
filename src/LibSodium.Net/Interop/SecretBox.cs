@@ -1,8 +1,8 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace LibSodium.Interop
-{
+namespace LibSodium.Interop;
+
 	internal static partial class Native
 	{
 
@@ -36,4 +36,3 @@ namespace LibSodium.Interop
 			ReadOnlySpan<byte> mac, ulong cipher_len,
 			ReadOnlySpan<byte> nonce, ReadOnlySpan<byte> key);
 	}
-}

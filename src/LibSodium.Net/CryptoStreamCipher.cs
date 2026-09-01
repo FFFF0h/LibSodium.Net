@@ -1,9 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace LibSodium;
+﻿namespace LibSodium;
 
 /// <summary>
 /// Provides a generic interface for stream ciphers like XSalsa20, ChaCha20, etc.

@@ -1,8 +1,8 @@
 ﻿using System.Buffers.Binary;
 using System.Runtime.InteropServices;
 
-namespace LibSodium
-{
+namespace LibSodium;
+
 	[StructLayout(LayoutKind.Explicit, Pack = 1, Size = 16)]
 	internal unsafe struct CryptoStreamHeader
 	{
@@ -31,4 +31,3 @@ namespace LibSodium
 			}
 		}
 	}
-}

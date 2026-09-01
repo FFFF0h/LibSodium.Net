@@ -1,6 +1,5 @@
 
 using System.Text;
-using LibSodium;
 namespace LibSodium.Tests;
 
 public class CryptoShortHashTests

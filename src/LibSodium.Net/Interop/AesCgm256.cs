@@ -1,12 +1,15 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace LibSodium.Interop
-{
+namespace LibSodium.Interop;
+
 	internal static partial class Native
 	{
 		internal const int CRYPTO_AEAD_AES256GCM_KEYBYTES = 32;
 		internal const int CRYPTO_AEAD_AES256GCM_NPUBBYTES = 12;
 		internal const int CRYPTO_AEAD_AES256GCM_ABYTES = 16;
+
+		[LibraryImport(LibSodiumNativeLibraryName, EntryPoint = nameof(crypto_aead_aes256gcm_is_available))]
+		internal static partial int crypto_aead_aes256gcm_is_available();
 
 		[LibraryImport(LibSodiumNativeLibraryName, EntryPoint = nameof(crypto_aead_aes256gcm_encrypt))]
 		internal static partial int crypto_aead_aes256gcm_encrypt(
@@ -57,4 +60,3 @@ namespace LibSodium.Interop
 			ReadOnlySpan<byte> nonce,
 			ReadOnlySpan<byte> key);
 	}
-}

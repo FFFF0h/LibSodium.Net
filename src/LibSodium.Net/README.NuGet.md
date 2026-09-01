@@ -1,4 +1,4 @@
-# 🔐 Modern cryptography for .NET 8+
+﻿# 🔐 Modern cryptography for .NET 10+
 
 Idiomatic .NET bindings for [libsodium](https://doc.libsodium.org) with a Span-based, zero-allocation API.
 Includes AEAD encryption (XChaCha20-Poly1305, AES256-GCM, AEGIS), public-key cryptography (`CryptoBox`, `Sealed Boxes`, `CryptoSign`), authenticated streaming (`SecretStream`), secure memory, and more.

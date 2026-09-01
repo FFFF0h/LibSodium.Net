@@ -1,9 +1,8 @@
 ﻿using LibSodium.Interop;
 using LibSodium.Net.Tests;
-using Microsoft.VisualBasic.FileIO;
 
-namespace LibSodium.Tests
-{
+namespace LibSodium.Tests;
+
 	public class LibraryInitializerTests
 	{
 		[Test]
@@ -24,4 +23,3 @@ namespace LibSodium.Tests
 			LibraryVersion.GetString().ShouldBe("1.0.20");
 		}
 	}
-}

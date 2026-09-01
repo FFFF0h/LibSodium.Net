@@ -1,5 +1,5 @@
-﻿namespace LibSodium
-{
+﻿namespace LibSodium;
+
 	internal static class AeadCore<T> where T : LowLevel.IAead
 	{
 		/// <summary>
@@ -219,10 +219,10 @@
 			ReadOnlySpan<byte> aad = default,
 			ReadOnlySpan<byte> nonce = default)
 		{
-			if (mac == default)
+			if (mac.IsDefault())
 			{
 				// Combined mode
-				if (nonce == default)
+				if (nonce.IsDefault())
 					return EncryptCombined(ciphertext, plaintext, key, aad);
 				else
 					return EncryptCombined(ciphertext, plaintext, key, aad, nonce);
@@ -230,7 +230,7 @@
 			else
 			{
 				// Detached mode
-				if (nonce == default)
+				if (nonce.IsDefault())
 					return EncryptDetached(ciphertext, mac, plaintext, key, aad);
 				else
 					return EncryptDetached(ciphertext, mac, plaintext, key, aad, nonce);
@@ -303,10 +303,10 @@
 			ReadOnlySpan<byte> aad = default,
 			ReadOnlySpan<byte> nonce = default)
 		{
-			if (mac == default)
+			if (mac.IsDefault())
 			{
 				// Combined mode
-				if (nonce == default)
+				if (nonce.IsDefault())
 					return DecryptCombined(plaintext, ciphertext, key, aad);
 				else
 					return DecryptCombined(plaintext, ciphertext, key, aad, nonce);
@@ -314,7 +314,7 @@
 			else
 			{
 				// Detached mode
-				if (nonce == default)
+				if (nonce.IsDefault())
 					return DecryptDetached(plaintext, ciphertext, key, mac, aad);
 				else
 					return DecryptDetached(plaintext, ciphertext, key, mac, aad, nonce);
@@ -353,4 +353,3 @@
 			return Decrypt(plaintext, ciphertext, key.AsReadOnlySpan(), mac, aad, nonce);
 		}
 	}
-}

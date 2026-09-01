@@ -1,6 +1,6 @@
 ﻿using LibSodium.Interop;
-namespace LibSodium.LowLevel
-{
+namespace LibSodium.LowLevel;
+
 	internal readonly struct XChaCha20Poly1305 : IAead
 	{
 		public static int KeyLen => Native.CRYPTO_AEAD_XChaCha20POLY1305_IETF_KEYBYTES;
@@ -19,4 +19,3 @@ namespace LibSodium.LowLevel
 		public static int DecryptCombined(Span<byte> plaintext, ReadOnlySpan<byte> ciphertext, ReadOnlySpan<byte> aad, ReadOnlySpan<byte> nonce, ReadOnlySpan<byte> key)
 			=> Native.crypto_aead_xchacha20poly1305_ietf_decrypt(plaintext, out _, nuint.Zero, ciphertext, (ulong)ciphertext.Length, aad, (ulong)aad.Length, nonce, key);
 	}
-}

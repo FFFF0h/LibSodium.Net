@@ -1,8 +1,8 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace LibSodium.Interop
-{
+namespace LibSodium.Interop;
+
 	internal static partial class Native
 	{
 		public const int CRYPTO_SHORTHASH_BYTES = 8;
@@ -16,4 +16,3 @@ namespace LibSodium.Interop
 			ulong input_len,                 
 			ReadOnlySpan<byte> key);
 	}
-}

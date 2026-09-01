@@ -1,9 +1,8 @@
-﻿using System;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace LibSodium.Interop
-{
+namespace LibSodium.Interop;
+
 	internal static partial class Native
 	{
 
@@ -15,7 +14,7 @@ namespace LibSodium.Interop
 		internal static partial int crypto_auth(
 			Span<byte> output, 
 			ReadOnlySpan<byte> input,
-            ulong input_len, 
+		ulong input_len,
 			ReadOnlySpan<byte> key);
 
 		[LibraryImport(LibSodiumNativeLibraryName, EntryPoint = nameof(crypto_auth_verify))]
@@ -23,11 +22,10 @@ namespace LibSodium.Interop
 		internal static partial int crypto_auth_verify(
 			ReadOnlySpan<byte> mac, 
 			ReadOnlySpan<byte> input,
-            ulong input_len,
+        ulong input_len,
 			ReadOnlySpan<byte> key);
 
 		[LibraryImport(LibSodiumNativeLibraryName, EntryPoint = nameof(crypto_auth_keygen))]
 		[UnmanagedCallConv(CallConvs = new[] { typeof(CallConvCdecl) })]
 		internal static partial void crypto_auth_keygen(Span<byte> key);
 	}
-}

@@ -1,7 +1,5 @@
-﻿using System;
+﻿namespace LibSodium.Tests;
 
-namespace LibSodium.Tests
-{
 	public class CryptoSecretStreamTests
 	{
 		private static byte[] GenerateRandomBytes(int length)
@@ -399,4 +397,3 @@ namespace LibSodium.Tests
 		}
 
 	}
-}

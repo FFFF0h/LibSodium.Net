@@ -3,8 +3,15 @@
 using LibSodium.Net.Tests;
 using System.Text;
 
-namespace LibSodium.Tests
+namespace LibSodium.Tests;
+
+internal sealed class SkipIfAes256GcmUnavailableAttribute()
+    : TUnit.Core.SkipAttribute("AES256-GCM is unavailable on this processor.")
 {
+    public override Task<bool> ShouldSkip(TUnit.Core.BeforeTestContext context) =>
+        Task.FromResult(!Aes256Gcm.IsAvailable);
+}
+
     public class XChaCha20Poly1305Tests
     {
         [Test]
@@ -259,7 +266,8 @@ namespace LibSodium.Tests
             decrypted.SequenceEqual(data).ShouldBeTrue();
         }
     }
-    public class Aes256GcmTests
+[SkipIfAes256GcmUnavailable]
+public class Aes256GcmTests
     {
         [Test]
         public void EncryptAndDecrypt_Combined_WithAutoNonce() =>
@@ -767,4 +775,3 @@ namespace LibSodium.Tests
             decrypted.SequenceEqual(data).ShouldBeTrue();
         }
     }
-}

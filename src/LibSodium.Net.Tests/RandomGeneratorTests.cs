@@ -1,7 +1,5 @@
-﻿using TUnit.Assertions.AssertConditions.Throws;
+﻿namespace LibSodium.Tests;
 
-namespace LibSodium.Tests
-{
 	public class RandomGeneratorTests
 	{
 		[Test]
@@ -123,4 +121,3 @@ namespace LibSodium.Tests
 		}
 #endif
 	}
-}

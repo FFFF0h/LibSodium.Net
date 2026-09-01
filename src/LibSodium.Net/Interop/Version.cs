@@ -1,8 +1,8 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace LibSodium.Interop
-{
+namespace LibSodium.Interop;
+
 	internal static partial class Native
 	{
 		internal const int LIBSODIUM_VERSION_MAJOR = 26;
@@ -21,4 +21,3 @@ namespace LibSodium.Interop
 		[UnmanagedCallConv(CallConvs = new[] { typeof(CallConvCdecl) })]
 		internal static partial nint sodium_version_string();
 	}
-}

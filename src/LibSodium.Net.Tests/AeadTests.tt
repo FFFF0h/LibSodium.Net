@@ -34,9 +34,19 @@ var algorithms = new[] {
 using LibSodium.Net.Tests;
 using System.Text;
 
-namespace LibSodium.Tests
+namespace LibSodium.Tests;
+
+internal sealed class SkipIfAes256GcmUnavailableAttribute()
+    : TUnit.Core.SkipAttribute("AES256-GCM is unavailable on this processor.")
 {
+    public override Task<bool> ShouldSkip(TUnit.Core.BeforeTestContext context) =>
+        Task.FromResult(!Aes256Gcm.IsAvailable);
+}
+
 <# foreach (var algo in algorithms) { #>
+<# if (algo.Name == "Aes256Gcm") { #>
+    [SkipIfAes256GcmUnavailable]
+<# } #>
     public class <#= algo.Name #>Tests
     {
         [Test]
@@ -165,4 +175,3 @@ namespace LibSodium.Tests
         }
     }
 <# } #>
-}

@@ -1,8 +1,7 @@
-﻿using System;
-using LibSodium.Interop;
+﻿using LibSodium.Interop;
 
-namespace LibSodium
-{
+namespace LibSodium;
+
 	/// <summary>
 	/// Provides low-level scalar multiplication on Curve25519.
 	/// This class exposes the <c>crypto_scalarmult</c> and <c>crypto_scalarmult_base</c> functions from libsodium.
@@ -104,4 +103,3 @@ namespace LibSodium
 			CalculatePublicKey(publicKey, privateKey.AsReadOnlySpan());
 		}
 	}
-}

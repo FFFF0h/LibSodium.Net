@@ -1,8 +1,8 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace LibSodium.Interop
-{
+namespace LibSodium.Interop;
+
 	internal static partial class Native
 	{
 		public const int CRYPTO_HASH_SHA256_BYTES = 32;
@@ -48,4 +48,3 @@ namespace LibSodium.Interop
 		[UnmanagedCallConv(CallConvs = new[] { typeof(CallConvCdecl) })]
 		internal static partial int crypto_hash_sha512_final(Span<byte> state, Span<byte> hash);
 	}
-}

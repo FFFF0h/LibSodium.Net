@@ -1,4 +1,4 @@
-// AssertLite.cs
+﻿// AssertLite.cs
 // Minimalist, AOT-safe test assertions for LibSodium.Net
 
 
@@ -38,14 +38,6 @@ public static class AssertLite
 		if (expected == true)
 		{
 			throw new AssertionException(message ?? "Should be false, but it's true");
-		}
-	}
-
-    public static void ShouldBe(this Span<byte> actual, Span<byte> expected, string? message = null)
-	{
-		if (actual.Length != expected.Length || !actual.SequenceEqual(expected))
-		{
-			throw new AssertionException($"Should be {HexEncoding.BinToHex(expected)}, but got {HexEncoding.BinToHex(actual)}. {message}");
 		}
 	}
 

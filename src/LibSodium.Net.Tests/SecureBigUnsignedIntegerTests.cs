@@ -1,7 +1,5 @@
-﻿using TUnit.Assertions.AssertConditions.Throws;
+﻿namespace LibSodium.Tests;
 
-namespace LibSodium.Tests
-{
 	public class SecureBigUnsignedIntegerTests
 	{
 		[Test]
@@ -146,4 +144,3 @@ namespace LibSodium.Tests
 			SecureBigUnsignedInteger.IsZero(b).ShouldBeFalse();
 		}
 	}
-}

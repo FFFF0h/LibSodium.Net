@@ -1,13 +1,8 @@
 ﻿using LibSodium.Interop;
 using LibSodium.Tests;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace LibSodium.Net.Tests
-{
+namespace LibSodium.Net.Tests;
+
 	internal class KeyExchangeTests
 	{
 		[Test]
@@ -37,4 +32,3 @@ namespace LibSodium.Net.Tests
 			tx12.ShouldNotBe(rx12);
 		}
 	}
-}

@@ -1,9 +1,7 @@
 ﻿using LibSodium.Interop;
-using System.Buffers;
-using System.Security.Cryptography;
 
-namespace LibSodium
-{
+namespace LibSodium;
+
 	/// <summary>
 	/// Provides a high-level interface to the libsodium generic hash function, based on BLAKE2b.
 	/// </summary>
@@ -181,4 +179,3 @@ namespace LibSodium
 		}
 
 	}
-}

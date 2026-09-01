@@ -25,7 +25,7 @@ internal sealed class CryptoKeyLessHashIncremental<T> : ICryptoIncrementalOperat
 	private void CheckDisposed()
 	{
 		if (isDisposed)
-			throw new ObjectDisposedException(nameof(CryptoKeyLessHashIncremental<T>), "The incremental hashing instance has already been disposed.");
+			throw new ObjectDisposedException(nameof(CryptoKeyLessHashIncremental<>), "The incremental hashing instance has already been disposed.");
 	}
 
 	/// <summary>

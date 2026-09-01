@@ -1,7 +1,7 @@
 ﻿using LibSodium.Interop;
 
-namespace LibSodium.LowLevel
-{
+namespace LibSodium.LowLevel;
+
 	internal readonly struct CryptoBox
 	{
 		public static int PublicKeyLen => Native.CRYPTO_BOX_PUBLICKEYBYTES;
@@ -53,4 +53,3 @@ namespace LibSodium.LowLevel
 		public static int DecryptWithPrivateKey(Span<byte> plaintext, ReadOnlySpan<byte> ciphertext, ReadOnlySpan<byte> publicKey, ReadOnlySpan<byte> privateKey)
 			=> Native.crypto_box_seal_open(plaintext, ciphertext, (ulong)ciphertext.Length, publicKey, privateKey);
 	}
-}

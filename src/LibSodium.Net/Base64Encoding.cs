@@ -1,8 +1,8 @@
-﻿using LibSodium.Interop;
-using System.Text;
+﻿using System.Text;
+using LibSodium.Interop;
 
-namespace LibSodium
-{
+namespace LibSodium;
+
 	/// <summary>Represents Base64 encoding variants.</summary>
 	public enum Base64Variant
 	{
@@ -124,4 +124,3 @@ namespace LibSodium
 			return b64.Slice(0, b64AsciiBytesLen - 1);
 		}
 	}
-}
