@@ -124,7 +124,7 @@ jobs:
       run: dotnet workload install ios
 
     - name: Publish iOS device Native AOT
-      run: dotnet publish ./src/LibSodium.Net.Tests/LibSodium.Net.Tests.iOS.csproj --configuration Release -warnaserror
+      run: dotnet publish ./src/LibSodium.Net.Tests/LibSodium.Net.Tests.iOS.csproj --configuration Release -p:EnableCodeSigning=false -warnaserror
 
     - name: Verify iOS application bundle
       run: test -d ./src/LibSodium.Net.Tests/bin/Release/net10.0-ios/ios-arm64/LibSodium.Net.Tests.iOS.app
