@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<Import Project="LibSodium.Net.Tests.Core.csproj" />
 	<PropertyGroup>
-		<TargetFramework>net10.0</TargetFramework>
+		<TargetFramework>net10.0-ios</TargetFramework>
 		<SelfContained>true</SelfContained>
-		<RuntimeIdentifier>ios-arm64</RuntimeIdentifier>
+		<RuntimeIdentifier>iossimulator-arm64</RuntimeIdentifier>
 		<PublishTrimmed>true</PublishTrimmed>
 		<PublishAot>true</PublishAot>
 		<PublishAotUsingRuntimePack>true</PublishAotUsingRuntimePack>

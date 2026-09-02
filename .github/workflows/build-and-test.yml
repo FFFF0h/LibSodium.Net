@@ -120,11 +120,11 @@ jobs:
         xcrun --version
         xcrun --find clang
 
-    - name: Publish iOS ARM64 Native AOT
-      run: dotnet publish ./src/LibSodium.Net.Tests/LibSodium.Net.Tests.iOS.csproj --configuration Release -warnaserror
+    - name: Publish iOS Simulator ARM64 Native AOT
+      run: dotnet publish ./src/LibSodium.Net.Tests/LibSodium.Net.Tests.iOS.csproj --configuration Release --runtime iossimulator-arm64 -warnaserror
 
-    - name: Verify iOS ARM64 native executable
-      run: test -f ./src/LibSodium.Net.Tests/bin/Release/net10.0/ios-arm64/publish/LibSodium.Net.Tests.iOS
+    - name: Verify iOS Simulator ARM64 native executable
+      run: test -f ./src/LibSodium.Net.Tests/bin/Release/net10.0-ios/iossimulator-arm64/publish/LibSodium.Net.Tests.iOS
 
   test-android-aot:
     runs-on: ubuntu-latest
