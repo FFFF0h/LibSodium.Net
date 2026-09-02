@@ -5,11 +5,12 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<IsAotCompatible>true</IsAotCompatible>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 		<CompilerGeneratedFilesOutputPath>Generated</CompilerGeneratedFilesOutputPath>
 		<Version>1.0.22</Version>
-		<Authors>jesuslpm;tapilium</Authors>
+		<Authors>jesuslpm;FFFF0h</Authors>
 		<Description>LibSodium.Bindings.Net provides comprehensive .NET bindings for the libsodium native library</Description>
 		<Copyright>Copyright 2025</Copyright>
 		<PackageProjectUrl>https://libsodium.net/</PackageProjectUrl>

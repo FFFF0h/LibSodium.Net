@@ -33,13 +33,13 @@ jobs:
       run: dotnet build .\src\LibSodium.Net\LibSodium.Net.csproj --configuration Release --no-restore
 
     - name: Publish LibSodium.Net.Tests AOT
-      run: dotnet publish .\src\LibSodium.Net.Tests\LibSodium.Net.Tests.Win.csproj -c Release
+      run: dotnet publish .\src\LibSodium.Net.Tests\LibSodium.Net.Tests.Win.csproj --configuration Release -warnaserror
       
     - name: Execute LibSodium.Net.Tests AOT
       run: .\src\LibSodium.Net.Tests\bin\Release\net10.0\win-x64\publish\LibSodium.Net.Tests.Win.exe
 
   test-mac:
-    runs-on: macos-latest
+    runs-on: macos-15
     steps:
     - name: Set up .NET
       uses: actions/setup-dotnet@v4
@@ -52,8 +52,8 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Install macOS workload
-      run: dotnet workload install macos
+    - name: Verify Apple Silicon runner
+      run: test "$(uname -m)" = "arm64"
 
     - name: Restore dependencies LibSodium.Net
       run: dotnet restore ./src/LibSodium.Net/LibSodium.Net.csproj
@@ -62,7 +62,7 @@ jobs:
       run: dotnet build ./src/LibSodium.Net/LibSodium.Net.csproj --configuration Release --no-restore
 
     - name: Publish LibSodium.Net.Tests AOT (macOS)
-      run: dotnet publish ./src/LibSodium.Net.Tests/LibSodium.Net.Tests.Mac.csproj -c Release
+      run: dotnet publish ./src/LibSodium.Net.Tests/LibSodium.Net.Tests.Mac.csproj --configuration Release -warnaserror
 
     - name: List published files (macOS)
       run: ls -l ./src/LibSodium.Net.Tests/bin/Release/net10.0/osx-arm64/publish
@@ -91,7 +91,7 @@ jobs:
       run: dotnet build ./src/LibSodium.Net/LibSodium.Net.csproj --configuration Release --no-restore
 
     - name: Publish LibSodium.Net.Tests AOT (Linux)
-      run: dotnet publish ./src/LibSodium.Net.Tests/LibSodium.Net.Tests.Linux.csproj -c Release 
+      run: dotnet publish ./src/LibSodium.Net.Tests/LibSodium.Net.Tests.Linux.csproj --configuration Release -warnaserror
 
     - name: List published files (Linux)
       run: ls -l ./src/LibSodium.Net.Tests/bin/Release/net10.0/linux-x64/publish
@@ -99,55 +99,50 @@ jobs:
     - name: Execute LibSodium.Net.Tests AOT (Linux)
       run: ./src/LibSodium.Net.Tests/bin/Release/net10.0/linux-x64/publish/LibSodium.Net.Tests.Linux
 
-  # test-ios:
-  #   runs-on: macos-latest
-  #   steps:
-  #   - name: Checkout code
-  #     uses: actions/checkout@v4
+  test-ios-aot:
+    runs-on: macos-15
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
 
-  #   - name: Set up .NET 10.0.400
-  #     uses: actions/setup-dotnet@v4
-  #     with:
-  #       dotnet-version: 10.0.400
+    - name: Set up .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 10.0.x
 
-  #   - name: Display .NET Info
-  #     run: dotnet --info
+    - name: Verify Xcode command-line tools
+      run: |
+        test "$(uname -m)" = "arm64"
+        xcrun --version
+        xcrun --find clang
 
-  #   - name: Display .NET version
-  #     run: dotnet --version
+    - name: Install iOS workload
+      run: dotnet workload install ios
 
-  #   - name: update-mode manifests
-  #     run: dotnet workload config --update-mode manifests
+    - name: Publish iOS simulator Native AOT
+      run: dotnet publish ./src/LibSodium.Net.Tests/LibSodium.Net.Tests.iOS.csproj --configuration Release --runtime iossimulator-arm64 -warnaserror
 
-  #   - name: workload update
-  #     run: dotnet workload update
+    - name: Verify iOS application bundle
+      run: test -d ./src/LibSodium.Net.Tests/bin/Release/net10.0-ios/iossimulator-arm64/LibSodium.Net.Tests.iOS.app
 
-  #   - name: Install iOS workload
-  #     run: dotnet workload install ios --version 10.0.400
+  test-android-aot:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
 
-  #   - name: Display workloads installed
-  #     run: dotnet workload list
+    - name: Set up .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 10.0.x
 
-    # - name: Install XHarness
-    #   run: dotnet tool install Microsoft.DotNet.XHarness.CLI --global --add-source https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet-eng/nuget/v3/index.json --version "10.0.0-prerelease*"
+    - name: Install Android workload
+      run: dotnet workload install android
 
-    # - name: Restore dependencies
-    #   run: dotnet restore ./src/LibSodium.Net/LibSodium.Net.csproj
+    - name: Publish Android TUnit host with workload AOT
+      run: dotnet publish ./src/LibSodium.Net.Tests/LibSodium.Net.Tests.Android.csproj --configuration Release -p:RunAOTCompilation=true -warnaserror
 
-    # - name: Build LibSodium.Net.Tests.iOS
-    #   run: dotnet build ./src/LibSodium.Net.Tests/LibSodium.Net.Tests.iOS.csproj -c Release -f net10.0-ios -r ios-arm64
-
-    # - name: List .app bundle
-    #   run: ls -R ./src/LibSodium.Net.Tests/bin/Release/net10.0-ios/iossimulator-arm64
-
-    # - name: Execute LibSodium.Net.Tests.iOS using XHarness
-    #   run: |
-    #     xharness apple test \
-    #       --app ./src/LibSodium.Net.Tests/bin/Release/net10.0-ios/iossimulator-arm64/LibSodium.Net.Tests.iOS.app \
-    #       --target ios-simulator-64 \
-    #       --output-directory ./xharness-output \
-    #       --verbosity detailed
-    
-    
+    - name: Verify Android package
+      run: test -n "$(find ./src/LibSodium.Net.Tests/bin/Release/net10.0-android/android-x64 -name '*.apk' -print -quit)"
 
 
