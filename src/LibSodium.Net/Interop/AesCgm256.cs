@@ -9,6 +9,7 @@ namespace LibSodium.Interop;
 		internal const int CRYPTO_AEAD_AES256GCM_ABYTES = 16;
 
 		[LibraryImport(LibSodiumNativeLibraryName, EntryPoint = nameof(crypto_aead_aes256gcm_is_available))]
+		[UnmanagedCallConv(CallConvs = [typeof(System.Runtime.CompilerServices.CallConvCdecl)])]
 		internal static partial int crypto_aead_aes256gcm_is_available();
 
 		[LibraryImport(LibSodiumNativeLibraryName, EntryPoint = nameof(crypto_aead_aes256gcm_encrypt))]
