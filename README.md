@@ -1,79 +1,64 @@
-# LibSodium.Net
+﻿# LibSodium.Net
 
-[![Build and Test](https://github.com/libSodium-net/LibSodium.Net/actions/workflows/build-and-test.yml/badge.svg)](https://github.com//libSodium-net/LibSodium.Net/actions/workflows/build-and-test.yml) [![NuGet](https://img.shields.io/nuget/v/LibSodium.Net.svg)](https://www.nuget.org/packages/LibSodium.Net/)
+**LibSodium.Net** provides idiomatic .NET 10 bindings for [libsodium 1.0.22](https://doc.libsodium.org/). The API uses spans and secure memory where appropriate, supports Native AOT through source-generated interop, and remains compatible with libsodium data formats.
 
-**LibSodium.Net** is a modern, idiomatic .NET binding for the [libsodium](https://doc.libsodium.org/) cryptographic library. It gives developers full access to libsodium’s capabilities through a minimal, transparent, and ergonomic C# API.
+The package supports Windows, Linux, macOS, iOS, Android, tvOS, and Mac Catalyst.
 
-✨ **Secure by design. Fast by default. Unopinionated on purpose.**
+## Features
 
-🌐 **Cross-platform** – LibSodium.Net is built for Windows, Linux, macOS, iOS, Android, tvOS, and Mac Catalyst.
+* Six AEAD algorithms with combined and detached modes, optional AAD, and automatic or manual nonces
+* Secret-key and public-key authenticated encryption, digital signatures, and authenticated streams
+* SHA-2, SHA-3, BLAKE2b, SipHash, HMAC, Poly1305, SHAKE, TurboSHAKE, and direct Keccak-f[1600] operations
+* Argon2 and scrypt password hashing, HKDF, HChaCha20, and libsodium key derivation
+* X25519 key exchange, Ristretto255 operations, ML-KEM768, and X-Wing key encapsulation
+* IPcrypt address encryption, random generation, encoding, padding, and guarded secure memory
+* High-level APIs plus low-level bindings for advanced use cases
 
-## 🌟 Features
+## Design Philosophy
 
-* Comprehensive API coverage of all major libsodium primitives
-* Unified high-level API for all six AEAD algorithms
-* Low-level bindings for granular control
-* Ergonomic `Span<byte>`-based API with zero allocations where possible
-* Optional automatic nonce generation and AAD support
-* Deterministic key derivation helpers
-* Detached and combined encryption modes
-* AOT compatible
+The library exposes libsodium primitives through a minimal C# API without introducing opaque key abstractions. It favors `Span<byte>`, `ReadOnlySpan<byte>`, strict input validation, and explicit control over key storage and protocol design.
 
-## 🧭 Design Philosophy
+## Documentation
 
-> *Expose all of libsodium’s capabilities exactly as they are, without hiding anything, while making them ergonomic for .NET developers.*
+The guide and generated API reference are available at [libsodium.net](https://libsodium.net/).
 
-* **Transparent**: Everything maps 1:1 with libsodium, preserving guarantees and formats.
-* **Ergonomic**: Natural to use with modern C# idioms (spans, overloads, optional params).
-* **Minimal**: No opaque wrappers like `Key`, no hidden magic.
-* **Unopinionated**: You structure your crypto; we give you the tools.
+## Installation
 
-Built for developers who want control, clarity, and interop with other libsodium-based systems.
-
-## 🔬 Testing
-
-Tests are written using [TUnit](https://tunit.dev), a modern test framework that generates source code instead of relying on reflection.
-
-All tests are compatible with Native AOT, single-file apps, and fully cross-platform.
-
-📦 **Tests are executed in GitHub Actions using AOT builds on Windows, Linux, and macOS.**
-
-No adapters. No magic. Just fast, portable, real .NET code.
-
-## 📚 Documentation
-
-Full guide and API reference at [libsodium.net](https://libsodium.net/)
-
-Includes:
-
-* API-by-API documentation with examples
-* Design notes and usage recommendations
-* Code snippets with best practices
-
-## 📦 Installation
-
-Available on NuGet:
-
-```bash
-Install-Package LibSodium.Net -Version <latest>
+```console
+dotnet add package LibSodium.Net
 ```
 
-## 🚀 Quick Start
+Or from the Visual Studio Package Manager Console:
+
+```powershell
+Install-Package LibSodium.Net
+```
+
+## Quick Start
 
 ```csharp
+using System.Text;
+using LibSodium;
+
 Span<byte> key = stackalloc byte[XChaCha20Poly1305.KeyLen];
 RandomGenerator.Fill(key);
 
-var plaintext = Encoding.UTF8.GetBytes("Hello world");
-Span<byte> ciphertext = stackalloc byte[plaintext.Length + XChaCha20Poly1305.MacLen + XChaCha20Poly1305.NonceLen];
-
+byte[] plaintext = Encoding.UTF8.GetBytes("Hello world");
+byte[] ciphertext = new byte[plaintext.Length + XChaCha20Poly1305.MacLen + XChaCha20Poly1305.NonceLen];
 XChaCha20Poly1305.Encrypt(ciphertext, plaintext, key);
+
+byte[] decrypted = new byte[plaintext.Length];
+XChaCha20Poly1305.Decrypt(decrypted, ciphertext, key);
 ```
 
-## 🤝 Contributing
+## Testing
 
-Issues and PRs are welcome. Please see the [contribution guide](CONTRIBUTING.md) if available.
+The TUnit test suite targets .NET 10 and covers the supported cryptographic APIs, secure-memory behavior, and platform interop.
 
-## 📜 License
+## Contributing
+
+Issues and pull requests are welcome.
+
+## License
 
 Apache-2.0. See [LICENSE](LICENSE).

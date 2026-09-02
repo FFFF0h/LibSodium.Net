@@ -1,7 +1,5 @@
-﻿using TUnit.Assertions.AssertConditions.Throws;
+﻿namespace LibSodium.Tests;
 
-namespace LibSodium.Tests
-{
 	public class SecurePaddingTests
 	{
 		[Test]
@@ -93,4 +91,3 @@ namespace LibSodium.Tests
 			AssertLite.Throws<ArgumentException>(() => SecurePadding.Pad(buffer, unpaddedLen: 3, blockLen: 8));
 		}
 	}
-}

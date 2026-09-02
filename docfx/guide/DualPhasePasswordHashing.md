@@ -1,13 +1,13 @@
-# 🔐 Dual-Phase Password Hashing
+﻿# Dual-Phase Password Hashing
 
 This guide describes a dual-phase password hashing scheme that shifts most of the computational cost to the client. It is useful when the server must handle many concurrent logins and wishes to avoid resource exhaustion.
 
-> 🧂 Based on libsodium's [Password Hashing](https://doc.libsodium.org/password_hashing)
-> 👀 See also: [CryptoPasswordHashArgon API Reference](../api/LibSodium.CryptoPasswordHashArgon.yml)
+Based on libsodium's [Password Hashing](https://doc.libsodium.org/password_hashing)
+See also: [CryptoPasswordHashArgon API Reference](../api/LibSodium.CryptoPasswordHashArgon.yml)
 
 ---
 
-## 🌟 Overview
+## Overview
 
 This scheme allows the server to maintain strong control over password registration while shifting the cost of password hashing to the client during login. A deterministic `seed` is derived from the user's email, and both sides agree on the hashing parameters.
 
@@ -18,7 +18,7 @@ This reduces computational load on the server at login time while maintaining se
 
 ---
 
-## 📋 What is Stored in the Database
+## What is Stored in the Database
 
 Each user record must contain:
 
@@ -27,11 +27,11 @@ Each user record must contain:
 | `email`     | User identifier                       |
 | `finalHash` | The result of `HashPassword(preHash)` |
 
-📝 Since the `seed` is derived deterministically using `BLAKE2b(email)`, there is **no need to store it**. It can always be recomputed.
+Since the `seed` is derived deterministically using `BLAKE2b(email)`, there is **no need to store it**. It can always be recomputed.
 
 ---
 
-## ✨ Registration Flow
+## Registration Flow
 
 During user registration, the **server** is responsible for generating the `preHash`. This guarantees that it was derived from the password using agreed parameters (e.g., Argon2id, high memory and iterations).
 
@@ -64,7 +64,7 @@ StoreUser(email, finalHash);
 
 ---
 
-## ✨ Login Flow
+## Login Flow
 
 During login, the client derives the `preHash` from the password and a deterministic `seed` calculated as `BLAKE2b(email)`. The server performs a fast verification of the `preHash` against the stored `finalHash`.
 
@@ -94,11 +94,11 @@ string storedHash = GetStoredFinalHash(email);
 bool isValid = CryptoPasswordHashArgon.VerifyPassword(storedHash, preHash);
 ```
 
-📝 The client-side `DeriveKey(...)` call must use high-cost parameters (e.g., `InteractiveIterations`), while the server-side `HashPassword(...)` uses minimal parameters (`MinIterations`, `MinMemoryLen`) for fast verification only.&#x20;
+The client-side `DeriveKey(...)` call must use high-cost parameters (e.g., `InteractiveIterations`), while the server-side `HashPassword(...)` uses minimal parameters (`MinIterations`, `MinMemoryLen`) for fast verification only.&#x20;
 
 ---
 
-## 🔍 Design Rationale
+## Design Rationale
 
 This implementation differs from the scheme proposed in the [libsodium documentation](https://doc.libsodium.org/password_hashing), where the client is always responsible for computing the `preHash`. That design has a key limitation: during registration, the server cannot validate whether the `preHash` was correctly derived. The client could submit arbitrary data as `preHash` with no way for the server to check that strong parameters were used or that the password meets any policy.
 
@@ -110,13 +110,13 @@ By contrast, in this variation:
 
 This ensures the server has full control during registration and avoids the complexity of managing a secret key or exposing a public seed endpoint.
 
-### 🔁 Why Not Use `BLAKE2b(email, key)`?
+### Why Not Use `BLAKE2b(email, key)`?
 
 Using a keyed hash like `BLAKE2b(email, key)` seems more secure at first glance, but it requires exposing a public endpoint to return the seed to the client. Since the client cannot compute it alone, the endpoint must be public, meaning an attacker can access it too. This defeats the purpose of using a keyed hash and adds deployment complexity (key rotation, synchronization).
 
 ---
 
-## 📊 Comparison with Libsodium's Original Model
+## Comparison with Libsodium's Original Model
 
 | Aspect                          | Libsodium Documentation           | This Variation                               |
 | ------------------------------- | --------------------------------- | -------------------------------------------- |
@@ -125,18 +125,18 @@ Using a keyed hash like `BLAKE2b(email, key)` seems more secure at first glance,
 | Seed generation                 | `BLAKE2b(email, key)`             | `BLAKE2b(email)` (keyless, stateless)        |
 | Seed storage                    | Not stored                        | Not stored (deterministic)                   |
 | Seed delivery                   | Requires public endpoint          | Not required                                 |
-| Server validates `preHash`?     | ❌ No                              | ✅ Yes — at registration                      |
+| Server validates `preHash`?     | No                                | Yes — at registration                         |
 | Complexity                      | Medium (key management, endpoint) | Low                                          |
 | Server login cost               | Low                               | Low                                          |
-| Server registration control     | ❌ None                            | ✅ Full                                       |
+| Server registration control     | None                              | Full                                          |
 | Server registration cost        | Low                               | **High** — expensive Argon2id on server      |
 
 ---
-## 🚨 Preventing DoS in Registration
+## Preventing DoS in Registration
 
 Since registration requires the server to compute an expensive Argon2id derivation, it is essential to protect this endpoint from abuse. Without mitigations, an attacker could issue a large number of fake registrations to exhaust CPU or memory.
 
-### ✅ Recommended defenses
+### Recommended defenses
 
 | Mitigation                         | Purpose                                                             |
 | ---------------------------------- | ------------------------------------------------------------------- |
@@ -149,20 +149,20 @@ You can combine these strategies depending on your threat model and system const
 
 ---
 
-## ⚠️ Security Considerations
+## Security Considerations
 
-### ✅ Pros
+### Pros
 
 * Offloads CPU/memory-intensive hash to the client.
 * Reduces server-side DoS risk from mass login attempts.
 * Compatible with libsodium.js on the web.
 
-### ❌ Cons
+### Cons
 
 * If `preHash` is intercepted, it can be used to login (it's equivalent to a password).
 * If the database is compromised, brute-forcing `preHash` is easier than brute-forcing the original password.
 
-### 🧠 Implications
+### Implications
 
 * Use HTTPS **strictly** to protect `preHash` in transit.
 * Treat `preHash` as a password: never store or reuse it elsewhere.
@@ -170,7 +170,7 @@ You can combine these strategies depending on your threat model and system const
 
 ---
 
-## 📝 Summary
+## Summary
 
 This scheme is **not a security upgrade** over traditional Argon2-on-server. It is a **performance optimization** that trades some security margin for scalability. Only use it if server resource exhaustion is a real concern.
 
@@ -182,8 +182,8 @@ For most applications, prefer the traditional approach unless you:
 
 ---
 
-## 👀 See Also
+## See Also
 
-* 🧂 [libsodium password hashing](https://doc.libsodium.org/password_hashing)
-* 🧂 [libsodium.js](https://github.com/jedisct1/libsodium.js)
-* ℹ️ [API Reference: CryptoPasswordHashArgon](../api/LibSodium.CryptoPasswordHashArgon.yml)
+* [libsodium password hashing](https://doc.libsodium.org/password_hashing)
+* [libsodium.js](https://github.com/jedisct1/libsodium.js)
+* [API Reference: CryptoPasswordHashArgon](../api/LibSodium.CryptoPasswordHashArgon.yml)

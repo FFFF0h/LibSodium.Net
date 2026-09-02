@@ -1,7 +1,7 @@
 ﻿using LibSodium.Interop;
 
-namespace LibSodium
-{
+namespace LibSodium;
+
 	/// <summary>
 	/// Provides static methods for authenticated symmetric encryption and decryption using the Sodium secretbox primitives, 
 	/// specifically the XSalsa20 stream cipher and Poly1305 MAC for authentication.
@@ -391,10 +391,10 @@ namespace LibSodium
 			Span<byte> mac = default,
 			ReadOnlySpan<byte> nonce = default)
 		{
-			if (mac == default)
+			if (mac.IsDefault())
 			{
 				// Combined mode
-				if (nonce == default)
+				if (nonce.IsDefault())
 					return EncryptCombined(ciphertext, plaintext, key);
 				else
 					return EncryptCombined(ciphertext, plaintext, key, nonce);
@@ -402,7 +402,7 @@ namespace LibSodium
 			else
 			{
 				// Detached mode
-				if (nonce == default)
+				if (nonce.IsDefault())
 					return EncryptDetached(ciphertext, mac, plaintext, key);
 				else
 					return EncryptDetached(ciphertext, mac, plaintext, key, nonce);
@@ -464,10 +464,10 @@ namespace LibSodium
 			ReadOnlySpan<byte> mac = default,
 			ReadOnlySpan<byte> nonce = default)
 		{
-			if (mac == default)
+			if (mac.IsDefault())
 			{
 				// Combined mode
-				if (nonce == default)
+				if (nonce.IsDefault())
 					return DecryptCombined(plaintext, ciphertext, key);
 				else
 					return DecryptCombined(plaintext, ciphertext, key, nonce);
@@ -475,7 +475,7 @@ namespace LibSodium
 			else
 			{
 				// Detached mode
-				if (nonce == default)
+				if (nonce.IsDefault())
 					return DecryptDetached(plaintext, ciphertext, key, mac);
 				else
 					return DecryptDetached(plaintext, ciphertext, key, mac, nonce);
@@ -512,4 +512,3 @@ namespace LibSodium
 			return Decrypt(plaintext, ciphertext, key.AsReadOnlySpan(), mac, nonce);
 		}
 	}
-}

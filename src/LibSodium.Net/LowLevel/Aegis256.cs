@@ -1,7 +1,7 @@
 ﻿using LibSodium.Interop;
 
-namespace LibSodium.LowLevel
-{
+namespace LibSodium.LowLevel;
+
 	internal readonly struct Aegis256 : IAead
 	{
 		public static int KeyLen => Native.CRYPTO_AEAD_AEGIS256_KEYBYTES;
@@ -20,4 +20,3 @@ namespace LibSodium.LowLevel
 		public static int DecryptCombined(Span<byte> plaintext, ReadOnlySpan<byte> ciphertext, ReadOnlySpan<byte> aad, ReadOnlySpan<byte> nonce, ReadOnlySpan<byte> key)
 			=> Native.crypto_aead_aegis256_decrypt(plaintext, out _, nuint.Zero, ciphertext, (ulong)ciphertext.Length, aad, (ulong)aad.Length, nonce, key);
 	}
-}

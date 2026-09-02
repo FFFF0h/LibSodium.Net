@@ -1,4 +1,4 @@
-# ✏️ Encoding
+﻿# Encoding
 
 LibSodium.Net provides high-performance, secure encoding utilities to convert binary data to and from human-readable formats. The library currently supports two types of encoding:
 
@@ -7,12 +7,12 @@ LibSodium.Net provides high-performance, secure encoding utilities to convert bi
 
 These classes are wrappers around libsodium's encoding utilities, providing constant-time and safe operations using spans.
 
-> 🧂 Based on libsodium’s [Hexadecimal encoding/decoding](https://doc.libsodium.org/helpers#hexadecimal-encoding-decoding) and [Base64 encoding/decoding](https://doc.libsodium.org/helpers#base64-encoding-decoding)<br/>
+> Based on libsodium’s [Hexadecimal encoding/decoding](https://doc.libsodium.org/helpers#hexadecimal-encoding-decoding) and [Base64 encoding/decoding](https://doc.libsodium.org/helpers#base64-encoding-decoding)<br/>
 > ℹ️ *See also:* [API Reference for `HexEncoding`](../api/LibSodium.HexEncoding.yml), [API Reference for `Base64Encoding`](../api/LibSodium.Base64Encoding.yml)
 
 ---
 
-## 🔐 Security Considerations
+## Security Considerations
 
 These encoding functions are implemented in **constant time with respect to input size**, which means they avoid data-dependent branching and timing variations. This makes them **resistant to side-channel attacks**, such as timing attacks, which can leak information through observable differences in computation time.
 
@@ -25,11 +25,11 @@ These properties make `HexEncoding` and `Base64Encoding` suitable for encoding s
 
 ---
 
-## ✨ HexEncoding
+## HexEncoding
 
 `HexEncoding` provides methods to encode a byte array into a lowercase hexadecimal string and decode from hexadecimal back into binary. All operations are span-based for performance and safety.
 
-### 📋 Encode to hex
+### Encode to hex
 
 ```csharp
 Span<byte> bin = stackalloc byte[] { 0x01, 0x23, 0x45 };
@@ -43,7 +43,7 @@ Span<char> hexBuffer = stackalloc char[bin.Length * 2];
 HexEncoding.BinToHex(bin, hexBuffer);
 ```
 
-### 📋 Decode from hex
+### Decode from hex
 
 ```csharp
 string hex = "0123456789abcdef";
@@ -58,17 +58,17 @@ string formatted = "01:23:45:67";
 HexEncoding.HexToBin(formatted, buffer, ":");
 ```
 
-### ⚠️ Exceptions
+### Exceptions
 - `ArgumentException`: when hex buffer is too small.
 - `LibSodiumException`: on malformed hex input or destination buffer too small.
 
 ---
 
-##  ✨ Base64Encoding
+## Base64Encoding
 
 `Base64Encoding` supports multiple Base64 variants, including URL-safe and no-padding modes.
 
-### 📘 Base64 variants
+### Base64 variants
 
 ```csharp
 public enum Base64Variant
@@ -82,7 +82,7 @@ public enum Base64Variant
 
 These map directly to `sodium_base64_VARIANT_*` in libsodium.
 
-### 📋 Encode to Base64
+### Encode to Base64
 
 ```csharp
 Span<byte> bin = stackalloc byte[] { 1, 2, 3, 4 };
@@ -96,7 +96,7 @@ Span<char> buffer = stackalloc char[Base64Encoding.GetBase64EncodedLen(bin.Lengt
 Base64Encoding.BinToBase64(bin, buffer, Base64Variant.Original);
 ```
 
-### 📋 Decode from Base64
+### Decode from Base64
 
 ```csharp
 string b64 = "AQIDBA==";
@@ -110,7 +110,7 @@ Optional ignored characters (e.g., formatting spaces):
 Base64Encoding.Base64ToBin(" AQ ID BA == ", output, Base64Variant.Original, " ");
 ```
 
-### ⚠️ Exceptions
+### Exceptions
 - `ArgumentException`: buffer too small.
 - `LibSodiumException`: invalid Base64 input or mismatched variant.
 

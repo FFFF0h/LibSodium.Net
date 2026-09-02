@@ -1,8 +1,8 @@
-﻿using LibSodium.Tests;
-using System.Text;
+﻿using System.Text;
+using LibSodium.Tests;
 
-namespace LibSodium.Net.Tests
-{
+namespace LibSodium.Net.Tests;
+
 	public  class CryptoGenericHashTests
 	{
 
@@ -98,7 +98,7 @@ namespace LibSodium.Net.Tests
 			using var memoryStream = new MemoryStream(message);
 			var hashAsync = new byte[CryptoGenericHash.HashLen];
 
-			var cts = new CancellationTokenSource();
+			using var cts = new CancellationTokenSource();
 			await CryptoGenericHash.ComputeHashAsync(hashAsync, memoryStream, key, cts.Token);
 
 			var expectedHash = new byte[CryptoGenericHash.HashLen];
@@ -251,4 +251,3 @@ namespace LibSodium.Net.Tests
 			hash1.ShouldBe(hash2);
 		}
 	}
-}

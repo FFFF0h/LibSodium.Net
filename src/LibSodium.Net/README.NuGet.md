@@ -1,18 +1,45 @@
-# 🔐 Modern cryptography for .NET 8+
+﻿# Modern cryptography for .NET 10
 
-Idiomatic .NET bindings for [libsodium](https://doc.libsodium.org) with a Span-based, zero-allocation API.
-Includes AEAD encryption (XChaCha20-Poly1305, AES256-GCM, AEGIS), public-key cryptography (`CryptoBox`, `Sealed Boxes`, `CryptoSign`), authenticated streaming (`SecretStream`), secure memory, and more.
+Idiomatic .NET bindings for [libsodium 1.0.22](https://doc.libsodium.org) with span-based APIs and secure-memory support.
+Includes AEAD encryption (XChaCha20-Poly1305, AES256-GCM, AEGIS), public-key cryptography (`CryptoBox`, `Sealed Boxes`, `CryptoSign`), authenticated streaming (`SecretStream`), post-quantum key encapsulation, SHA-3/XOF hashing, IPcrypt, secure memory, and more.
 
 Built for Windows, Linux, macOS, iOS, Android, tvOS, and Mac Catalyst.
 
-Fast, memory-safe, allocation-free. AOT-ready with `LibraryImport`.
+Designed for efficient use with spans and Native AOT through `LibraryImport`.
 
 Tested in GitHub Actions using AOT builds on Windows, Linux and macOS
 
-## 📚 Documentation: https://libsodium.net/
+## Documentation
+
+See [libsodium.net](https://libsodium.net/) for guides and the API reference.
+
+## libsodium 1.0.22
+
+- `CryptoKem`: the recommended X-Wing hybrid KEM combining ML-KEM768 and X25519.
+- `CryptoKemXWing`: X-Wing operations with deterministic encapsulation support for tests and published vectors.
+- `CryptoKemMlKem768`: NIST-standardized post-quantum ML-KEM768.
+- `CryptoSha3256` and `CryptoSha3512`: one-shot, stream, async, and incremental SHA-3 hashing.
+- `CryptoShake128`, `CryptoShake256`, `CryptoTurboShake128`, and `CryptoTurboShake256`: one-shot and incremental extendable-output functions.
+- `CryptoKeccak1600`: direct Keccak-f[1600] state operations and 12/24-round permutations.
+- `CryptoIpCrypt`: deterministic, ND, NDX, and prefix-preserving IP address encryption.
 
 ```csharp
-// XChaCha20Poly1305 — Combined mode, auto-nonce, with AAD
+// X-Wing hybrid post-quantum key encapsulation
+var publicKey = new byte[CryptoKem.PublicKeyLen];
+var secretKey = new byte[CryptoKem.SecretKeyLen];
+var ciphertext = new byte[CryptoKem.CiphertextLen];
+var senderSecret = new byte[CryptoKem.SharedSecretLen];
+var recipientSecret = new byte[CryptoKem.SharedSecretLen];
+
+CryptoKem.GenerateKeyPair(publicKey, secretKey);
+CryptoKem.Encapsulate(ciphertext, senderSecret, publicKey);
+CryptoKem.Decapsulate(recipientSecret, ciphertext, secretKey);
+
+Console.WriteLine($"Shared secret matches: {senderSecret.SequenceEqual(recipientSecret)}");
+```
+
+```csharp
+// XChaCha20Poly1305 combined mode with an automatic nonce and AAD
 Span<byte> key = stackalloc byte[XChaCha20Poly1305.KeyLen];
 RandomGenerator.Fill(key);
 
@@ -30,7 +57,7 @@ Console.WriteLine($"It works: {isWorking}");
 ```
 
 ```csharp
-// SecretStream —  XChaCha20-Poly1305 based authenticated encryption for streams
+// XChaCha20-Poly1305 authenticated encryption for streams
 Span<byte> key = stackalloc byte[32];
 RandomGenerator.Fill(key);
 
@@ -54,7 +81,7 @@ Console.WriteLine($"It works: {isWorking}");
 ```
 
 ```csharp
-// CryptoBox — Authenticated encryption using public-key cryptography
+// Authenticated public-key encryption with CryptoBox
 Span<byte> senderPk = stackalloc byte[CryptoBox.PublicKeyLen];
 Span<byte> senderSk = stackalloc byte[CryptoBox.PrivateKeyLen];
 Span<byte> recipientPk = stackalloc byte[CryptoBox.PublicKeyLen];

@@ -1,8 +1,7 @@
 ﻿using LibSodium.Interop;
-using LibSodium.LowLevel;
 
-namespace LibSodium
-{
+namespace LibSodium;
+
 	/// <summary>
 	/// Provides digital signature functionality using Ed25519, as implemented by libsodium.
 	/// </summary>
@@ -389,4 +388,3 @@ namespace LibSodium
 			}
 		}
 	}
-}

@@ -1,9 +1,8 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using LibSodium.Interop;
 
-namespace LibSodium
-{
+namespace LibSodium;
+
 	/// <summary>
 	/// Provides deterministic key derivation using libsodium's crypto_kdf_* API,
 	/// based on the BLAKE2b hash function.
@@ -263,4 +262,3 @@ namespace LibSodium
 			DeriveSubkey(masterKey.AsReadOnlySpan(), subkey.AsSpan(), subkeyId, context);
 		}
 	}
-}

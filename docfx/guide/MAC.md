@@ -1,4 +1,4 @@
-# 📜 MAC Algorithms
+﻿# MAC Algorithms
 
 Message Authentication Codes (MACs) provide **integrity** and **authenticity** for messages by allowing the recipient to verify that the data was produced by someone holding the secret key.
 
@@ -9,8 +9,8 @@ Unlike encryption, **authentication** doesn't hide the contents of a message. It
 LibSodium.Net exposes three HMAC‑SHA‑2 variants and Poly1305 that cover the vast majority of real‑world requirements while staying allocation‑free and AOT‑friendly.
 
 
-> 🧂 Based on libsodium’s [HMAC‑SHA‑2](https://doc.libsodium.org/advanced/hmac-sha2)<br/>
-> 🧂 Based on libsodium’s [One-time authentication](https://doc.libsodium.org/advanced/poly1305)<br/>
+> Based on libsodium’s [HMAC‑SHA‑2](https://doc.libsodium.org/advanced/hmac-sha2)<br/>
+> Based on libsodium’s [One-time authentication](https://doc.libsodium.org/advanced/poly1305)<br/>
 > ℹ️ [API Reference: CryptoHmacSha256](../api/LibSodium.CryptoHmacSha256.yml)<br/>
 > ℹ️ [API Reference: CryptoHmacSha512](../api/LibSodium.CryptoHmacSha512.yml)<br/>
 > ℹ️ [API Reference: CryptoHmacSha512\_256](../api/LibSodium.CryptoHmacSha512_256.yml)<br/>
@@ -18,7 +18,7 @@ LibSodium.Net exposes three HMAC‑SHA‑2 variants and Poly1305 that cover the 
 
 ---
 
-## 🌟 Features
+## Features
 
 * **Keyed authentication** with proven constructions (HMAC‑SHA‑2 & Poly1305).
 * Allocation‑free `Span<T>` API + streaming + async overloads.
@@ -29,7 +29,7 @@ LibSodium.Net exposes three HMAC‑SHA‑2 variants and Poly1305 that cover the 
 
 ---
 
-## ⚖️ Algorithm Comparison (bytes)
+## Algorithm Comparison (bytes)
 
 | API                    | Hash / Primitive | MacLen | KeyLen | Recommended Use‑Case                                                             |
 | ---------------------- | ---------------- | ------ | ------ | -------------------------------------------------------------------------------- |
@@ -42,11 +42,11 @@ LibSodium.Net exposes three HMAC‑SHA‑2 variants and Poly1305 that cover the 
 
 ---
 
-## ✨ HMAC‑SHA‑256
+## HMAC‑SHA‑256
 
 The `CryptoHmacSha256` API implements HMAC-SHA-256 —built on the widely-deployed SHA-256 hash function— producing a 32-byte tag with a fixed 32-byte key. Choose this when you are interacting with external systems that require HMAC-SHA-256 (e.g., AWS S3 signatures, JWT HS256 tokens, many REST APIs).
 
-### 📏 Constants
+### Constants
 
 | Name     | Value | Description                            |
 | -------- | ----- | -------------------------------------- |
@@ -55,11 +55,11 @@ The `CryptoHmacSha256` API implements HMAC-SHA-256 —built on the widely-deploy
 
 ---
 
-## ✨ HMAC‑SHA‑512
+## HMAC‑SHA‑512
 
 The `CryptoHmacSha512` API implements HMAC-SHA-512 —producing a 64-byte tag with a fixed 32-byte key— and leverages SHA-512, which is typically faster than SHA-256 on modern 64-bit CPUs thanks to wider 64-bit arithmetic. Choose this variant when tag length isn’t constrained and you want the largest security margin (the 64-byte tag halves collision probability compared to 32-byte tags).
 
-### 📏 Constants
+### Constants
 
 | Name     | Value | Description                            |
 | -------- | ----- | -------------------------------------- |
@@ -68,11 +68,11 @@ The `CryptoHmacSha512` API implements HMAC-SHA-512 —producing a 64-byte tag wi
 
 ---
 
-## ✨ HMAC‑SHA‑512/256
+## HMAC‑SHA‑512/256
 
 The `CryptoHmacSha512_256` API implements HMAC-SHA-512/256. It is not “SHA-256”; it re-uses SHA-512’s wide pipeline but truncates to 256 bits, producing a 32-byte tag with a fixed 32-byte key while retaining the performance of SHA-512. Use this variant when you need SHA-256-sized output yet can rely on SHA-512 acceleration in your environment (typically 64-bit CPUs).
 
-### 📏 Constants
+### Constants
 
 | Name     | Value | Description                            |
 | -------- | ----- | -------------------------------------- |
@@ -81,7 +81,7 @@ The `CryptoHmacSha512_256` API implements HMAC-SHA-512/256. It is not “SHA-256
 
 ---
 
-## ✨ Poly1305
+## Poly1305
 
 The `CryptoOneTimeAuth` API implements Poly1305. It is an extremely fast, **one-time** authenticator designed by D. J. Bernstein, authenticating a message with a fixed single-use 32-byte key and producing a compact 16-byte tag.
 
@@ -91,9 +91,9 @@ Use cases include:
 * Authenticating short messages when you can derive a fresh key per message
 * Implementing high‑speed, one‑shot integrity checks inside protocols
 
-> ⚠️ **Key reuse breaks security.** Each key must be used to authenticate *one* message only. Derive a new random key (or sub‑key) per message.
+> **Key reuse breaks security.** Each key must be used to authenticate *one* message only. Derive a new random key (or sub-key) per message.
 
-### 📏 Constants
+### Constants
 
 | Name     | Value | Description                            |
 | -------- | ----- | -------------------------------------- |
@@ -102,7 +102,7 @@ Use cases include:
 
 ---
 
-## 🗝️ Key Management
+## Key Management
 
 You can pass keys to MAC methods using:
 
@@ -111,7 +111,7 @@ You can pass keys to MAC methods using:
 * `byte[]` – works with both synchronous and asynchronous APIs.
 * `Memory<byte>`/`ReadOnlyMemory<byte>` — used in async APIs. Can be converted to span if needed.
 
-> 📝 Use `Span<T>` when performance is critical, and `SecureMemory<byte>` when security is paramount.
+> Use `Span<T>` when performance is critical, and `SecureMemory<byte>` when security is paramount.
 
 **Examples**:
 
@@ -144,7 +144,7 @@ CryptoHmacSha256.GenerateKey(key);
 
 ---
 
-## 📋 Usage Example 
+## Usage Example
 
 ```csharp
 using System.Diagnostics;
@@ -182,7 +182,7 @@ Debug.Assert(okStreamAsync);
 > ℹ️ **Same API across algorithms** – swap the class name to change the MAC primitive.
 
 ---
-## ✨ Incremental MAC
+## Incremental MAC
 
 All MAC algorithms in LibSodium.Net support **incremental MAC construction**, allowing you to compute a tag over a sequence of message parts (e.g., `MAC(key, a || b || c)`) without allocating or copying them into a single buffer.
 
@@ -225,11 +225,11 @@ incMac.Update(part2);
 incMac.Final(mac);
 ```
 
-> ⚠️ The `Final()` method may only be called once. If you need to compute another MAC, create a new incremental instance with `CreateIncrementalMac()`.
+> The `Final()` method may only be called once. If you need to compute another MAC, create a new incremental instance with `CreateIncrementalMac()`.
 
 ---
 
-## 🧭 Choosing the Right MAC
+## Choosing the Right MAC
 
 | Scenario                                                              | Recommendation                              |
 | --------------------------------------------------------------------- | ------------------------------------------- |
@@ -243,7 +243,7 @@ incMac.Final(mac);
 
 ---
 
-## ⚠️ Error Handling
+## Error Handling
 
 | Condition                       | Exception            |
 | ------------------------------- | -------------------- |
@@ -252,7 +252,7 @@ incMac.Final(mac);
 
 ---
 
-## 📝 Notes
+## Notes
 
 * All APIs are **deterministic**: same key + message ⇒ same MAC.
 * Verification is **constant‑time** to avoid timing attacks.
@@ -260,10 +260,10 @@ incMac.Final(mac);
 
 ---
 
-## 👀 See Also
+## See Also
 
-* 🧂 [libsodium HMAC‑SHA‑2](https://doc.libsodium.org/advanced/hmac-sha2)
-* 🧂 [libsodium One-time authentication](https://doc.libsodium.org/advanced/poly1305)
+* [libsodium HMAC‑SHA‑2](https://doc.libsodium.org/advanced/hmac-sha2)
+* [libsodium One-time authentication](https://doc.libsodium.org/advanced/poly1305)
 * ℹ️ [API Reference: CryptoHmacSha256](../api/LibSodium.CryptoHmacSha256.yml)
 * ℹ️ [API Reference: CryptoHmacSha512](../api/LibSodium.CryptoHmacSha512.yml)
 * ℹ️ [API Reference: CryptoHmacSha512\_256](../api/LibSodium.CryptoHmacSha512_256.yml)

@@ -1,5 +1,5 @@
-﻿namespace LibSodium
-{
+﻿namespace LibSodium;
+
 	/// <summary>
 	/// Provides methods for message authentication using the crypto_auth API from libsodium.
 	/// </summary>
@@ -152,4 +152,3 @@
 			VerifyMac(mac, input, key.AsReadOnlySpan());
 		}
 	}
-}

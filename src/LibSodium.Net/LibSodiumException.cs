@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 
-namespace LibSodium
-{
+namespace LibSodium;
+
 	/// <summary>
 	/// Represents errors that occur during Sodium operations.
 	/// </summary>
@@ -35,4 +35,3 @@ namespace LibSodium
 		{
 		}
 	}
-}

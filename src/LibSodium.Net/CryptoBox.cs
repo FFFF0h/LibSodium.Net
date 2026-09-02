@@ -1,5 +1,5 @@
-﻿namespace LibSodium
-{
+﻿namespace LibSodium;
+
 	/// <summary>
 	/// Provides high-level access to the Curve25519-based public-key authenticated encryption (crypto_box) from Libsodium.
 	/// </summary>
@@ -321,9 +321,9 @@
 		/// <exception cref="LibSodiumException">Thrown when encryption fails.</exception>
 		public static Span<byte> EncryptWithKeypair(Span<byte> ciphertext, ReadOnlySpan<byte> plaintext, ReadOnlySpan<byte> recipientPublicKey, ReadOnlySpan<byte> senderPrivateKey, Span<byte> mac = default, ReadOnlySpan<byte> nonce = default)
 		{
-			if (mac == default)
+			if (mac.IsDefault())
 			{
-				if (nonce == default)
+				if (nonce.IsDefault())
 				{
 					return EncryptCombined(ciphertext, plaintext, recipientPublicKey, senderPrivateKey);
 				}
@@ -331,7 +331,7 @@
 			}
 			else
 			{
-				if (nonce == default)
+				if (nonce.IsDefault())
 				{
 					return EncryptDetached(ciphertext, plaintext, recipientPublicKey, senderPrivateKey, mac);
 				}
@@ -386,9 +386,9 @@
 		/// <exception cref="LibSodiumException">Thrown when MAC verification fails or decryption fails.</exception>
 		public static Span<byte> DecryptWithKeypair(Span<byte> plaintext, ReadOnlySpan<byte> ciphertext, ReadOnlySpan<byte> senderPublicKey, ReadOnlySpan<byte> recipientPrivateKey, ReadOnlySpan<byte> mac = default, ReadOnlySpan<byte> nonce = default)
 		{
-			if (mac == default)
+			if (mac.IsDefault())
 			{
-				if (nonce == default)
+				if (nonce.IsDefault())
 				{
 					return DecryptCombined(plaintext, ciphertext, senderPublicKey, recipientPrivateKey);
 				}
@@ -396,7 +396,7 @@
 			}
 			else
 			{
-				if (nonce == default)
+				if (nonce.IsDefault())
 				{
 					return DecryptDetached(plaintext, ciphertext, senderPublicKey, recipientPrivateKey, mac);
 				}
@@ -572,16 +572,16 @@
 		/// <exception cref="LibSodiumException">Thrown when encryption fails.</exception>
 		public static Span<byte> EncryptWithSharedKey(Span<byte> ciphertext, ReadOnlySpan<byte> plaintext, ReadOnlySpan<byte> sharedKey, Span<byte> mac = default, ReadOnlySpan<byte> nonce = default)
 		{
-			if (mac == default)
+			if (mac.IsDefault())
 			{
-				if (nonce == default)
+				if (nonce.IsDefault())
 					return EncryptCombinedWithSharedKey(ciphertext, plaintext, sharedKey);
 				else
 					return EncryptCombinedWithSharedKey(ciphertext, plaintext, sharedKey, nonce);
 			}
 			else
 			{
-				if (nonce == default)
+				if (nonce.IsDefault())
 					return EncryptDetachedWithSharedKey(ciphertext, plaintext, sharedKey, mac);
 				else
 					return EncryptDetachedWithSharedKey(ciphertext, plaintext, sharedKey, mac, nonce);
@@ -633,16 +633,16 @@
 		/// <exception cref="LibSodiumException">Thrown when MAC verification fails or decryption fails.</exception>
 		public static Span<byte> DecryptWithSharedKey(Span<byte> plaintext, ReadOnlySpan<byte> ciphertext, ReadOnlySpan<byte> sharedKey, ReadOnlySpan<byte> mac = default, ReadOnlySpan<byte> nonce = default)
 		{
-			if (mac == default)
+			if (mac.IsDefault())
 			{
-				if (nonce == default)
+				if (nonce.IsDefault())
 					return DecryptCombinedWithSharedKey(plaintext, ciphertext, sharedKey);
 				else
 					return DecryptCombinedWithSharedKey(plaintext, ciphertext, sharedKey, nonce);
 			}
 			else
 			{
-				if (nonce == default)
+				if (nonce.IsDefault())
 					return DecryptDetachedWithSharedKey(plaintext, ciphertext, sharedKey, mac);
 				else
 					return DecryptDetachedWithSharedKey(plaintext, ciphertext, sharedKey, mac, nonce);
@@ -779,4 +779,3 @@
 			return DecryptWithPrivateKey(plaintext, ciphertext, recipientPrivateKey.AsReadOnlySpan());
 		}
 	}
-}

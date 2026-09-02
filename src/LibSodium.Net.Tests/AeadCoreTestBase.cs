@@ -1,7 +1,7 @@
 ﻿using LibSodium.Tests;
 
-namespace LibSodium.Net.Tests
-{
+namespace LibSodium.Net.Tests;
+
 
 	internal class AeadCoreTestBase<T> where T : LowLevel.IAead
 	{
@@ -204,4 +204,3 @@ namespace LibSodium.Net.Tests
 			decrypted.SequenceEqual(plaintext).ShouldBeTrue();
 		}
 	}
-}

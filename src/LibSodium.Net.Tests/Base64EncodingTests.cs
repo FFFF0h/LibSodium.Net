@@ -1,8 +1,7 @@
-﻿using TUnit.Assertions.AssertConditions.Throws;
-using System.Text;
+﻿using System.Text;
 
-namespace LibSodium.Tests
-{
+namespace LibSodium.Tests;
+
 	public class Base64EncodingTests
 	{
 		const string hex = "01F9F847E44914D9EB3FF2AF42";
@@ -123,36 +122,36 @@ namespace LibSodium.Tests
 		}
 
 
-        [Test]
-        public void BinToBase64_UrlSafe()
-        {
-            string encodedBase64 = Base64Encoding.BinToBase64(bin, Base64Variant.UrlSafe);
+    [Test]
+    public void BinToBase64_UrlSafe()
+    {
+        string encodedBase64 = Base64Encoding.BinToBase64(bin, Base64Variant.UrlSafe);
 			encodedBase64.ShouldBe(base64UrlSafe);
-        }
+    }
 
-        [Test]
-        public void Base64ToBin_UrlSafe()
-        {
-            Span<byte> binaryBuffer = stackalloc byte[Base64Encoding.GetBase64DecodedMaxLen(base64UrlSafe.Length)];
-            var decodedBinary = Base64Encoding.Base64ToBin(base64UrlSafe, binaryBuffer, Base64Variant.UrlSafe).ToArray();
+    [Test]
+    public void Base64ToBin_UrlSafe()
+    {
+        Span<byte> binaryBuffer = stackalloc byte[Base64Encoding.GetBase64DecodedMaxLen(base64UrlSafe.Length)];
+        var decodedBinary = Base64Encoding.Base64ToBin(base64UrlSafe, binaryBuffer, Base64Variant.UrlSafe).ToArray();
 
 			decodedBinary.SequenceEqual(bin).ShouldBeTrue();
-        }
+    }
 
-        [Test]
-        public void BinToBase64_UrlSafeNoPadding()
-        {
-            string encodedBase64 = Base64Encoding.BinToBase64(bin, Base64Variant.UrlSafeNoPadding);
+    [Test]
+    public void BinToBase64_UrlSafeNoPadding()
+    {
+        string encodedBase64 = Base64Encoding.BinToBase64(bin, Base64Variant.UrlSafeNoPadding);
 			encodedBase64.ShouldBe(base64UrlSafeNoPadding);
-        }
+    }
 
-        [Test]
-        public void Base64ToBin_UrlSafeNoPadding()
-        {
-            Span<byte> binaryBuffer = stackalloc byte[Base64Encoding.GetBase64DecodedMaxLen(base64UrlSafeNoPadding.Length)];
-            var decodedBinary = Base64Encoding.Base64ToBin(base64UrlSafeNoPadding, binaryBuffer, Base64Variant.UrlSafeNoPadding).ToArray();
-            decodedBinary.SequenceEqual(bin).ShouldBeTrue();
-        }
+    [Test]
+    public void Base64ToBin_UrlSafeNoPadding()
+    {
+        Span<byte> binaryBuffer = stackalloc byte[Base64Encoding.GetBase64DecodedMaxLen(base64UrlSafeNoPadding.Length)];
+        var decodedBinary = Base64Encoding.Base64ToBin(base64UrlSafeNoPadding, binaryBuffer, Base64Variant.UrlSafeNoPadding).ToArray();
+        decodedBinary.SequenceEqual(bin).ShouldBeTrue();
+    }
 
 		[Test]
 		public void BinToBase64_EmptyBinary_ReturnsEmptyString()
@@ -162,4 +161,3 @@ namespace LibSodium.Tests
 			emptyBase64.ShouldBe(string.Empty);
 		}
 	}
-}

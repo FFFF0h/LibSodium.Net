@@ -1,14 +1,14 @@
-# 🔐 AEAD Algorithms
+﻿# AEAD Algorithms
 
 LibSodium.Net provides a unified API for all AEAD (Authenticated Encryption with Associated Data) constructions available in libsodium. These algorithms offer both confidentiality and authenticity, and support optional additional data (AAD) for contextual authentication.
 
 Each algorithm supports both **combined mode** (MAC is part of the ciphertext) and **detached mode** (MAC is separate), and allows **automatic** or **manual** nonce handling.
 
-> 🧂 Based on libsodium's [AEAD constructions](https://doc.libsodium.org/secret-key_cryptography/aead)
+> Based on libsodium's [AEAD constructions](https://doc.libsodium.org/secret-key_cryptography/aead)
 
 ---
 
-## ⚖️ Algorithm Comparison (len in bytes)
+## Algorithm Comparison (len in bytes)
 
 | Algorithm                                                           | KeyLen | NonceLen | MacLen |
 | ------------------------------------------------------------------- | ------ | -------- | ------ |
@@ -21,7 +21,7 @@ Each algorithm supports both **combined mode** (MAC is part of the ciphertext) a
 
 ---
 
-## 🗝️ Encrypting and Decrypting
+## Encrypting and Decrypting
 
 Use the `Encrypt` and `Decrypt` methods from any `LibSodium.<Algorithm>` class. The API automatically chooses **combined** or **detached** mode based on the presence of the optional `mac` parameter.
 
@@ -43,7 +43,7 @@ public static Span<byte> Decrypt(
     ReadOnlySpan<byte> key,
     ReadOnlySpan<byte> mac = default,
     ReadOnlySpan<byte> aad = default,
-    ReadOnlySpan<byte> nonce = default)
+    ReadOnlySpan<byte> nonce = default);
 ```
 
 ```csharp
@@ -62,7 +62,7 @@ public static Span<byte> Decrypt(
     SecureMemory<byte> key,
     ReadOnlySpan<byte> mac = default,
     ReadOnlySpan<byte> aad = default,
-    ReadOnlySpan<byte> nonce = default)
+    ReadOnlySpan<byte> nonce = default);
 ```
 
 `ReadOnlySpan<byte>`, `byte[]` and `SecureMemory<byte>` are accepted as key inputs.
@@ -71,7 +71,7 @@ Optional parameters allow for ergonomic usage while retaining full control. Usin
 
 ---
 
-## 📋 AEGIS-256 example
+## AEGIS-256 example
 
 AEGIS-256 (Combined mode with auto nonce and AAD)
 
@@ -95,7 +95,7 @@ Console.WriteLine(Encoding.UTF8.GetString(decrypted));
 
 ---
 
-## 📋 ChaCha20-Poly1305 example
+## ChaCha20-Poly1305 example
 
 ChaCha20-Poly1305 (Combined mode with AAD, incrementing manual nonce to prevent reuse)
 
@@ -120,43 +120,41 @@ ChaCha20Poly1305.Encrypt(ciphertext2, message2, key, aad: aad, nonce: nonce);
 SecureMemory.MemZero(key);
 ```
 
-## 📋 AES256-GCM example
+## AES256-GCM example
 
-AES256-GCM (SecureMemory, detached MAC, autononce, no AAD)
+AES256-GCM (SecureMemory, detached MAC, automatic nonce, no AAD). AES256-GCM requires compatible CPU support; check `Aes256Gcm.IsAvailable` before selecting it.
 
 ```csharp
 using var key = new SecureMemory<byte>(Aes256Gcm.KeyLen);
-Span<byte> nonce = stackalloc byte[Aes256Gcm.NonceLen];
 RandomGenerator.Fill(key);
-RandomGenerator.Fill(nonce);
 key.ProtectReadOnly();
 
-Span<byte> ciphertext = new byte[plaintext.Length];
+Span<byte> ciphertext = new byte[plaintext.Length + Aes256Gcm.NonceLen];
 Span<byte> mac = stackalloc byte[Aes256Gcm.MacLen];
 
-Aes256Gcm.Encrypt(ciphertext, plaintext, key, mac: mac);
+Span<byte> encrypted = Aes256Gcm.Encrypt(ciphertext, plaintext, key, mac: mac);
 
 Span<byte> decrypted = new byte[plaintext.Length];
-Aes256Gcm.Decrypt(decrypted, ciphertext, key, mac: mac);
+Aes256Gcm.Decrypt(decrypted, encrypted, key, mac: mac);
 ```
 
 
 ---
 
-## ⚠️ Error Handling
+## Error Handling
 
 * `ArgumentException` — invalid input lengths or buffer sizes.
 * `LibSodiumException` — authentication failure (e.g., tampered data).
 
 ---
 
-## 📝 Notes
+## Notes
 
 * All optional parameters (`mac`, `aad`, `nonce`) should be passed using **named arguments** for clarity and safety (e.g., `aad: data`).
 * Nonces must match the algorithm's required length.
 * If omitted, a random nonce is generated automatically and prepended to the ciphertext.
 * Buffers must be large enough to hold output.
-* AAD is optional and not a secret. If provided it must the same for both encryption and decryption.
+* AAD is optional and not a secret. If provided, it must be the same for both encryption and decryption.
 * Nonce is optional and not a secret. If not provided (automatic nonce) it is randomly generated and prepended to the ciphertext. If provided (manual nonce) it must be the same for both encryption and decryption.
 * MAC is optional and not a secret. If not provided (combined mode) it is included within the ciphertext. If provided (detached mode) it must be the same for both encryption and decryption.
 - Use `RandomGenerator.Fill()` to generate cryptographically secure random keys and nonces. Alternatively, keys may be securely stored or derived using a key derivation function.
@@ -164,7 +162,7 @@ Aes256Gcm.Decrypt(decrypted, ciphertext, key, mac: mac);
 
 ---
 
-## 👀 See Also
+## See Also
 
 * [libsodium AEAD constructions](https://doc.libsodium.org/secret-key_cryptography/aead)
 * [API Reference](../api/LibSodium.yml)

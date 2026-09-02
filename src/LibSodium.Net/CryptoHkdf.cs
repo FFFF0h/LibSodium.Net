@@ -1,8 +1,8 @@
 ﻿using System.Security.Cryptography;
 using LibSodium.Interop;
 
-namespace LibSodium
-{
+namespace LibSodium;
+
 	/// <summary>
 	/// Provides HKDF key derivation (RFC 5869) using SHA-256 or SHA-512.
 	/// </summary>
@@ -418,4 +418,3 @@ namespace LibSodium
 			await DeriveKeyAsync(hashAlgorithmName, ikm, okm.AsMemory(), salt, info, cancellationToken).ConfigureAwait(false);
 		}
 	}
-}

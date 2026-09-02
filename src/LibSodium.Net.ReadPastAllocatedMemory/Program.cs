@@ -1,5 +1,5 @@
-﻿namespace LibSodium.ReadPastAllocatedMemory
-{
+﻿namespace LibSodium.ReadPastAllocatedMemory;
+
 	internal class Program
 	{
 		static int Main(string[] args)
@@ -23,4 +23,3 @@
 			}
 		}
 	}
-}

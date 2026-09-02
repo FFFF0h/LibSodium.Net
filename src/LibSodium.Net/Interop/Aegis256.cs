@@ -1,8 +1,8 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace LibSodium.Interop
-{
+namespace LibSodium.Interop;
+
 	internal static partial class Native
 	{
 		// Mac size
@@ -69,4 +69,3 @@ namespace LibSodium.Interop
 			ReadOnlySpan<byte> key);
 
 	}
-}

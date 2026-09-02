@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics;
 using System.Security.Cryptography;
-using TUnit;
 using static LibSodium.CryptoScalarMult;
 
 namespace LibSodium.Tests;

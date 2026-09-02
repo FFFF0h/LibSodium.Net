@@ -1,12 +1,7 @@
-﻿using System;
-using System.Buffers;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Buffers;
 
-namespace LibSodium
-{
+namespace LibSodium;
+
 	internal class SecureMemoryManager<T> : MemoryManager<T> where T : unmanaged
 	{
 		private readonly SecureMemory<T> secureMemory;
@@ -41,4 +36,3 @@ namespace LibSodium
 		{
 		}
 	}
-}

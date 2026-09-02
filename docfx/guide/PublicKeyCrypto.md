@@ -1,16 +1,16 @@
-# 🔑 Public Key Cryptography
+﻿# Public Key Cryptography
 
 LibSodium.Net provides high-level APIs for public-key cryptography based on Curve25519 and Ed25519. This includes secure encryption between peers (`CryptoBox`), anonymous encryption (`Sealed Boxes`), and digital signatures (`CryptoSign`). LibSodium.Net also exposes the low-level scalar multiplication primitive via `CryptoScalarMult`, which implements X25519.
 
-> 🧂 Based on [libsodium's Public-Key Cryptography](https://doc.libsodium.org/public-key_cryptography/)<br/>
-> 🧂 Based on [libsodium's Point*scalar multiplication](https://doc.libsodium.org/advanced/scalar_multiplication)<br/>
+> Based on [libsodium's Public-Key Cryptography](https://doc.libsodium.org/public-key_cryptography/)<br/>
+> Based on [libsodium's Point*scalar multiplication](https://doc.libsodium.org/advanced/scalar_multiplication)<br/>
 > ℹ️ [API Reference: CryptoBox](../api/LibSodium.CryptoBox.yml)<br/>
 > ℹ️ [API Reference: CryptoSign](../api/LibSodium.CryptoSign.yml)
 > ℹ️ [API Reference: CryptoScalarMult](../api/LibSodium.CryptoScalarMult.yml)
 
 ---
 
-## 🌟 Features
+## Features
 
 * Public-key authenticated encryption (`CryptoBox`)
 * Anonymous encryption for messages (Sealed Boxes)
@@ -32,12 +32,12 @@ LibSodium.Net provides high-level APIs for public-key cryptography based on Curv
 
 
 ---
-## ⚠️ Error Handling
+## Error Handling
 
 - `ArgumentException` — when input buffers have incorrect lengths or invalid parameters.
 - `LibSodiumException` — when authentication fails or a crypto operation cannot complete.
 
-## 📝 Notes
+## Notes
 
 * Sealed boxes are anonymous: the recipient cannot identify the sender.
 * `CryptoBox` uses `crypto_box_easy` internally; `CryptoSign` uses `crypto_sign_detached`.
@@ -49,7 +49,7 @@ LibSodium.Net provides high-level APIs for public-key cryptography based on Curv
 
 ---
 
-## 👀 See Also
+## See Also
 
 * [API Reference: CryptoBox](../api/LibSodium.CryptoBox.yml)
 * [API Reference: CryptoSign](../api/LibSodium.CryptoSign.yml)

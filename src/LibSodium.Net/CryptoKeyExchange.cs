@@ -7,7 +7,7 @@ namespace LibSodium;
 /// Allows two parties to derive shared session keys securely.
 /// </summary>
 /// <remarks>
-/// 🧂 Based on libsodium's crypto_kx API: https://doc.libsodium.org/key_exchange
+/// Based on libsodium's crypto_kx API: https://doc.libsodium.org/key_exchange
 /// </remarks>
 public static class CryptoKeyExchange
 {

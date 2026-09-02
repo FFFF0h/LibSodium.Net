@@ -1,15 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net8.0</TargetFramework>
+		<TargetFramework>net10.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 		<CompilerGeneratedFilesOutputPath>Generated</CompilerGeneratedFilesOutputPath>
-		<Version>0.16.0-alpha</Version>
-		<Authors>jesuslpm</Authors>
+		<Version>1.0.22</Version>
+		<Authors>jesuslpm;tapilium</Authors>
 		<Description>LibSodium.Bindings.Net provides comprehensive .NET bindings for the libsodium native library</Description>
 		<Copyright>Copyright 2025</Copyright>
 		<PackageProjectUrl>https://libsodium.net/</PackageProjectUrl>
@@ -25,10 +25,11 @@
 			HKDF HKDF-SHA256 HKDFSHA256 HKDF-SHA512 HKDFSHA512 crypto_kdf Key-Derivation
 			Poly1305 HMAC-SHA-256 HMACSHA256 HMAC-SHA-512 HMACSHA512 HMAC-SHA-512/256
 			ChaCha20 ChaCha20-IETF ChaCha20IETF XChaCha20 Salsa20 XSalsa20 HChaCha20
-			Ristretto Ristretto255
+			Ristretto Ristretto255 SHA3 SHA3-256 SHA3-512 SHAKE128 SHAKE256 TurboSHAKE Keccak
+			post-quantum ML-KEM ML-KEM768 X-Wing KEM IPcrypt
 		</PackageTags>
-		<AssemblyVersion>1.0.0</AssemblyVersion>
-		<FileVersion>1.0.0</FileVersion>
+		<AssemblyVersion>1.0.22.0</AssemblyVersion>
+		<FileVersion>1.0.22.0</FileVersion>
 		<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
 		<EmbedAllSources>true</EmbedAllSources>
 		<AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb;.xml</AllowedOutputExtensionsInPackageBuildOutputFolder>
@@ -40,9 +41,15 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="HighLevel\**" />
 	  <Compile Remove="Net\**" />
+	  <Compile Remove="nupkgs\**" />
+	  <EmbeddedResource Remove="HighLevel\**" />
 	  <EmbeddedResource Remove="Net\**" />
+	  <EmbeddedResource Remove="nupkgs\**" />
+	  <None Remove="HighLevel\**" />
 	  <None Remove="Net\**" />
+	  <None Remove="nupkgs\**" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -59,8 +66,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="libsodium" Version="1.0.20.1" />
-		<PackageReference Include="System.Memory" Version="4.6.0" />
+		<PackageReference Include="libsodium" Version="1.0.22" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -80,11 +86,6 @@
 	    <Pack>True</Pack>
 	    <PackagePath>\</PackagePath>
 	  </None>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="HighLevel\" />
-	  <Folder Include="nupkgs\" />
 	</ItemGroup>
 
 	<ItemGroup>

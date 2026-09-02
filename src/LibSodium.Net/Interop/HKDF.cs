@@ -1,8 +1,8 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace LibSodium.Interop
-{
+namespace LibSodium.Interop;
+
 	internal static partial class Native
 	{
 		public const int CRYPTO_KDF_HKDF_SHA256_KEYBYTES = 32;
@@ -97,4 +97,3 @@ namespace LibSodium.Interop
 			Span<byte> state,
 			Span<byte> prk);
 	}
-}

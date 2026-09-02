@@ -1,8 +1,8 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace LibSodium.Interop
-{
+namespace LibSodium.Interop;
+
 	internal static partial class Native
 	{
 		internal const int CRYPTO_CORE_HCHACHA20_INPUTBYTES = 16;
@@ -20,4 +20,3 @@ namespace LibSodium.Interop
 			ReadOnlySpan<byte> constant);
 
 	}
-}

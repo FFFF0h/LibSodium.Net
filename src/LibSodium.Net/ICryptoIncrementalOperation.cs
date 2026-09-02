@@ -74,7 +74,7 @@ internal static class CryptoIncrementalOperationExtensions
 		try
 		{
 			int read;
-			while ((read = await input.ReadAsync(buffer, 0, Constants.DefaultBufferLen, cancellationToken).ConfigureAwait(false)) > 0)
+			while ((read = await input.ReadAsync(buffer.AsMemory(0, Constants.DefaultBufferLen), cancellationToken).ConfigureAwait(false)) > 0)
 			{
 				incrementalOperation.Update(buffer.AsSpan(0, read));
 			}

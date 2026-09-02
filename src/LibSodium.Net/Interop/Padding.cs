@@ -1,8 +1,8 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace LibSodium.Interop
-{
+namespace LibSodium.Interop;
+
 	internal static partial class Native
 	{
 
@@ -17,4 +17,3 @@ namespace LibSodium.Interop
 		internal static partial int sodium_unpad(out nint unpadded_len, Span<byte> buffer,
 				 nuint padded_len, nuint block_size);
 	}
-}

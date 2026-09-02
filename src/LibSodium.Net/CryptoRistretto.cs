@@ -6,7 +6,7 @@ namespace LibSodium;
 /// Constants and cryptographic operations for the Ristretto255 group.
 /// </summary>
 /// <remarks>
-/// 🧂 Based on libsodium’s Ristretto255 API: https://doc.libsodium.org/advanced/ristretto255
+/// Based on libsodium’s Ristretto255 API: https://doc.libsodium.org/advanced/ristretto255
 /// </remarks>
 public static class CryptoRistretto
 {
@@ -55,9 +55,7 @@ public static class CryptoRistretto
 		if (point.Length != PointLen)
 			throw new ArgumentException($"Point must be exactly {PointLen} bytes.", nameof(point));
 
-		int rc = Native.crypto_core_ristretto255_random(point);
-		if (rc != 0)
-			throw new LibSodiumException("Failed to generate random Ristretto255 point.");
+		Native.crypto_core_ristretto255_random(point);
 	}
 
 	/// <summary>
@@ -248,9 +246,7 @@ public static class CryptoRistretto
 		if (resultScalar.Length != ScalarLen)
 			throw new ArgumentException($"Result scalar must be exactly {ScalarLen} bytes.", nameof(resultScalar));
 
-		int rc = Native.crypto_core_ristretto255_scalar_random(resultScalar);
-		if (rc != 0)
-			throw new LibSodiumException("Scalar generation failed.");
+		Native.crypto_core_ristretto255_scalar_random(resultScalar);
 	}
 
 	/// <summary>
@@ -283,9 +279,7 @@ public static class CryptoRistretto
 		if (resultScalar.Length != ScalarLen)
 			throw new ArgumentException($"Result scalar must be exactly {ScalarLen} bytes.", nameof(resultScalar));
 
-		int rc = Native.crypto_core_ristretto255_scalar_reduce(resultScalar, nonReducedScalar);
-		if (rc != 0)
-			throw new LibSodiumException("Scalar reduction failed.");
+		Native.crypto_core_ristretto255_scalar_reduce(resultScalar, nonReducedScalar);
 	}
 
 	/// <summary>

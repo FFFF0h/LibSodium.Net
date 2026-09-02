@@ -1,8 +1,8 @@
-﻿using LibSodium.Interop;
-using System.Text;
+﻿using System.Text;
+using LibSodium.Interop;
 
-namespace LibSodium
-{
+namespace LibSodium;
+
 	/// <summary>
 	/// Provides methods for encoding and decoding hexadecimal strings and byte buffers.
 	/// </summary>
@@ -97,4 +97,3 @@ namespace LibSodium
 			return bin.Slice(0, (int)bin_len);
 		}
 	}
-}

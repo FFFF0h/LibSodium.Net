@@ -1,6 +1,6 @@
 ﻿
-using LibSodium.Interop;
 using System.Text;
+using LibSodium.Interop;
 
 namespace LibSodium;
 /// <summary>

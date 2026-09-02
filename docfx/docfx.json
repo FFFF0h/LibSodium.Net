@@ -1,4 +1,4 @@
-{
+﻿{
   "$schema": "https://raw.githubusercontent.com/dotnet/docfx/main/schemas/docfx.schema.json",
   "metadata": [
     {
@@ -46,7 +46,7 @@
       "_appFaviconPath": "images/Na.png",
       "_disableContribution": true,
       "pdf": false,
-      "_appFooter": "<p align=\"center\" style=\"font-size: 0.9rem; color: #666;\">Made with ❤️ by Jesús López for the community — LibSodium.Net: secure cryptography for .NET</p>",
+      "_appFooter": "<p align=\"center\" style=\"font-size: 0.9rem; color: #666;\">Made by Jesús López for the community — LibSodium.Net: secure cryptography for .NET</p>",
       "_navbar": [
         {
           "name": "GitHub",

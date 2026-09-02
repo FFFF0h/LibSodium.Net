@@ -1,9 +1,7 @@
 ﻿using LibSodium.Interop;
-using System;
-using System.Xml.Linq;
 
-namespace LibSodium
-{
+namespace LibSodium;
+
 	/// <summary>
 	/// The tags used in the secret stream.
 	/// </summary>
@@ -281,4 +279,3 @@ namespace LibSodium
 			return DecryptChunk(state.AsSpan(), cleartext, out tag, ciphertext, additionalData);
 		}
 	}
-}

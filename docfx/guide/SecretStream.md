@@ -1,13 +1,13 @@
-# 🔒 Authenticated Stream Encryption with SecretStream
+﻿# Authenticated Stream Encryption with SecretStream
 
 The `SecretStream` class in LibSodium.Net provides secure, authenticated stream-based encryption and decryption using the **XChaCha20-Poly1305** algorithm. It also supports additional authenticated data (AAD), allowing you to cryptographically bind headers or metadata to the encrypted stream. It's designed to handle large streams of data efficiently and securely.
 
-> 🧂 Based on libsodium's [Encrypted streams and file encryption](https://doc.libsodium.org/secret-key_cryptography/secretstream)<br/>
+> Based on libsodium's [Encrypted streams and file encryption](https://doc.libsodium.org/secret-key_cryptography/secretstream)<br/>
 > ℹ️ *See also*: [API Reference for `SecretStream`](../api/LibSodium.SecretStream.yml)
 
 ---
 
-## ✨ Features
+## Features
 
 * Authenticated encryption ensures data integrity.
 * Automatic chunking and handling of large data streams.
@@ -18,7 +18,7 @@ The `SecretStream` class in LibSodium.Net provides secure, authenticated stream-
 
 ---
 
-## 📋 Usage
+## Usage
 
 LibSodium.Net accepts `Span<byte>`/`ReadOnlySpan<byte>`, `byte[]`, or `SecureMemory<byte>` as key inputs for synchronous methods.
 For asynchronous methods, it accepts `Memory<byte>`/`ReadOnlyMemory<byte>`, `byte[]`, or `SecureMemory<byte>`.
@@ -70,7 +70,7 @@ await SecretStream.DecryptAsync(encryptedFile, decryptedFile, key);
 **Encrypting and decrypting with AAD:**
 
 To authenticate additional data (AAD), use the overloads that accept an `aad` parameter.
-> ⚠️ The same AAD must be provided for both encryption and decryption to ensure verification.
+> The same AAD must be provided for both encryption and decryption to ensure verification.
 
 ```csharp
 ReadOnlySpan<byte> aad = "header info"u8;
@@ -89,7 +89,7 @@ await SecretStream.DecryptAsync(encrypted, decrypted, key, aadArray);
 
 ---
 
-## ⚠️ Security Considerations
+## Security Considerations
 
 * **Secure Key Management:** Protect your keys; losing them or exposing them compromises security. Use `SecureMemory<byte>` when possible.
 * **Nonce Management:** Handled internally by `SecretStream`; avoid manual nonce reuse.
@@ -98,7 +98,7 @@ await SecretStream.DecryptAsync(encrypted, decrypted, key, aadArray);
 
 ---
 
-## ⚠️ Error Handling
+## Error Handling
 
 Encryption and decryption throw specific exceptions for error conditions:
 
@@ -107,7 +107,7 @@ Encryption and decryption throw specific exceptions for error conditions:
 
 ---
 
-## 🕒 Performance Considerations
+## Performance Considerations
 
 * `SecretStream` processes data in chunks (default: 64KB) for optimal balance between memory usage and performance.
 * Utilize asynchronous methods (`EncryptAsync`/`DecryptAsync`) for IO-bound scenarios for better scalability.

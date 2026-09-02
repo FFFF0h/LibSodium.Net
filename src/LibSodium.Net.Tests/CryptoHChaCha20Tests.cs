@@ -163,6 +163,7 @@ public class CryptoHChaCha20Tests
 	}
 
 	[Test]
+	[SkipIfAes256GcmUnavailable]
 	public void NonceExtensionSample()
 	{
 // this is a sample to demonstrate nonce extension using HChaCha20

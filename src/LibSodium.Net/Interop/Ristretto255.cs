@@ -23,7 +23,7 @@ internal static partial class Native
 
 	[LibraryImport(Sodium, EntryPoint = nameof(crypto_core_ristretto255_random))]
 	[UnmanagedCallConv(CallConvs = new[] { typeof(CallConvCdecl) })]
-	internal static partial int crypto_core_ristretto255_random(Span<byte> p);
+	internal static partial void crypto_core_ristretto255_random(Span<byte> p);
 
 	[LibraryImport(Sodium, EntryPoint = nameof(crypto_core_ristretto255_from_hash))]
 	[UnmanagedCallConv(CallConvs = new[] { typeof(CallConvCdecl) })]
@@ -60,11 +60,11 @@ internal static partial class Native
 
 	[LibraryImport(Sodium, EntryPoint = nameof(crypto_core_ristretto255_scalar_random))]
 	[UnmanagedCallConv(CallConvs = new[] { typeof(CallConvCdecl) })]
-	internal static partial int crypto_core_ristretto255_scalar_random(Span<byte> r);
+	internal static partial void crypto_core_ristretto255_scalar_random(Span<byte> r);
 
 	[LibraryImport(Sodium, EntryPoint = nameof(crypto_core_ristretto255_scalar_reduce))]
 	[UnmanagedCallConv(CallConvs = new[] { typeof(CallConvCdecl) })]
-	internal static partial int crypto_core_ristretto255_scalar_reduce(
+	internal static partial void crypto_core_ristretto255_scalar_reduce(
 		Span<byte> r, 
 		ReadOnlySpan<byte> s);
 

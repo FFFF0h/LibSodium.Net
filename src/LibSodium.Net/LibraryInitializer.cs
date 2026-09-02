@@ -1,15 +1,15 @@
-﻿using LibSodium.Interop;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
+using LibSodium.Interop;
 
-namespace LibSodium
-{
+namespace LibSodium;
+
 	/// <summary>
 	/// Static class that manages the initialization and configuration of libsodium.
 	/// </summary>
 	public static partial class LibraryInitializer
 	{
 		private static volatile bool _isInitialized; // Indicates if the library has been initialized.
-		private static readonly object initLock = new object(); // Lock object for thread-safe initialization.
+		private static readonly Lock initLock = new(); // Lock object for thread-safe initialization.
 
 		/// <summary>
 		/// Ensures that the libsodium library is initialized.
@@ -93,4 +93,3 @@ namespace LibSodium
 			throw new LibSodiumException("Misuse detected"); // Throw exception on misuse.
 		}
 	}
-}

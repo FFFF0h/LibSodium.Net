@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography;
-using LibSodium.Tests;
 using System.Text;
+using LibSodium.Tests;
 
 namespace LibSodium.Net.Tests;
 

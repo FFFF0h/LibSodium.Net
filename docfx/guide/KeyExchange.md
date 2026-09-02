@@ -1,13 +1,13 @@
-# 🔑 Key Exchange with CryptoKeyExchange
+﻿# Key Exchange with CryptoKeyExchange
 
 Securely establishing a shared secret between two parties is a foundational step for any encrypted communication channel. LibSodium.Net wraps libsodium’s **crypto\_kx** primitive in an ergonomic, allocation‑free API that is safe by default and AOT‑friendly.
 
-> 🧂 Based on libsodium's [Key Exchange](https://doc.libsodium.org/key_exchange)**</br>
+> Based on libsodium's [Key Exchange](https://doc.libsodium.org/key_exchange)**</br>
 > ℹ️ See also: [API Reference for `CryptoKeyExchange`](../api/LibSodium.CryptoKeyExchange.yml)
 
 ---
 
-## ✨ What Does Key Exchange Do?
+## What Does Key Exchange Do?
 
 Key exchange (sometimes called *authenticated key agreement*) lets two peers that each own a long‑term key pair derive **two fresh 32‑byte session keys** – one for sending (TX) and one for receiving (RX). These session keys can then be fed into other LibSodium.Net constructs such as **SecretBox** or **SecretStream** to encrypt traffic.
 
@@ -15,7 +15,7 @@ Key exchange (sometimes called *authenticated key agreement*) lets two peers tha
 * **Integrity & Authenticity** – Each side proves possession of its secret key, preventing MitM attacks.
 * **Speed** – Single round‑trip and constant‑time operations on Curve25519.
 
-## 🌟 Features
+## Features
 
 * **Allocation‑free `Span<T>` API** – zero heap allocations.
 * **Deterministic or random key generation** – choose reproducibility or fresh randomness.
@@ -24,7 +24,7 @@ Key exchange (sometimes called *authenticated key agreement*) lets two peers tha
 * **Defensive size checks** – throws early on invalid input lengths.
 * **Accepts `SecureMemory<byte>` as private key input**. It provides guarded heap allocations with memory protection and automatic wiping. 
 
-## ✨ Typical Scenarios
+## Typical Scenarios
 
 | Scenario                                | Why Key Exchange Fits                                                                          |
 | --------------------------------------- | ---------------------------------------------------------------------------------------------- |
@@ -33,11 +33,11 @@ Key exchange (sometimes called *authenticated key agreement*) lets two peers tha
 | **P2P chat/file sharing**               | Each participant becomes *client* or *server* dynamically to agree on forward‑secure channels. |
 | **Session re‑keying**                   | Periodically refresh symmetric keys without exchanging new public keys.                        |
 
-> 📝 *The crypto\_kx API does **not** provide Perfect Forward Secrecy by itself; re‑run the exchange whenever you need new keys.*
+> *The crypto\_kx API does **not** provide Perfect Forward Secrecy by itself; re-run the exchange whenever you need new keys.*
 
-## ✨ API Overview
+## API Overview
 
-### 📏 Constants
+### Constants
 
 All lengths are in bytes. These constants are exposed by `CryptoKeyExchange` for zero-cost validation.
 
@@ -48,7 +48,7 @@ All lengths are in bytes. These constants are exposed by `CryptoKeyExchange` for
 | `SeedLen`        | 32    | Length of deterministic seed       |
 | `SessionKeyLen`  | 32    | Length of derived session keys     |
 
-### 📋 Core Methods
+### Core Methods
 
 | Method                             | Role                                              |
 | ---------------------------------- | ------------------------------------------------- |
@@ -59,9 +59,9 @@ All lengths are in bytes. These constants are exposed by `CryptoKeyExchange` for
 
 
 
-## 📋 Usage Example
+## Usage Example
 
-> 📝 Naming convention in arguments: `tx` = key to transmit (send), `rx` = key to receive.
+> Naming convention in arguments: `tx` = key to transmit (send), `rx` = key to receive.
 
 **Using SecureMemory for private and session keys:**
 
@@ -95,8 +95,10 @@ Debug.Assert(clientSendKey.SequenceEqual(serverReceiveKey)); // Upstream traffic
 Debug.Assert(clientReceiveKey.SequenceEqual(serverSendKey)); // Downstream traffic
 
 // Use with SecretBox
-var ciphertext = SecretBox.Encrypt(message, nonce, clientSendKey);
-var plaintext  = SecretBox.Decrypt(ciphertext, nonce, serverReceiveKey);
+var ciphertext = new byte[message.Length + SecretBox.MacLen + SecretBox.NonceLen];
+SecretBox.Encrypt(ciphertext, message, clientSendKey);
+var plaintext = new byte[message.Length];
+SecretBox.Decrypt(plaintext, ciphertext, serverReceiveKey);
 ```
 
 **Using Span for private and session keys:**
@@ -125,16 +127,18 @@ Debug.Assert(clientSendKey.SequenceEqual(serverReceiveKey)); // Upstream traffic
 Debug.Assert(clientReceiveKey.SequenceEqual(serverSendKey)); // Downstream traffic
 
 // Use with SecretBox
-var ciphertext = SecretBox.Encrypt(message, nonce, clientSendKey);
-var plaintext  = SecretBox.Decrypt(ciphertext, nonce, serverReceiveKey);
+var ciphertext = new byte[message.Length + SecretBox.MacLen + SecretBox.NonceLen];
+SecretBox.Encrypt(ciphertext, message, clientSendKey);
+var plaintext = new byte[message.Length];
+SecretBox.Decrypt(plaintext, ciphertext, serverReceiveKey);
 ```
 
 
-## 📋 Using Ed25519 Keys with CryptoKeyExchange
+## Using Ed25519 Keys with CryptoKeyExchange
 
 If you already have an Ed25519 key pair (typically used for digital signatures), you can convert it to Curve25519 format and use it directly with `CryptoKeyExchange`.
 
-> 📝 Ed25519 to Curve25519 conversion is one-way: you can derive a Curve25519 key pair from an Ed25519 pair, but not vice versa.
+> Ed25519 to Curve25519 conversion is one-way: you can derive a Curve25519 key pair from an Ed25519 pair, but not vice versa.
 
 
 **Using SecureMemory for private keys:**
@@ -167,13 +171,13 @@ CryptoSign.PrivateKeyToCurve(curveSk, edSk);
 The resulting `curvePk` and `curveSk` are fully compatible with all key exchange methods in `CryptoKeyExchange`.
 
 
-## ⚠️ Error Handling
+## Error Handling
 
 * **Size checks** – All spans **must** match the declared constants. Otherwise `ArgumentException` or `ArgumentOutOfRangeException` is thrown.
 * **Return codes** – Non‑zero return from native libsodium maps to `LibSodiumException`.
 * **Dispose secrets carefully** – Zero out secret keys (`SecretKeyLen`) after use. `SecureMemory<T>` is automatically zeroed when disposed.
 
-## 📝 Security Notes
+## Security Notes
 
 * Always transmit public keys over an authenticated channel or pin them out‑of‑band.
 * Re‑key often if you require PFS. The operation is cheap.
@@ -182,10 +186,10 @@ The resulting `curvePk` and `curveSk` are fully compatible with all key exchange
 * Using `SecureMemory<byte>` for private and session keys is strongly recommended, as it protects key material in unmanaged memory with automatic zeroing and access control.
 
 
-## 👀 See Also
+## See Also
 
-* 🧂 [libsodium Key Exchange](https://doc.libsodium.org/key_exchange)
-* 🧂 [libsodium Ed25519 ↔ Curve25519](https://doc.libsodium.org/advanced/ed25519-curve25519)
+* [libsodium Key Exchange](https://doc.libsodium.org/key_exchange)
+* [libsodium Ed25519 ↔ Curve25519](https://doc.libsodium.org/advanced/ed25519-curve25519)
 * ℹ️ [API Reference: CryptoKeyExchange](../api/LibSodium.CryptoKeyExchange.yml)
 * ℹ️ [API Reference: CryptoSign](../api/LibSodium.CryptoSign.yml)
 

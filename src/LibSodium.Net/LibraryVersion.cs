@@ -1,8 +1,8 @@
-﻿using LibSodium.Interop;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
+using LibSodium.Interop;
 
-namespace LibSodium
-{
+namespace LibSodium;
+
 	/// <summary>
 	/// Provides methods to retrieve the version information of the Sodium library.
 	/// </summary>
@@ -36,4 +36,3 @@ namespace LibSodium
 			return Marshal.PtrToStringAnsi(ptr);
 		}
 	}
-}

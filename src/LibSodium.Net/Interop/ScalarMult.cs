@@ -1,9 +1,8 @@
-﻿using System;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace LibSodium.Interop
-{
+namespace LibSodium.Interop;
+
 	internal static partial class Native
 	{
 		[LibraryImport(LibSodiumNativeLibraryName, EntryPoint = nameof(crypto_scalarmult))]
@@ -14,4 +13,3 @@ namespace LibSodium.Interop
 			ReadOnlySpan<byte> p);
 
 	}
-}
