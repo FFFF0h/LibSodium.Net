@@ -36,6 +36,56 @@ public class CryptoSha3AndXofTests
     }
 
     [Test]
+    public void Sha3_StreamHelpers_MatchOneShot()
+    {
+        byte[] message = Encoding.UTF8.GetBytes("SHA3 stream hashing");
+        byte[] expected256 = new byte[CryptoSha3256.HashLen];
+        byte[] actual256 = new byte[CryptoSha3256.HashLen];
+        byte[] expected512 = new byte[CryptoSha3512.HashLen];
+        byte[] actual512 = new byte[CryptoSha3512.HashLen];
+        CryptoSha3256.ComputeHash(expected256, message);
+        CryptoSha3512.ComputeHash(expected512, message);
+
+        using (var input256 = new MemoryStream(message, writable: false))
+        {
+            CryptoSha3256.ComputeHash(actual256, input256);
+        }
+
+        using (var input512 = new MemoryStream(message, writable: false))
+        {
+            CryptoSha3512.ComputeHash(actual512, input512);
+        }
+
+        actual256.ShouldBe(expected256);
+        actual512.ShouldBe(expected512);
+    }
+
+    [Test]
+    public async Task Sha3_AsyncStreamHelpers_MatchOneShot()
+    {
+        byte[] message = Encoding.UTF8.GetBytes("SHA3 asynchronous stream hashing");
+        byte[] expected256 = new byte[CryptoSha3256.HashLen];
+        byte[] actual256 = new byte[CryptoSha3256.HashLen];
+        byte[] expected512 = new byte[CryptoSha3512.HashLen];
+        byte[] actual512 = new byte[CryptoSha3512.HashLen];
+        CryptoSha3256.ComputeHash(expected256, message);
+        CryptoSha3512.ComputeHash(expected512, message);
+
+        using (var input256 = new MemoryStream(message, writable: false))
+        {
+            await CryptoSha3256.ComputeHashAsync(actual256, input256);
+        }
+
+        using (var input512 = new MemoryStream(message, writable: false))
+        {
+            await CryptoSha3512.ComputeHashAsync(actual512, input512);
+        }
+
+        actual256.ShouldBe(expected256);
+        actual512.ShouldBe(expected512);
+    }
+
+    [Test]
     public void Shake128_Empty_MatchesNistVector()
     {
         Span<byte> output = stackalloc byte[32];

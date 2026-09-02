@@ -14,13 +14,17 @@ public sealed class CryptoKeccak1600 : IDisposable
     /// <summary>Length of the usable Keccak state in bytes.</summary>
     public const int Width = 200;
 
-    private readonly byte[] state = new byte[(int)Native.crypto_core_keccak1600_statebytes()];
+    private readonly byte[] state;
     private bool disposed;
 
     /// <summary>Creates a Keccak-1600 state whose bytes are all set to zero.</summary>
     public CryptoKeccak1600()
     {
         LibraryInitializer.EnsureInitialized();
+        var stateBytes = (int)Native.crypto_core_keccak1600_statebytes();
+        if (stateBytes != Width)
+            throw new LibSodiumException($"Unexpected Keccak-1600 state size: {stateBytes} bytes.");
+        state = new byte[stateBytes];
         Native.crypto_core_keccak1600_init(state);
     }
 
