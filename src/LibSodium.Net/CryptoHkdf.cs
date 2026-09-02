@@ -34,8 +34,25 @@ namespace LibSodium;
 		public const int Sha512MaxOkmLen = 16320;
 
 
-		internal static readonly int Sha256StateLen = (int)Native.crypto_kdf_hkdf_sha256_statebytes();
-		internal static readonly int Sha512StateLen = (int)Native.crypto_kdf_hkdf_sha512_statebytes();
+		/// <summary>Gets native SHA-256 HKDF state size after libsodium initialization.</summary>
+		internal static int Sha256StateLen
+		{
+			get
+			{
+				LibraryInitializer.EnsureInitialized();
+				return (int)Native.crypto_kdf_hkdf_sha256_statebytes();
+			}
+		}
+
+		/// <summary>Gets native SHA-512 HKDF state size after libsodium initialization.</summary>
+		internal static int Sha512StateLen
+		{
+			get
+			{
+				LibraryInitializer.EnsureInitialized();
+				return (int)Native.crypto_kdf_hkdf_sha512_statebytes();
+			}
+		}
 
 
 

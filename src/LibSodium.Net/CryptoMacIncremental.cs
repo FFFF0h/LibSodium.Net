@@ -5,7 +5,7 @@ namespace LibSodium;
 	internal sealed class CryptoMacIncremental<T> : ICryptoIncrementalOperation where T : IMac
 	{
 
-		private readonly SecureMemory<byte> state = SecureMemory.Create<byte>(T.StateLen);
+		private readonly SecureMemory<byte> state;
 		private bool isDisposed = false;
 		private bool isFinalized = false;
 
@@ -15,6 +15,8 @@ namespace LibSodium;
 			{
 				throw new ArgumentOutOfRangeException($"Key length must be exactly {T.KeyLen} bytes.", nameof(key));
 			}
+			LibraryInitializer.EnsureInitialized();
+			state = SecureMemory.Create<byte>(T.StateLen);
 			if (T.Init(state.AsSpan(), key) != 0)
 			{
 				throw new LibSodiumException("Failed to initialize incremental hashing.");

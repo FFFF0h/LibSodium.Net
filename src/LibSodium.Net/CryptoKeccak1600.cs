@@ -21,9 +21,7 @@ public sealed class CryptoKeccak1600 : IDisposable
     public CryptoKeccak1600()
     {
         LibraryInitializer.EnsureInitialized();
-        var stateBytes = (int)Native.crypto_core_keccak1600_statebytes();
-        if (stateBytes != Width)
-            throw new LibSodiumException($"Unexpected Keccak-1600 state size: {stateBytes} bytes.");
+        int stateBytes = (int)Native.crypto_core_keccak1600_statebytes();
         state = new byte[stateBytes];
         Native.crypto_core_keccak1600_init(state);
     }

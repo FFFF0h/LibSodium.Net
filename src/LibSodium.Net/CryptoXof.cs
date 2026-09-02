@@ -32,7 +32,7 @@ internal static class CryptoXof<T> where T : IXof
 /// <typeparam name="T">The low-level algorithm to use.</typeparam>
 internal sealed class CryptoXofIncremental<T> : ICryptoXofOperation where T : IXof
 {
-    private readonly byte[] state = new byte[T.StateLen];
+    private readonly byte[] state;
     private bool squeezing;
     private bool disposed;
 
@@ -42,6 +42,7 @@ internal sealed class CryptoXofIncremental<T> : ICryptoXofOperation where T : IX
     public CryptoXofIncremental(byte? domain)
     {
         LibraryInitializer.EnsureInitialized();
+        state = new byte[T.StateLen];
         int result = domain.HasValue ? T.Init(state, domain.Value) : T.Init(state);
         if (result != 0)
             throw new LibSodiumException("Failed to initialize the extendable-output operation.");

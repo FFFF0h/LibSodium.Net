@@ -44,20 +44,27 @@ namespace LibSodium;
 		/// </summary>
 		public const int MaxKeyLen = Native.CRYPTO_GENERICHASH_KEYBYTES_MAX;
 
-		internal static readonly int StateLen = (int) Native.crypto_generichash_statebytes();
+        internal static int StateLen
+        {
+            get
+            {
+                LibraryInitializer.EnsureInitialized();
+                return (int)Native.crypto_generichash_statebytes();
+            }
+        }
 
-		/// <summary>
-		/// Computes a generic hash of the specified message.
-		/// </summary>
-		/// <param name="hash">The buffer where the computed hash will be written. Its length defines the output size.</param>
-		/// <param name="message">The input message to hash.</param>
-		/// <param name="key">An optional key for keyed hashing (HMAC-like). May be empty for unkeyed mode.</param>
-		/// <exception cref="ArgumentException">
-		/// Thrown if <paramref name="hash"/> has an invalid length, or if <paramref name="key"/> is too long.
-		/// </exception>
-		/// <exception cref="LibSodiumException">Thrown if the hashing operation fails internally.</exception>
+    /// <summary>
+    /// Computes a generic hash of the specified message.
+    /// </summary>
+    /// <param name="hash">The buffer where the computed hash will be written. Its length defines the output size.</param>
+    /// <param name="message">The input message to hash.</param>
+    /// <param name="key">An optional key for keyed hashing (HMAC-like). May be empty for unkeyed mode.</param>
+    /// <exception cref="ArgumentException">
+    /// Thrown if <paramref name="hash"/> has an invalid length, or if <paramref name="key"/> is too long.
+    /// </exception>
+    /// <exception cref="LibSodiumException">Thrown if the hashing operation fails internally.</exception>
 
-		public static void ComputeHash(Span<byte> hash, ReadOnlySpan<byte> message, ReadOnlySpan<byte> key = default)
+    public static void ComputeHash(Span<byte> hash, ReadOnlySpan<byte> message, ReadOnlySpan<byte> key = default)
 		{
 			if (hash.Length < MinHashLen || hash.Length > MaxHashLen)
 			{

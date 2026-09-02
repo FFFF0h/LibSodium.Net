@@ -44,9 +44,16 @@ namespace LibSodium;
 
 
 		/// <summary>
-		/// The length of the state used in the secret stream.
+		/// Gets the length of the state used in the secret stream.
 		/// </summary>
-		public static int StateLen = Native.crypto_secretstream_xchacha20poly1305_statebytes();
+		public static int StateLen
+		{
+			get
+			{
+				LibraryInitializer.EnsureInitialized();
+				return Native.crypto_secretstream_xchacha20poly1305_statebytes();
+			}
+		}
 
 
 		/// <summary>

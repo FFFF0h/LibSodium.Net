@@ -9,7 +9,7 @@ namespace LibSodium;
 internal sealed class CryptoKeyLessHashIncremental<T> : ICryptoIncrementalOperation
 	where T : IKeyLessHash
 {
-	private readonly byte[] state = new byte[T.StateLen];
+	private readonly byte[] state;
 	private bool isFinalized = false;
 	private bool isDisposed = false;
 
@@ -18,6 +18,8 @@ internal sealed class CryptoKeyLessHashIncremental<T> : ICryptoIncrementalOperat
 	/// </summary>
 	public CryptoKeyLessHashIncremental()
 	{
+		LibraryInitializer.EnsureInitialized();
+		state = new byte[T.StateLen];
 		if (T.Init(state) != 0)
 			throw new LibSodiumException("Failed to initialize the incremental hashing operation.");
 	}

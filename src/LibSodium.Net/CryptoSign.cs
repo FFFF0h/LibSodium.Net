@@ -32,7 +32,14 @@ namespace LibSodium;
 		/// </summary>
 		/// <remarks>This value is determined by the underlying native cryptographic library and is used to allocate
 		/// buffers for signing state during incremental cryptographic operations.</remarks>
-		internal static readonly int StateLen = (int) Native.crypto_sign_statebytes();
+		internal static int StateLen
+		{
+			get
+			{
+				LibraryInitializer.EnsureInitialized();
+				return (int)Native.crypto_sign_statebytes();
+			}
+		}
 
 		/// <summary>
 		/// Generates a new Ed25519 public/private key pair.

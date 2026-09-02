@@ -15,7 +15,14 @@ public static class CryptoSha512
 	/// Size of the native <c>crypto_hash_sha512_state</c> structure in bytes (implementation‑defined).
 	/// Used for stack‑allocating the state when hashing streams.
 	/// </summary>
-	internal static readonly int StateLen = (int)Native.crypto_hash_sha512_statebytes();
+	internal static int StateLen
+    {
+        get
+        {
+            LibraryInitializer.EnsureInitialized();
+            return (int)Native.crypto_hash_sha512_statebytes();
+        }
+    }
 
 	/// <summary>
 	/// Computes a SHA‑512 hash of <paramref name="message"/> and stores the result in

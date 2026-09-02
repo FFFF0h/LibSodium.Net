@@ -12,17 +12,24 @@ public static class CryptoSha256
 	public const int HashLen = Native.CRYPTO_HASH_SHA256_BYTES;
 
 	/// <summary>Size of the internal hashing state structure (implementation‑defined).</summary>
-	internal static readonly int StateLen = (int)Native.crypto_hash_sha256_statebytes();
+    internal static int StateLen
+    {
+        get
+        {
+            LibraryInitializer.EnsureInitialized();
+            return (int)Native.crypto_hash_sha256_statebytes();
+        }
+    }
 
-	/// <summary>
-	/// Computes a SHA‑256 hash of <paramref name="message"/> and stores the result in
-	/// <paramref name="hash"/>.
-	/// </summary>
-	/// <param name="hash">Destination buffer (32 bytes).</param>
-	/// <param name="message">Message to hash.</param>
-	/// <exception cref="ArgumentException">If <paramref name="hash"/> length ≠ 32.</exception>
-	/// <exception cref="LibSodiumException">If the native function returns non‑zero.</exception>
-	public static void ComputeHash(Span<byte> hash, ReadOnlySpan<byte> message)
+    /// <summary>
+    /// Computes a SHA‑256 hash of <paramref name="message"/> and stores the result in
+    /// <paramref name="hash"/>.
+    /// </summary>
+    /// <param name="hash">Destination buffer (32 bytes).</param>
+    /// <param name="message">Message to hash.</param>
+    /// <exception cref="ArgumentException">If <paramref name="hash"/> length ≠ 32.</exception>
+    /// <exception cref="LibSodiumException">If the native function returns non‑zero.</exception>
+    public static void ComputeHash(Span<byte> hash, ReadOnlySpan<byte> message)
 		=> CryptoKeyLessHash<LowLevel.Sha256>.ComputeHash(hash, message);
 
 	/// <summary>
