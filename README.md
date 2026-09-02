@@ -2,7 +2,7 @@
 
 [![Build and Test](https://github.com/libSodium-net/LibSodium.Net/actions/workflows/build-and-test.yml/badge.svg)](https://github.com//libSodium-net/LibSodium.Net/actions/workflows/build-and-test.yml) [![NuGet](https://img.shields.io/nuget/v/LibSodium.Net.svg)](https://www.nuget.org/packages/LibSodium.Net/)
 
-**LibSodium.Net** provides idiomatic .NET 10 bindings for [libsodium](https://doc.libsodium.org/). The API uses spans and secure memory where appropriate, supports Native AOT through source-generated interop, and remains compatible with libsodium data formats.
+**LibSodium.Net** provides idiomatic .NET 10 bindings for [libsodium](https://doc.libsodium.org/) 1.0.22. The API uses spans and secure memory where appropriate, supports Native AOT through source-generated interop, and remains compatible with libsodium data formats.
 
 The package supports Windows, Linux, macOS, iOS, Android, tvOS, and Mac Catalyst.
 
@@ -87,7 +87,8 @@ Publish for a specific [runtime identifier](https://learn.microsoft.com/dotnet/c
 dotnet publish -c Release -r <RID>
 ```
 
-For example, use `win-x64`, `linux-x64`, or `osx-arm64`. Native AOT output is platform-specific and requires the [.NET Native AOT prerequisites](https://learn.microsoft.com/dotnet/core/deploying/native-aot/#prerequisites) for the target platform. CI publishes and executes Native AOT test applications on Windows x64, Linux x64, and macOS arm64.
+For example, use `win-x64`, `linux-x64`, or `osx-arm64` as <RID>. 
+Native AOT output is platform-specific and requires the [.NET Native AOT prerequisites](https://learn.microsoft.com/dotnet/core/deploying/native-aot/#prerequisites) for the target platform.
 
 ## Testing
 
