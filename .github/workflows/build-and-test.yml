@@ -110,6 +110,9 @@ jobs:
       with:
         dotnet-version: 10.0.x
 
+    - name: Restore iOS workload
+      run: dotnet workload restore ./src/LibSodium.Net.Tests/LibSodium.Net.Tests.iOS.csproj
+
     - name: Select Xcode 26.6
       run: sudo xcode-select --switch /Applications/Xcode_26.6.app
 
