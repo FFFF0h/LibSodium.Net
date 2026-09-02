@@ -26,11 +26,15 @@ The guide and generated API reference are available at [libsodium.net](https://l
 
 ## Installation
 
+LibSodium.Net targets `net10.0`. Install the [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0) and target .NET 10 in the consuming project.
+
+Using the .NET CLI:
+
 ```console
 dotnet add package LibSodium.Net
 ```
 
-Or from the Visual Studio Package Manager Console:
+Using Visual Studio Package Manager Console:
 
 ```powershell
 Install-Package LibSodium.Net
@@ -39,19 +43,51 @@ Install-Package LibSodium.Net
 ## Quick Start
 
 ```csharp
+using System.Security.Cryptography;
 using System.Text;
 using LibSodium;
 
 Span<byte> key = stackalloc byte[XChaCha20Poly1305.KeyLen];
 RandomGenerator.Fill(key);
 
-byte[] plaintext = Encoding.UTF8.GetBytes("Hello world");
-byte[] ciphertext = new byte[plaintext.Length + XChaCha20Poly1305.MacLen + XChaCha20Poly1305.NonceLen];
-XChaCha20Poly1305.Encrypt(ciphertext, plaintext, key);
+try
+{
+    byte[] plaintext = Encoding.UTF8.GetBytes("Hello LibSodium.Net!");
+    byte[] aad = Encoding.UTF8.GetBytes("example-context");
+    byte[] ciphertext = new byte[
+        plaintext.Length + XChaCha20Poly1305.MacLen + XChaCha20Poly1305.NonceLen];
 
-byte[] decrypted = new byte[plaintext.Length];
-XChaCha20Poly1305.Decrypt(decrypted, ciphertext, key);
+    XChaCha20Poly1305.Encrypt(ciphertext, plaintext, key, aad: aad);
+
+    byte[] decrypted = new byte[plaintext.Length];
+    XChaCha20Poly1305.Decrypt(decrypted, ciphertext, key, aad: aad);
+
+    Console.WriteLine(Encoding.UTF8.GetString(decrypted));
+}
+finally
+{
+    CryptographicOperations.ZeroMemory(key);
+}
 ```
+
+## Native AOT
+
+LibSodium.Net sets `IsAotCompatible` and uses source-generated `LibraryImport` interop. Consuming applications can enable Native AOT in their project file:
+
+```xml
+<PropertyGroup>
+  <TargetFramework>net10.0</TargetFramework>
+  <PublishAot>true</PublishAot>
+</PropertyGroup>
+```
+
+Publish for a specific [runtime identifier](https://learn.microsoft.com/dotnet/core/rid-catalog):
+
+```console
+dotnet publish -c Release -r <RID>
+```
+
+For example, use `win-x64`, `linux-x64`, or `osx-arm64`. Native AOT output is platform-specific and requires the [.NET Native AOT prerequisites](https://learn.microsoft.com/dotnet/core/deploying/native-aot/#prerequisites) for the target platform. CI publishes and executes Native AOT test applications on Windows x64, Linux x64, and macOS arm64.
 
 ## Testing
 
