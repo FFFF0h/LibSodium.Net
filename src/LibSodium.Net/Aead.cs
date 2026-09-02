@@ -311,14 +311,14 @@ namespace LibSodium;
         /// Libsodium requires hardware AES support for this algorithm. Use an alternative such as
         /// <see cref="XChaCha20Poly1305"/> when this property is <see langword="false"/>.
         /// </remarks>
-public static bool IsAvailable
-{
-    get
-    {
-        LibraryInitializer.EnsureInitialized();
-        return Interop.Native.crypto_aead_aes256gcm_is_available() == 1;
-    }
-}
+        public static bool IsAvailable
+        {
+            get
+            {
+                LibraryInitializer.EnsureInitialized();
+                return Interop.Native.crypto_aead_aes256gcm_is_available() == 1;
+            }
+        }
 
         /// <summary>
         /// Key length in bytes (32).
