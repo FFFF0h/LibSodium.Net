@@ -120,14 +120,11 @@ jobs:
         xcrun --version
         xcrun --find clang
 
-    - name: Install iOS workload
-      run: dotnet workload install ios
+    - name: Publish iOS ARM64 Native AOT
+      run: dotnet publish ./src/LibSodium.Net.Tests/LibSodium.Net.Tests.iOS.csproj --configuration Release -warnaserror
 
-    - name: Publish iOS device Native AOT
-      run: dotnet publish ./src/LibSodium.Net.Tests/LibSodium.Net.Tests.iOS.csproj --configuration Release -p:EnableCodeSigning=false -warnaserror
-
-    - name: Verify iOS application bundle
-      run: test -d ./src/LibSodium.Net.Tests/bin/Release/net10.0-ios/ios-arm64/LibSodium.Net.Tests.iOS.app
+    - name: Verify iOS ARM64 native executable
+      run: test -f ./src/LibSodium.Net.Tests/bin/Release/net10.0/ios-arm64/publish/LibSodium.Net.Tests.iOS
 
   test-android-aot:
     runs-on: ubuntu-latest
