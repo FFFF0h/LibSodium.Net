@@ -44,9 +44,9 @@ CI MUST call `dotnet publish -c Release` for each project and execute its produc
 
 ### iOS Native AOT
 
-CI uses a macOS runner with the .NET 10 iOS workload and Xcode command-line tools. It verifies `xcrun` before publishing. The CI validation target is `iossimulator-arm64`, which avoids Apple signing while still exercising the Apple Native AOT compiler and linker.
+CI uses a macOS runner with Xcode command-line tools and verifies `xcrun` before publishing. The test host has no OS-specific API dependencies, so it MUST target general `net10.0` and use `PublishAotUsingRuntimePack`. It MUST NOT target `net10.0-ios`, because that selects iOS app publishing, which requires a device architecture and rejects simulator publication.
 
-The iOS project remains compatible with `ios-arm64` device publishing, but certificate and provisioning-profile validation is outside this RFC.
+The CI validation target is `iossimulator-arm64`, which avoids Apple signing while still exercising the Apple Native AOT compiler and linker. The same runtime-pack host remains compatible with an explicit `ios-arm64` RID for device compilation, but signing and provisioning validation are outside this RFC.
 
 ### Android Workload AOT
 
