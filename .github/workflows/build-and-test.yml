@@ -119,11 +119,11 @@ jobs:
     - name: Install iOS workload
       run: dotnet workload install ios
 
-    - name: Publish iOS simulator Native AOT
-      run: dotnet publish ./src/LibSodium.Net.Tests/LibSodium.Net.Tests.iOS.csproj --configuration Release --runtime iossimulator-arm64 -warnaserror
+    - name: Publish iOS device Native AOT
+      run: dotnet publish ./src/LibSodium.Net.Tests/LibSodium.Net.Tests.iOS.csproj --configuration Release -warnaserror
 
     - name: Verify iOS application bundle
-      run: test -d ./src/LibSodium.Net.Tests/bin/Release/net10.0-ios/iossimulator-arm64/LibSodium.Net.Tests.iOS.app
+      run: test -d ./src/LibSodium.Net.Tests/bin/Release/net10.0-ios/ios-arm64/LibSodium.Net.Tests.iOS.app
 
   test-android-aot:
     runs-on: ubuntu-latest
