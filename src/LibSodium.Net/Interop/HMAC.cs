@@ -5,7 +5,7 @@ namespace LibSodium.Interop;
 
 internal static partial class Native
 {
-	// 📏 Constants for HMAC-SHA-2
+// Constants for HMAC-SHA-2
 	internal const int CRYPTO_AUTH_HMACSHA256_BYTES = 32;
 	internal const int CRYPTO_AUTH_HMACSHA256_KEYBYTES = 32;
 

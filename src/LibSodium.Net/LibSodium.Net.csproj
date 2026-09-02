@@ -41,9 +41,15 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="HighLevel\**" />
 	  <Compile Remove="Net\**" />
+	  <Compile Remove="nupkgs\**" />
+	  <EmbeddedResource Remove="HighLevel\**" />
 	  <EmbeddedResource Remove="Net\**" />
+	  <EmbeddedResource Remove="nupkgs\**" />
+	  <None Remove="HighLevel\**" />
 	  <None Remove="Net\**" />
+	  <None Remove="nupkgs\**" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -80,11 +86,6 @@
 	    <Pack>True</Pack>
 	    <PackagePath>\</PackagePath>
 	  </None>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="HighLevel\" />
-	  <Folder Include="nupkgs\" />
 	</ItemGroup>
 
 	<ItemGroup>

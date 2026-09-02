@@ -1,22 +1,27 @@
-# 🔀 Hashing
+﻿# Hashing
 
 LibSodium.Net provides multiple hashing APIs for different use cases:
 
 | API                        | Algorithm    | Use Case                                                                              |
 | -------------------------- | ------------ | ------------------------------------------------------------------------------------- |
-| `GenericHash`              | BLAKE2b      | Cryptographic hash with optional key. Use for MAC, PRF, fingerprints.                 |
-| `ShortHash`                | SipHash‑2‑4  | Keyed hash designed to prevent collisions in hash tables. Fast for short inputs.      |
+| `CryptoGenericHash`        | BLAKE2b      | Cryptographic hash with optional key. Use for MAC, PRF, fingerprints.                 |
+| `CryptoShortHash`          | SipHash‑2‑4  | Keyed hash designed to prevent collisions in hash tables. Fast for short inputs.      |
 | `CryptoSha256`             | SHA‑256      | Fast fixed‑length (32‑byte) hash for integrity checks, digital signatures, checksums. |
 | `CryptoSha512`             | SHA‑512      | Fast fixed‑length (64‑byte) hash for high‑strength integrity and digital signatures.  |
+| `CryptoSha3256`            | SHA3‑256     | Fixed-length 32-byte SHA-3 hash.                                                       |
+| `CryptoSha3512`            | SHA3‑512     | Fixed-length 64-byte SHA-3 hash.                                                       |
+| `CryptoShake128` / `256`   | SHAKE        | Extendable-output functions with caller-selected output length.                       |
+| `CryptoTurboShake128` / `256` | TurboSHAKE | Domain-separated extendable-output functions.                                        |
+| `CryptoKeccak1600`         | Keccak-f[1600] | Direct state operations and 12- or 24-round permutations.                           |
 | `CryptoPasswordHashArgon`  | Argon2id/i13 | Password hashing and key derivation (slow & memory‑hard)                              |
 | `CryptoPasswordHashScrypt` | Scrypt       | Password hashing and key derivation (slow & memory‑hard, legacy)                      |
 
-> 📝 SHA‑2 functions are **not suitable** for password hashing or key derivation. Use Argon2 or scrypt instead.
+> SHA‑2 functions are **not suitable** for password hashing or key derivation. Use Argon2 or scrypt instead.
 
 
-> 🧂 Based on [libsodium’s Hashing](https://doc.libsodium.org/hashing)<br/>
-> 🧂 Based on [Password Hashing](https://doc.libsodium.org/password_hashing)<br/>
-> 🧂 Based on [SHA-2](https://doc.libsodium.org/advanced/sha-2_hash_function)<br/>
+> Based on [libsodium’s Hashing](https://doc.libsodium.org/hashing)<br/>
+> Based on [Password Hashing](https://doc.libsodium.org/password_hashing)<br/>
+> Based on [SHA-2](https://doc.libsodium.org/advanced/sha-2_hash_function)<br/>
 > ℹ️ [API Reference: CryptoGenericHash](../api/LibSodium.CryptoGenericHash.yml)<br/>
 > ℹ️ [API Reference: CryptoSha256](../api/LibSodium.CryptoSha256.yml)<br/>
 > ℹ️ [API Reference: CryptoSha512](../api/LibSodium.CryptoSha512.yml)
@@ -28,10 +33,12 @@ LibSodium.Net provides multiple hashing APIs for different use cases:
 
 ---
 
-## 🌟 Features
+## Features
 
 * Cryptographic hashing with variable output length (GenericHash)
-* Fast fixed‑length hashing (CryptoSha256 & CryptoSha512)
+* Fast fixed-length SHA-2 and SHA-3 hashing
+* SHAKE and TurboSHAKE extendable-output functions
+* Direct Keccak-f[1600] state and permutation operations
 * SipHash‑based keyed hash for short inputs (ShortHash)
 * Password hashing and key derivation using Argon2 (CryptoPasswordHash)
 * All methods are allocation‑free, `Span`‑based, and deterministic (except password hash, which is randomized)
@@ -40,7 +47,7 @@ LibSodium.Net provides multiple hashing APIs for different use cases:
 
 ---
 
-## 🗝️ Key Management
+## Key Management
 
 Some hash functions accept a key (e.g., GenericHash, ShortHash), while others produce one as output (e.g., Argon2, Scrypt). This section explains how to pass and store keys safely. 
 
@@ -51,7 +58,7 @@ Keys can be provided or stored using the following types:
 * `byte[]` — interoperable and usable in both sync and async contexts.
 * `Memory<byte>` / `ReadOnlyMemory<byte>` — for use with async methods.
 
-> 📝 Use `Span<T>` for high-performance local operations, and `SecureMemory<byte>` to protect secrets in memory.
+> Use `Span<T>` for high-performance local operations, and `SecureMemory<byte>` to protect secrets in memory.
 
 When using key derivation functions (e.g., Argon2, Scrypt):
 
@@ -87,7 +94,7 @@ RandomGenerator.Fill(key);
 * Rotate keys periodically.
 
 
-## ✨ GenericHash — BLAKE2b
+## GenericHash — BLAKE2b
 
 BLAKE2b is a cryptographic hash function designed as a faster and safer alternative to SHA‑2. It provides high‑performance hashing with optional key support, making it suitable for:
 
@@ -100,7 +107,7 @@ BLAKE2b is a cryptographic hash function designed as a faster and safer alternat
 
 By default, it produces 32‑byte output, but can be configured to return between 16 and 64 bytes. It supports *keyed hashing* for MAC‑like or PRF behavior, using a key of 32 bytes by default (configurable between 16 and 64 bytes), or *unkeyed hashing* for general‑purpose use.
 
-### 📏 Constants
+### Constants
 
 | Name         | Value | Description           |
 | ------------ | ----- | --------------------- |
@@ -113,7 +120,7 @@ By default, it produces 32‑byte output, but can be configured to return betwee
 
 
 
-### 📋 Hashing with GenericHash
+### Hashing with GenericHash
 
 **With optional key:**
 
@@ -139,17 +146,17 @@ await CryptoGenericHash.ComputeHashAsync(hash, stream, key);
 
 ---
 
-## ✨ CryptoSha256 — SHA‑256
+## CryptoSha256 — SHA‑256
 
 `CryptoSha256` offers a high‑speed, fixed‑length (32‑byte) SHA‑256 implementation built directly on libsodium’s `crypto_hash_sha256` API. Use it when you need interoperability with existing SHA‑256 digests (e.g., digital signatures, blockchain, TLS certificate fingerprints) or whenever a fixed 32‑byte checksum is required.
 
-### 📏 Constants
+### Constants
 
 | Name      | Value | Description              |
 | --------- | ----- | ------------------------ |
 | `HashLen` | 32    | Output length (32 bytes) |
 
-### 📋 Hashing with CryptoSha256
+### Hashing with CryptoSha256
 
 **Hash a byte array:**
 
@@ -173,17 +180,17 @@ await CryptoSha256.ComputeHashAsync(hash, stream);
 
 ---
 
-## ✨ CryptoSha512 — SHA‑512
+## CryptoSha512 — SHA‑512
 
 `CryptoSha512` is a fixed‑length (64‑byte) implementation of SHA‑512 via libsodium’s `crypto_hash_sha512`. It is usually faster than SHA‑256 on modern 64‑bit CPUs and provides a larger security margin.
 
-### 📏 Constants
+### Constants
 
 | Name      | Value | Description              |
 | --------- | ----- | ------------------------ |
 | `HashLen` | 64    | Output length (64 bytes) |
 
-### 📋 Hashing with CryptoSha512
+### Hashing with CryptoSha512
 
 **Hash a Span<byte>:**
 
@@ -206,7 +213,7 @@ await CryptoSha512.ComputeHashAsync(hash, stream);
 ```
 
 ---
-## ✨ Incremental Hashing
+## Incremental Hashing
 
 In some scenarios, data to be hashed is not available as a single contiguous buffer — for example, when you want to compute `hash(a || b || c)` from multiple inputs. LibSodium.Net offers **incremental hashing** for this purpose.
 
@@ -253,9 +260,9 @@ hasher.Final(hash);
 
 ---
 
-## ✨ ShortHash — SipHash‑2‑4
+## ShortHash — SipHash‑2‑4
 
-> ⚠️ ShortHash is **not** a cryptographic hash. Do not use it for fingerprinting, content integrity, password hashing, or digital signatures.
+> ShortHash is **not** a general-purpose cryptographic hash. Do not use it for fingerprinting, content integrity, password hashing, or digital signatures.
 
 SipHash is a fast keyed hash function optimized for short inputs. It is designed to mitigate hash‑flooding attacks in hash tables and similar data structures where untrusted input might lead to performance degradation.
 
@@ -267,14 +274,14 @@ It should be used for:
 
 SipHash is always keyed, and its output is always 8 bytes.
 
-### 📏 Constants
+### Constants
 
 | Name      | Value | Description             |
 | --------- | ----- | ----------------------- |
 | `HashLen` | 8     | Output length (8 bytes) |
 | `KeyLen`  | 16    | Key length (16 bytes)   |
 
-### 📋 Hashing with ShortHash
+### Hashing with ShortHash
 
 > ℹ️ key is required
 
@@ -285,7 +292,7 @@ CryptoShortHash.ComputeHash(hash, message, key);
 
 ---
 
-## ✨ PasswordHashArgon
+## PasswordHashArgon
 
 Secure password hashing and key derivation using Argon2 (Argon2id / Argon2i13). This algorithm is specifically designed to defend against brute‑force attacks by requiring significant computational work and memory. It is ideal for storing passwords, deriving keys from passphrases, or implementing authentication mechanisms.
 
@@ -297,7 +304,7 @@ The cost parameters (iterations and memory) can be tuned to balance security and
 * **Moderate** – for higher‑value secrets.
 * **Sensitive** – for long‑term or critical secrets.
 
-### 📏 Constants
+### Constants
 
 | Name                    | Value          | Description                             |
 | ----------------------- | -------------- | --------------------------------------- |
@@ -314,7 +321,7 @@ The cost parameters (iterations and memory) can be tuned to balance security and
 | `SensitiveIterations`   | 4              | Iteration count for sensitive targets   |
 | `SensitiveMemoryLen`    | 1 GiB          | Memory usage for sensitive targets      |
 
-### 📋 Working with PasswordHashArgon
+### Working with PasswordHashArgon
 
 
 **Hash a password (encoded, random salt):**
@@ -349,13 +356,13 @@ CryptoPasswordHash.DeriveKey(
 
 ---
 
-## ✨ PasswordHashScrypt
+## PasswordHashScrypt
 
 Password hashing and key derivation using `scrypt`, a memory-hard function introduced before Argon2. Though not side-channel resistant, it is still widely used and interoperable.
 
 LibSodium.Net improves over libsodium by offering consistent tuning options (`Min`, `Interactive`, `Moderate`, `Sensitive`) and full validation coverage.
 
-### 📏 Constants
+### Constants
 
 | Name                    | Value           | Description                         |
 | ----------------------- | --------------- | ----------------------------------- |
@@ -372,7 +379,7 @@ LibSodium.Net improves over libsodium by offering consistent tuning options (`Mi
 | `SensitiveIterations`   | 33554432 (2^25) | For long-term or high-value secrets |
 | `SensitiveMemoryLen`    | 1 GiB (2^30)    | For long-term or high-value secrets |
 
-### 📋 Working with PasswordHashScrypt
+### Working with PasswordHashScrypt
 
 **Hash and verify:**
 
@@ -394,7 +401,7 @@ CryptoPasswordHashScrypt.DeriveKey(key, "password", salt,
 
 ---
 
-## ⚠️ Error Handling
+## Error Handling
 
 * `ArgumentException` — when input or key lengths are invalid
 * `ArgumentOutOfRangeException` — when iterations or memory limits are too low
@@ -402,7 +409,7 @@ CryptoPasswordHashScrypt.DeriveKey(key, "password", salt,
 
 ---
 
-## 📝 Notes
+## Notes
 
 * `GenericHash` is based on BLAKE2b and supports variable‑length output and optional keys.
 * `CryptoSha256` and `CryptoSha512` provide interoperable SHA‑2 digests and are the best choice when you need a *fixed‑length* checksum or compatibility with external systems.
@@ -414,7 +421,7 @@ CryptoPasswordHashScrypt.DeriveKey(key, "password", salt,
 
 ---
 
-## 🧭 Choosing the Right Hash API
+## Choosing the Right Hash API
 
 | Scenario                                                          | Recommended API            |
 | ------------------------------------------------------------------| -------------------------- |
@@ -426,7 +433,7 @@ CryptoPasswordHashScrypt.DeriveKey(key, "password", salt,
 | Password storage / passphrase‑derived keys                        | `CryptoPasswordHashArgon`  |
 | Legacy Password storage / passphrase‑derived keys                 | `CryptoPasswordHashScrypt` |
 
-## 👀 See Also
+## See Also
 
 * ℹ️ [API Reference: CryptoGenericHash](../api/LibSodium.CryptoGenericHash.yml)
 * ℹ️ [API Reference: CryptoSha256](../api/LibSodium.CryptoSha256.yml)
@@ -434,6 +441,6 @@ CryptoPasswordHashScrypt.DeriveKey(key, "password", salt,
 * ℹ️ [API Reference: CryptoShortHash](../api/LibSodium.CryptoShortHash.yml)
 * ℹ️ [API Reference: CryptoPasswordHashArgon](../api/LibSodium.CryptoPasswordHashArgon.yml)
 * ℹ️ [API Reference: CryptoPasswordHashScrypt](../api/LibSodium.CryptoPasswordHashScrypt.yml)
-* 🧂 [libsodium Hashing](https://doc.libsodium.org/hashing)
-* 🧂 [libsodium Password Hashing](https://doc.libsodium.org/password_hashing)
-* 🧂 [libsodium SHA-2](https://doc.libsodium.org/advanced/sha-2_hash_function)<br/>
+* [libsodium Hashing](https://doc.libsodium.org/hashing)
+* [libsodium Password Hashing](https://doc.libsodium.org/password_hashing)
+* [libsodium SHA-2](https://doc.libsodium.org/advanced/sha-2_hash_function)<br/>

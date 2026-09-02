@@ -1,4 +1,4 @@
-
+﻿
 
 using LibSodium.Interop;
 
@@ -11,7 +11,7 @@ namespace LibSodium;
 	/// This function is optimized for short messages and uses a 16-byte secret key to protect against hash-flooding
 	/// attacks. It is not suitable for general-purpose cryptographic hashing.
 	/// <para>
-	/// 🧂 https://libsodium.gitbook.io/doc/hashing/short-input_hashing
+/// https://libsodium.gitbook.io/doc/hashing/short-input_hashing
 	/// </para>
 	/// </remarks>
 	public static class CryptoShortHash

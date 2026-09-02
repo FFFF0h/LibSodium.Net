@@ -1,13 +1,13 @@
-# 🎲 RandomGenerator
+﻿# RandomGenerator
 
 The `RandomGenerator` class in **LibSodium.Net** provides access to cryptographically secure random values. It wraps several functions from libsodium's randombytes API and ensures correct initialization and exception safety.
 
-> 🧂Based on libsodium's [Generating random data](https://doc.libsodium.org/generating_random_data)<br/>
+> Based on libsodium's [Generating random data](https://doc.libsodium.org/generating_random_data)<br/>
 > ℹ️ *See also*: [API Reference for `RandomGenerator`](../api/LibSodium.RandomGenerator.yml)
 
 ---
 
-## 🌟 Features
+## Features
 
 - Generate random 32-bit unsigned integers.
 - Generate bounded random integers.
@@ -17,7 +17,7 @@ The `RandomGenerator` class in **LibSodium.Net** provides access to cryptographi
 
 ---
 
-## 📋 Getting Random Values
+## Getting Random Values
 
 &nbsp;**Get a random 32-bit unsigned integer:** returns a cryptographically secure, uniformly distributed value.
 
@@ -36,9 +36,9 @@ uint lessThan100 = RandomGenerator.GetUInt32(100);
 
 ---
 
-## 📋 Filling Buffers
+## Filling Buffers
 
-> 🔐 *When dealing with sensitive data (e.g., seeds, key material), prefer using `SecureMemory<byte>` for guarded heap allocations and automatic zeroing.*
+> *When dealing with sensitive data (e.g., seeds, key material), prefer using `SecureMemory<byte>` for guarded heap allocations and automatic zeroing.*
 
 &nbsp; **Fill a buffer with unpredictable cryptographic random bytes:**
 
@@ -90,11 +90,11 @@ RandomGenerator.FillDeterministic(buffer, seed);
 
 The same seed and length will always produce the same output.
 
-> ⚠️ Seed must be exactly `RandomGenerator.SeedLen` bytes long. Otherwise, `ArgumentException` is thrown.
+> Seed must be exactly `RandomGenerator.SeedLen` bytes long. Otherwise, `ArgumentException` is thrown.
 
 ---
 
-## 📋 Stirring and Closing
+## Stirring and Closing
 
 &nbsp; **Stir the RNG:**
 
@@ -114,7 +114,7 @@ Closes the randombytes subsystem. This may be needed in long-running processes o
 
 ---
 
-## ⚠️ Error Handling
+## Error Handling
 
 - `ArgumentException` — thrown when `FillDeterministic` receives an invalid seed length.
 - `LibSodiumException` — thrown when `Close()` fails (e.g., called twice).

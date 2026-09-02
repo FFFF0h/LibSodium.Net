@@ -1,13 +1,13 @@
-# 🔒 Symmetric Authenticated Encryption with SecretBox
+﻿# Symmetric Authenticated Encryption with SecretBox
 
 The `SecretBox` API in **LibSodium.Net** provides a simple and secure way to perform symmetric authenticated encryption using the XSalsa20 stream cipher and Poly1305 MAC. It supports both **combined** and **detached** encryption modes, as well as **manual** or **automatic** nonce handling — all from a single, unified API.
 
-> 🧂Based on libsodium's [Authenticated encryption using `crypto_secretbox`](https://doc.libsodium.org/secret-key_cryptography/secretbox)<br/>
+> Based on libsodium's [Authenticated encryption using `crypto_secretbox`](https://doc.libsodium.org/secret-key_cryptography/secretbox)<br/>
 > ℹ️ *See also*: [API Reference for `SecretBox`](../api/LibSodium.SecretBox.yml)
 
 ---
 
-## 🌟 Features
+## Features
 
 - Symmetric authenticated encryption using XSalsa20-Poly1305.
 - Combined mode and detached mode support.
@@ -19,7 +19,7 @@ The `SecretBox` API in **LibSodium.Net** provides a simple and secure way to per
 
 ---
 
-## 📋 Usage
+## Usage
 
 **Key Management:**
 
@@ -112,14 +112,14 @@ Console.WriteLine(Encoding.UTF8.GetString(decrypted));
 
 ---
 
-## ⚠️ Error Handling
+## Error Handling
 
 - `ArgumentException` — invalid input sizes.
 - `LibSodiumException` — authentication failed.
 
 ---
 
-## 📝 Notes
+## Notes
 
 - Nonce must be exactly `SecretBox.NonceLen` bytes when passed manually.
 - Auto-nonce is prepended to the ciphertext when not specified.
@@ -131,7 +131,7 @@ Console.WriteLine(Encoding.UTF8.GetString(decrypted));
 
 ---
 
-## 👀 See Also
+## See Also
 
 - [libsodium secretbox documentation](https://doc.libsodium.org/secret-key_cryptography/secretbox)
 - [API Reference](../api/LibSodium.SecretBox.yml)

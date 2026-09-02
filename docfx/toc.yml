@@ -1,5 +1,7 @@
-- name: Guide
+﻿- name: Guide
   href: guide/index.md
+- name: Features
+  href: features.md
 - name: API Reference
   href: api/LibSodium.yml
 - name: GitHub Repository

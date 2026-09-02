@@ -1,43 +1,36 @@
-# Features
+﻿# Features
 
-LibSodium.Bindings.Net is designed to eventually support all of libsodium’s features while offering a modern and efficient approach to cryptographic operations
+LibSodium.Net targets .NET 10 and binds to libsodium 1.0.22. It uses source-generated P/Invoke for Native AOT compatibility and span-based APIs for efficient buffer handling.
 
-## Modern and Efficient
+## Authenticated Encryption
 
-- Utilizes `Span<T>` instead of arrays for enhanced performance.
-- Supports Ahead-of-Time (AOT) compilation by leveraging `LibraryImport` rather than `DllImport`.
+- `SecretBox` authenticated encryption
+- `SecretStream` authenticated streaming and file encryption
+- XChaCha20-Poly1305, ChaCha20-Poly1305, ChaCha20-Poly1305-IETF, AES256-GCM, AEGIS-128L, and AEGIS-256
+- Combined and detached modes with optional AAD and automatic or manual nonce handling
 
-## Implemented Features
+## Public-Key Cryptography
 
-### Helpers
+- `CryptoBox` authenticated encryption and sealed boxes
+- Ed25519 signatures and Ed25519ph streaming signatures
+- X25519 key exchange and scalar multiplication
+- Ristretto255 group and scalar operations
+- ML-KEM768 and X-Wing key encapsulation
 
-- Constant-time equality testing
-- Hexadecimal encoding and decoding.
-- Base64 encoding and decoding
-- Operations for arbitrary-length unsigned numbers.
-- Testing for all-zero values.
+## Hashing, Authentication, and Derivation
 
-### Pading
+- BLAKE2b, SipHash, SHA-256, SHA-512, SHA3-256, and SHA3-512
+- SHAKE128, SHAKE256, TurboSHAKE128, TurboSHAKE256, and Keccak-f[1600]
+- HMAC-SHA-256, HMAC-SHA-512, HMAC-SHA-512/256, and Poly1305
+- Argon2 and scrypt password hashing
+- HKDF-SHA-256, HKDF-SHA-512, HChaCha20, and libsodium's BLAKE2b KDF
 
-Pad and unpad data using the ISO/IEC 7816-4 padding algorithm
+## Utilities
 
-### Secure Memory
-
-- Zeroing memory
-- Locking memory
-- Guarded heap allocations.
-
-### Generating random data
-
-- Random `UInt32` , including uniform with upper bound.
-- Random buffer generation, including deterministic option.
-- Closing and stirring the random generator
-
-### Secret-Key Cryptography
-
-- Authenticated encryption (SecretBox)
-- Encrypted streams and file encryption
-
-## Additional Features
-
-Coming soon
+- ChaCha20, XChaCha20, Salsa20, and XSalsa20 stream ciphers
+- IPcrypt deterministic, ND, NDX, and prefix-preserving IP address encryption
+- Cryptographically secure random generation
+- Hexadecimal and Base64 encoding
+- ISO/IEC 7816-4 padding
+- Constant-time comparisons and arbitrary-length unsigned integer operations
+- Guarded secure memory with zeroing, locking, and access protection

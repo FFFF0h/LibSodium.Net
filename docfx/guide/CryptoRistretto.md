@@ -1,4 +1,4 @@
-# 🌀 CryptoRistretto — Operations on the Ristretto255 group
+﻿# CryptoRistretto — Operations on the Ristretto255 group
 
 Ristretto255 provides a safer and simpler way to work with elliptic curves — specifically Curve25519 — by eliminating subtle issues and vulnerabilities that arise when using the curve directly.
 
@@ -11,7 +11,7 @@ LibSodium.Net exposes the full Ristretto255 API from libsodium in a clear and id
 
 ---
 
-## 📏 Constants
+## Constants
 
 | Constant              | Value | Description                                  |
 | --------------------- | ----- | -------------------------------------------- |
@@ -22,7 +22,7 @@ LibSodium.Net exposes the full Ristretto255 API from libsodium in a clear and id
 
 ---
 
-## ✨ API Surface
+## API Surface
 
 | Method                 | Description                                                          |
 | ---------------------- | -------------------------------------------------------------------- |
@@ -44,7 +44,7 @@ LibSodium.Net exposes the full Ristretto255 API from libsodium in a clear and id
 
 ---
 
-## 📋 Examples
+## Examples
 
 **Generate a random Ristretto255 point:**
 
@@ -57,9 +57,9 @@ CryptoRistretto.GenerateRandomPoint(point);
 
 ```csharp
 using var sk = new SecureMemory<byte>(CryptoRistretto.ScalarLen);
-SecureMemory<byte> pk = SecureMemory.Create<byte>(CryptoRistretto.PointLen);
+using var pk = SecureMemory.Create<byte>(CryptoRistretto.PointLen);
 CryptoRistretto.GenerateRandomScalar(sk);
-CryptoRistretto.ScalarMultiplyBase(sk, pk);
+CryptoRistretto.ScalarMultiplyBase(sk.AsReadOnlySpan(), pk.AsSpan());
 ```
 
 **Derive a point from a hash:**
@@ -106,7 +106,7 @@ CryptoRistretto.ReduceScalar(longValue, reduced);
 
 ---
 
-### 🔑 Authenticated Key Exchange and Encryption
+### Authenticated Key Exchange and Encryption
 
 This example shows how Alice and Bob can use Ristretto255 and HKDF to derive a shared secret `S = n₁·P₂ = n₂·P₁` from a Diffie-Hellman exchange.
 
@@ -120,7 +120,7 @@ This ensures the derived key is uniquely bound to both the shared secret and the
 
 The symmetric key is used to encrypt a message from Alice to Bob with `XChaCha20-Poly1305`.
 
-> 🤔 Tip: Swapping `salt` and `info` will produce a different key.  
+> Tip: Swapping `salt` and `info` will produce a different key.
 > Be consistent across sender and recipient (e.g., always use sender's public key as salt).
 
 This pattern prevents accidental key reuse and mitigates reflection or unknown key share attacks by incorporating both parties' public keys into the derivation process. It also allows secure, authenticated, and forward-secret communication using ephemeral keys.
@@ -170,7 +170,7 @@ Debug.Assert(isDecryptionValid, "Decrypted message should match original plainte
 ```
 ---
 
-### 🔢 Two-Party Computation (Oblivious Evaluation)
+### Two-Party Computation (Oblivious Evaluation)
 
 This example shows how two parties can evaluate a function of the form `f(x, k) = p(x)·k` — without revealing `x` to the evaluator, or `k` to the input holder.
 
@@ -211,7 +211,7 @@ Thus, A obtains `p(x)·k` without learning `k`, and B never sees `x`.
 
 ---
 
-> 🛡️ This technique is useful in privacy-preserving protocols like anonymous credentials, voting systems, or verifiable secret sharing.
+> This technique is useful in privacy-preserving protocols like anonymous credentials, voting systems, or verifiable secret sharing.
 
 
 ```csharp
@@ -269,11 +269,11 @@ Debug.Assert(isValid, "The final result fx should match the expected value.");
 
 ```
 
-> 💡 This protocol can serve as a building block for secure multiparty computation or threshold cryptography.
+> This protocol can serve as a building block for secure multiparty computation or threshold cryptography.
 
 ---
 
-### 👀 See Also
+### See Also
 
 * [libsodium Ristretto docs](https://doc.libsodium.org/advanced/point-arithmetic/ristretto)
 * [CryptoScalarMult — X25519](CryptoScalarMult.md)

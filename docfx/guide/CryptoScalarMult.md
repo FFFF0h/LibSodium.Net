@@ -1,4 +1,4 @@
-# 🔢 Scalar Multiplication with CryptoScalarMult
+﻿# Scalar Multiplication with CryptoScalarMult
 
 The `CryptoScalarMult` API exposes the low-level scalar multiplication primitive `crypto_scalarmult`, based on Curve25519.
 This operation implements the **X25519** algorithm (ECDH over Curve25519), as defined in [RFC 7748](https://datatracker.ietf.org/doc/html/rfc7748).
@@ -7,12 +7,12 @@ It forms the foundation of key exchange protocols such as `CryptoBox`, `CryptoKe
 This API is rarely needed directly. It is recommended only when implementing custom protocols or interoperating with other systems that use raw X25519 as defined in RFC 7748.
 
 
-> 🧂 Based on libsodium's [Scalar multiplication](https://doc.libsodium.org/advanced/scalar_multiplication)<br/>
+> Based on libsodium's [Scalar multiplication](https://doc.libsodium.org/advanced/scalar_multiplication)<br/>
 > ℹ️ [API Reference for `CryptoScalarMult`](../api/LibSodium.CryptoScalarMult.yml)
 
 ---
 
-## 🌟 Features
+## Features
 
 * Curve25519 scalar multiplication (X25519, RFC 7748)
 * Directional operation: `Q = n·P`
@@ -23,7 +23,7 @@ This API is rarely needed directly. It is recommended only when implementing cus
 
 ---
 
-## 📏 Constants
+## Constants
 
 | Name              | Value | Description                         |
 | ----------------- | ----- | ------------------------------------|
@@ -33,7 +33,7 @@ This API is rarely needed directly. It is recommended only when implementing cus
 
 ---
 
-## 📋 Working with CryptoScalarMult
+## Working with CryptoScalarMult
 
 **Calculate Public Key:**
 
@@ -51,12 +51,12 @@ CryptoScalarMult.CalculatePublicKey(publicKey, privateKey);
 Performs scalar multiplication `S₁ = n₁·P₂` with a private scalar and a peer’s public key to compute a shared secret point:
 
 ```csharp
-using var sharedPoint = new SecureMemory(CryptoScalarMult.SharedPointLen);
+using var sharedPoint = new SecureMemory<byte>(CryptoScalarMult.SharedPointLen);
 CryptoScalarMult.Compute(sharedPoint, myPrivateKey, peerPublicKey);
 ```
 ---
 
-### ❓ Why Both Parties Compute the Same Shared Secret Point
+### Why Both Parties Compute the Same Shared Secret Point
 
 Let:
 
@@ -83,7 +83,7 @@ Therefore, `S₁ = S₂`, and both parties share the same secret point.
 
 ---
 
-### ❓ Why You Cannot Derive the Private Scalar from the Public Point
+### Why You Cannot Derive the Private Scalar from the Public Point
 
 Given:
 
@@ -99,7 +99,7 @@ Only a large-scale **quantum computer** running Shor’s algorithm could break t
 
 ---
 
-### ⚠️ Avoid Using the Shared Secret Directly as a Shared Key
+### Avoid Using the Shared Secret Directly as a Shared Key
 
 Many `(privateKey, publicKey)` pairs can produce the **same result `S`** when using `CryptoScalarMult`.
 This is because `S` is a point on the curve, and scalar multiplication is not injective.
@@ -121,7 +121,7 @@ The order of the public keys must be agreed upon (e.g., lexicographically or bas
 
 ---
 
-### 📋 Recommended Derivation Pattern
+### Recommended Derivation Pattern
 
 This pattern illustrates how to compute a shared secret `S = n₁·P₂ = n₂·P₁`  and derive a symmetric key from it using `HKDF`.
 
@@ -133,7 +133,7 @@ The derivation uses:
 
 This ensures the derived key is uniquely bound to both the shared secret and the roles of the participants.
 
-> 🤔 Tip: Swapping `salt` and `info` will produce a different key.  
+> Tip: Swapping `salt` and `info` will produce a different key.
 > Be consistent across sender and recipient (e.g., always use sender's public key as salt).
 
 This pattern prevents accidental key reuse and mitigates reflection or unknown key share attacks by incorporating both parties' public keys into the derivation process.
@@ -176,14 +176,14 @@ Debug.Assert(isTheSameTxRxKey, "Transmission key derived by Alice should match r
 ```
 ---
 
-## ⚠️ Error Handling
+## Error Handling
 
 - `ArgumentException` — when input buffers have incorrect lengths or invalid parameters.
 - `LibSodiumException` — when a crypto operation fails.
 
 ---
 
-## 📝 Notes
+## Notes
 
 * All APIs, except `SecureMemory` are Span-friendly and do not allocate memory internally.
 * `CryptoScalarMult` is a low-level primitive and does not provide authentication.
@@ -191,7 +191,7 @@ Debug.Assert(isTheSameTxRxKey, "Transmission key derived by Alice should match r
 
 ---
 
-## 👀 See Also
+## See Also
 
 * [CryptoKeyExchange](./KeyExchange.md)
 * [CryptoBox](./CryptoBox.md)

@@ -1,16 +1,16 @@
-# 📜 CryptoAuth
+﻿# CryptoAuth
 
 The `CryptoAuth` API in **LibSodium.Net** provides secure message authentication using HMAC-SHA-512-256. This is useful for ensuring that a message was not altered and comes from a trusted sender who knows the secret key.
 
-⚠️ **Warning:** `CryptoAuth` is deprecated use [`CryptoHmacSha512_256`](./MAC.md#-hmacsha512256) instead
+**Warning:** `CryptoAuth` is deprecated; use [`CryptoHmacSha512_256`](./MAC.md#hmac-sha-512256) instead.
 
 
-> 🧂 Based on libsodium’s [Secret Key Authentication `crypto_auth`](https://doc.libsodium.org/secret-key_cryptography/secret-key_authentication) API  
+> Based on libsodium’s [Secret Key Authentication `crypto_auth`](https://doc.libsodium.org/secret-key_cryptography/secret-key_authentication) API
 > ℹ️ *See also*: [API Reference for `CryptoAuth`](../api/LibSodium.CryptoAuth.yml)
 
 ---
 
-## 🌟 Features
+## Features
 
 - Message authentication using HMAC-SHA-512-256.
 - Fixed-length secret keys and MACs.
@@ -20,7 +20,7 @@ The `CryptoAuth` API in **LibSodium.Net** provides secure message authentication
 
 ---
 
-## 🔍 What is Message Authentication?
+## What is Message Authentication?
 
 Unlike encryption, **authentication** doesn't hide the contents of a message. It ensures that the message has **not been tampered with** and was created by someone who **knows the shared secret key**.
 
@@ -33,16 +33,16 @@ This is useful for protocols that need to validate integrity and authenticity bu
 
 ---
 
-## ✨Usage Examples
+## Usage Examples
 
-### 📋 Key Generation
+### Key Generation
 
 ```csharp
 Span<byte> key = stackalloc byte[CryptoAuth.KeyLen];
 CryptoAuth.GenerateKey(key);
 ```
 
-### 📋 MAC Generation
+### MAC Generation
 
 ```csharp
 Span<byte> mac = stackalloc byte[CryptoAuth.MacLen];
@@ -51,7 +51,7 @@ ReadOnlySpan<byte> message = Encoding.UTF8.GetBytes("Message to authenticate");
 CryptoAuth.ComputeMac(mac, message, key);
 ```
 
-### 📋 MAC Verification
+### MAC Verification
 
 ```csharp
 bool isValid = CryptoAuth.TryVerifyMac(mac, message, key);
@@ -66,7 +66,7 @@ else
 }
 ```
 
-### 📋 Strict Verification (throws on failure)
+### Strict Verification (throws on failure)
 
 ```csharp
 CryptoAuth.VerifyMac(mac, message, key); // Throws LibSodiumException if verification fails
@@ -74,14 +74,14 @@ CryptoAuth.VerifyMac(mac, message, key); // Throws LibSodiumException if verific
 
 ---
 
-## ⚠️ Error Handling
+## Error Handling
 
 - `ArgumentException` — input buffers are incorrect length.
 - `LibSodiumException` — MAC computation or verification failed unexpectedly.
 
 ---
 
-## 📝 Notes
+## Notes
 
 - The MAC is **32 bytes** (`CryptoAuth.MacLen`).
 - The secret key must be exactly **32 bytes** (`CryptoAuth.KeyLen`).

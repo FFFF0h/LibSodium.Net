@@ -1,12 +1,11 @@
-# 🔒 Stream Ciphers
+﻿# Stream Ciphers
 
 Stream ciphers provide **confidentiality** for messages of any length —short or long— turning data into a sequence indistinguishable from random noise.
 They operate on fixed-size blocks of data, using minimal memory, which makes them perfect for real-time streams, huge files, or jumping directly to any part of a message without processing everything before it.
 
 **How they work:** A stream cipher generates a pseudorandom sequence called the *keystream* from a secret *key* and a fresh *nonce*, then combines it with the plaintext or ciphertext using XOR to encrypt or decrypt; the operation is symmetric, so the same process is used for both encryption and decryption.
 
-⚠️ **No built-in authentication**: Stream ciphers only provide confidentiality. They do *not* protect against tampering — an attacker can flip bits undetected. Always combine with a MAC (e.g., Poly1305) or use an AEAD construction
- when integrity or authenticity matters.
+**No built-in authentication**: Stream ciphers only provide confidentiality. They do *not* protect against tampering — an attacker can flip bits undetected. Always combine with a MAC (e.g., Poly1305) or use an AEAD construction when integrity or authenticity matters.
 
 Why use them?
 
@@ -16,7 +15,7 @@ Why use them?
 
 Beyond encryption you can treat the keystream itself as a fast **pseudorandom function (PRF)** for masking or key‑derivation tasks.
 
-> 🧂 Based on libsodium’s [Stream ciphers](https://doc.libsodium.org/advanced/stream_ciphers)<br/>
+> Based on libsodium’s [Stream ciphers](https://doc.libsodium.org/advanced/stream_ciphers)<br/>
 > ℹ️ [API Reference: CryptoStreamXSalsa20](../api/LibSodium.CryptoStreamXSalsa20.yml)<br/>
 > ℹ️ [API Reference: CryptoStreamSalsa20](../api/LibSodium.CryptoStreamSalsa20.yml)<br/>
 > ℹ️ [API Reference: CryptoStreamChaCha20](../api/LibSodium.CryptoStreamChaCha20.yml)<br/>
@@ -25,7 +24,7 @@ Beyond encryption you can treat the keystream itself as a fast **pseudorandom fu
 
 ---
 
-## 🌟 Features
+## Features
 
 * **Allocation‑free `Span<T>` API** plus streaming & `async` overloads.
 * Unified method names: `Encrypt`, `Decrypt`, `GenerateKeystream`.
@@ -37,7 +36,7 @@ Beyond encryption you can treat the keystream itself as a fast **pseudorandom fu
 
 ---
 
-## ✨ Common API
+## Common API
 
 All stream cipher classes share the following members:
 
@@ -53,7 +52,7 @@ All stream cipher classes share the following members:
 | `DecryptAsync`      | Method   | Asynchronously decrypts stream input to stream output with key and nonce.       |
 
 
-## ⚖️ Algorithm Comparison
+## Algorithm Comparison
 
 | API                        | KeyLen | NonceLen | BlockLen | Keystream Period                |
 | -------------------------- | ------ | -------- | -------- | ------------------------------- |
@@ -67,7 +66,7 @@ All stream cipher classes share the following members:
 
 ---
 
-## 🧭 Choosing the Right Stream Cipher
+## Choosing the Right Stream Cipher
 
 | Scenario                                             | Recommendation                    |
 | ---------------------------------------------------- | --------------------------------- |
@@ -79,7 +78,7 @@ All stream cipher classes share the following members:
 
 ---
 
-## 📋 Usage Example
+## Usage Example
 
 All examples are in C# and work for all stream cipher algorithms, just change the class name.
 
@@ -157,7 +156,7 @@ CryptoStreamXChaCha20.Decrypt(key, nonce, ciphertext, decrypted, initialCounter:
 
 ---
 
-## ⚠️ Error Handling
+## Error Handling
 
 | Condition                       | Exception            |
 | ------------------------------- | -------------------- |
@@ -167,7 +166,7 @@ CryptoStreamXChaCha20.Decrypt(key, nonce, ciphertext, decrypted, initialCounter:
 
 ---
 
-## 🗝️ Key & Nonce Management Tips
+## Key & Nonce Management Tips
 
 * **Never** reuse a nonce with the same key—this reveals keystream and breaks confidentiality.
 * Prefer 24‑byte variants for random nonces; use counters for 8/12‑byte variants.
@@ -175,7 +174,7 @@ CryptoStreamXChaCha20.Decrypt(key, nonce, ciphertext, decrypted, initialCounter:
 
 ---
 
-## 📝 Notes
+## Notes
 
 * Stream ciphers offer **no built‑in authentication**, pair them with a MAC (Poly1305/HMAC) or use an AEAD construction.
 * Keystream period is 2^64 blocks (64 bytes each), except `CryptoStreamChaCha20Ietf` with 2^32.
@@ -183,9 +182,9 @@ CryptoStreamXChaCha20.Decrypt(key, nonce, ciphertext, decrypted, initialCounter:
 
 ---
 
-## 👀 See Also
+## See Also
 
-* 🧂 [Stream ciphers](https://doc.libsodium.org/advanced/stream_ciphers)
+* [Stream ciphers](https://doc.libsodium.org/advanced/stream_ciphers)
 * ℹ️ [API Reference: CryptoStreamXSalsa20](../api/LibSodium.CryptoStreamXSalsa20.yml)
 * ℹ️ [API Reference: CryptoStreamSalsa20](../api/LibSodium.CryptoStreamSalsa20.yml)
 * ℹ️ [API Reference: CryptoStreamChaCha20](../api/LibSodium.CryptoStreamChaCha20.yml)

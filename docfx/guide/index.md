@@ -1,13 +1,13 @@
-# 🔐 Introduction to LibSodium.Net
+﻿# Introduction to LibSodium.Net
 
-[**LibSodium.Net**](https://github.com/LibSodium-Net/LibSodium.Net) provides .NET developers with easy-to-use bindings for [libsodium](https://doc.libsodium.org/), a powerful, modern cryptography library widely recognized for its simplicity and security. This makes it straightforward to add robust cryptographic functionality to your .NET applications.
+[**LibSodium.Net**](https://github.com/LibSodium-Net/LibSodium.Net) provides .NET 10 bindings for [libsodium 1.0.22](https://doc.libsodium.org/) with span-based APIs, secure-memory support, and Native AOT-compatible interop.
 
-_All code examples are written in **C#** and use LibSodium.Net’s allocation-free API._
+_All code examples are written in C# and use the current LibSodium.Net API._
 
-## ✨ Why LibSodium.Net?
+## Why LibSodium.Net?
 
 - **Cross-platform testing**: The suite runs against native-AOT builds on Windows, Linux, and macOS.
-- **Modern Cryptography**: Includes authenticated encryption, public-key cryptography, hashing, MAC, key derivation, key exchange and many more.
+- **Modern Cryptography**: Includes authenticated encryption, public-key cryptography, post-quantum key encapsulation, hashing, MACs, key derivation, and key exchange.
 - **Simple and Secure API**: Designed to reduce complexity, helping you implement cryptography correctly and securely.
 - **Secure Memory Handling**: Sensitive data management to minimize risks like memory leaks or data exposure.
 - **Span<T> over Arrays**: Optimized for performance and memory efficiency by using `Span<T>` instead of heap-allocated arrays.
@@ -15,11 +15,11 @@ _All code examples are written in **C#** and use LibSodium.Net’s allocation-fr
 
 ---
 
-# 🚀 Getting Started with LibSodium.Net
+# Getting Started with LibSodium.Net
 
 Here's how you can quickly integrate LibSodium.Net into your .NET projects.
 
-## ✨ Install via NuGet
+## Install via NuGet
 
 You can easily install LibSodium.Net using the NuGet package manager:
 

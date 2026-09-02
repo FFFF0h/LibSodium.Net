@@ -6,7 +6,7 @@ namespace LibSodium;
 /// Constants and cryptographic operations for the Ristretto255 group.
 /// </summary>
 /// <remarks>
-/// 🧂 Based on libsodium’s Ristretto255 API: https://doc.libsodium.org/advanced/ristretto255
+/// Based on libsodium’s Ristretto255 API: https://doc.libsodium.org/advanced/ristretto255
 /// </remarks>
 public static class CryptoRistretto
 {

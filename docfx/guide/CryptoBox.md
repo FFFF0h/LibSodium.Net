@@ -1,5 +1,4 @@
-
-# 🛡️ Public-Key Authenticated Encryption with CryptoBox
+﻿# Public-Key Authenticated Encryption with CryptoBox
 
 The `CryptoBox` API securely encrypts messages between two parties using public-key cryptography. The sender and the recipient each have a key pair, and the message is both encrypted and authenticated.
 
@@ -7,12 +6,12 @@ It also supports **Sealed Boxes** for anonymous encryption, allowing anyone to e
 
 Internally, it uses Curve25519 for key exchange, XSalsa20 for encryption, and Poly1305 for authentication. It supports both **combined** and **detached** modes, encryption using either a **keypair** or a **precomputed shared key**, and offers **automatic or manual nonce handling** — all through a unified, ergonomic API.
 
-> 🧂Based on libsodium's [Authenticated encryption using `crypto_box`](https://doc.libsodium.org/public-key_cryptography/authenticated_encryption)<br/>
+> Based on libsodium's [Authenticated encryption using `crypto_box`](https://doc.libsodium.org/public-key_cryptography/authenticated_encryption)<br/>
 > ℹ️ *See also*: [API Reference for `CryptoBox`](../api/LibSodium.CryptoBox.yml)
 
 ---
 
-## 🌟 Features
+## Features
 
 - Authenticated encryption with public-key cryptography.
 - anonymous encryption (`Sealed Boxes`).
@@ -26,7 +25,7 @@ Internally, it uses Curve25519 for key exchange, XSalsa20 for encryption, and Po
 
 ---
 
-## 📏 Constants
+## Constants
 
 | Name              | Value | Description                              |
 | ----------------- | ----- | ---------------------------------------- |
@@ -39,7 +38,7 @@ Internally, it uses Curve25519 for key exchange, XSalsa20 for encryption, and Po
 
 ---
 
-## 📋 CryptoBox Key Management
+## CryptoBox Key Management
 
 **Generate random key pair:**
 
@@ -67,7 +66,7 @@ using var seed = new SecureMemory<byte>(CryptoBox.SeedLen);
 seed.ProtectReadOnly();
 Span<byte> publicKey = stackalloc byte[CryptoBox.PublicKeyLen];
 using var privateKey = new SecureMemory<byte>(CryptoBox.PrivateKeyLen);
-CryptoBox.GenerateKeypairDeterministically(publicKey, privateKey, seed);
+CryptoBox.GenerateKeypairDeterministically(publicKey, privateKey, seed.AsReadOnlySpan());
 privateKey.ProtectReadOnly();
 ```
 
@@ -85,7 +84,7 @@ CryptoBox.GenerateKeypairDeterministically(publicKey, privateKey, seed);
 
 ```csharp
 // SecureMemory
-using var  sharedKey = SecureMemory<byte>(CryptoBox.SharedKeyLen);
+using var sharedKey = new SecureMemory<byte>(CryptoBox.SharedKeyLen);
 CryptoBox.CalculateSharedKey(sharedKey, otherPartyPublicKey, myPrivateKey);
 sharedKey.ProtectReadOnly();
 ```
@@ -98,7 +97,7 @@ CryptoBox.CalculateSharedKey(sharedKey, otherPartyPublicKey, myPrivateKey);
 
 ---
 
-## ✨ Encrypting and Decrypting with CryptoBox
+## Encrypting and Decrypting with CryptoBox
 
 **Encrypt / Decrypt with Keypair (Combined, Auto Nonce):**
 
@@ -157,16 +156,16 @@ Debug.Assert(decrypted.SequenceEqual(message));
 ```
 
 --- 
-## ⚠️ Error Handling
+## Error Handling
 
 - `ArgumentException` — invalid input sizes.
 - `LibSodiumException` — authentication failed or encryption/decryption error.
 
 ---
 
-## 📝 Notes
+## Notes
 
-> ⚠️ `CryptoBox` derives the shared key from `Q = scalarmult(s, P)` using `HSalsa20(Q, 0)`.  
+> `CryptoBox` derives the shared key from `Q = scalarmult(s, P)` using `HSalsa20(Q, 0)`.
 Since many `(s, P)` pairs can produce the same `Q`, the derived key will also be the same,  
 because the ambiguity is not eliminated by HSalsa20. Therefore, using `CryptoBox` for new development is **not recommended**.
 
@@ -182,7 +181,7 @@ because the ambiguity is not eliminated by HSalsa20. Therefore, using `CryptoBox
 
 ---
 
-## 👀 See Also
+## See Also
 
 - [libsodium crypto_box documentation](https://doc.libsodium.org/public-key_cryptography/authenticated_encryption)
 - [API Reference](../api/LibSodium.CryptoBox.yml)

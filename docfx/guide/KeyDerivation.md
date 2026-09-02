@@ -1,4 +1,4 @@
-# 🔑 Key Derivation in LibSodium.Net
+﻿# Key Derivation in LibSodium.Net
 
 LibSodium.Net provides three powerful primitives for key derivation:
 
@@ -7,8 +7,8 @@ LibSodium.Net provides three powerful primitives for key derivation:
 * `CryptoHkdf`: a standard HKDF implementation based on HMAC (SHA-256 or SHA-512).
 
 
-> 🧂 Based on libsodium's [Key derivation](https://doc.libsodium.org/key_derivation)<br/>
-> 🧂 Based on libsodium's [HKDF](https://doc.libsodium.org/key_derivation/hkdf)<br/>
+> Based on libsodium's [Key derivation](https://doc.libsodium.org/key_derivation)<br/>
+> Based on libsodium's [HKDF](https://doc.libsodium.org/key_derivation/hkdf)<br/>
 > ℹ️ *See also*: [API Reference for `CryptoKeyDerivation`](../api/LibSodium.CryptoKeyDerivation.yml)<br/>
 > ℹ️ *See also*: [API Reference for `HKDF`](../api/LibSodium.CryptoHkdf.yml)<br/>
 > ℹ️ *See also*: [API Reference for `CryptoHChaCha20`](../api/LibSodium.CryptoHChaCha20.yml)
@@ -17,7 +17,7 @@ This guide compares all options, shows how to choose between them, and offers pr
 
 ---
 
-## 📋 Primitives Comparative
+## Primitives Comparative
 
 | Feature                    | `CryptoKeyDerivation`               | `Hkdf`                                | `CryptoHChaCha20`                    |
 | -------------------------- | ----------------------------------- | ------------------------------------- | ------------------------------------ |
@@ -48,7 +48,7 @@ Use `SHA-512` unless you have specific compatibility or performance constraints.
 
 ---
 
-## ✨ When to Use Each
+## When to Use Each
 
 ### Choose `HKDF` when:
 
@@ -63,7 +63,7 @@ Use `SHA-512` unless you have specific compatibility or performance constraints.
 * You control the environment and want maximum speed.
 * You can track `subkeyId` safely (e.g., in a DB or in-memory).
 
-📝 Example: For a secure message stream, generate one random `subkeyId` per session, then increment it for each message. This yields high performance and unique keys.
+Example: For a secure message stream, generate one random `subkeyId` per session, then increment it for each message. This yields high performance and unique keys.
 
 ### Choose `CryptoHChaCha20` when:
 
@@ -73,11 +73,11 @@ Use `SHA-512` unless you have specific compatibility or performance constraints.
 
 ---
 
-## ✨ `CryptoKeyDerivation`
+## `CryptoKeyDerivation`
 
 This API is built on libsodium’s BLAKE2b-based `crypto_kdf_*` functions. It allows fast deterministic derivation of many subkeys from a single master key and a context+id pair.
 
-### 📏 Constants
+### Constants
 
 | Name           | Value | Description                        |
 | -------------- | ----- | ---------------------------------- |
@@ -86,7 +86,7 @@ This API is built on libsodium’s BLAKE2b-based `crypto_kdf_*` functions. It al
 | `MinSubkeyLen` | 16    | Minimum subkey length              |
 | `MaxSubkeyLen` | 64    | Maximum subkey length              |
 
-### 📋 Generate a master key
+### Generate a master key
 
 You can use  `CryptoKeyDerivation.GenerateMasterKey` to generate a cryptographically secure random master key. Alternatively, the key may be securely stored or derived.
 
@@ -110,7 +110,7 @@ var masterKey = new byte[CryptoKeyDerivation.MasterKeyLen];
 CryptoKeyDerivation.GenerateMasterKey(masterKey);
 ```
 
-### 📋 Derive a subkey
+### Derive a subkey
 
 You derive a subkey from a master key, a subkey id and a context using `DeriveSubKey()` method. 
 Subkeys can be `SecureMemory<byte>`, `Span<byte>`, or `byte[]` (implicitly convertible to `Span<byte>`)
@@ -133,20 +133,20 @@ using var subkey = new byte[32];
 CryptoKeyDerivation.DeriveSubkey(masterKey, subkey, 42, "MYCTX");
 ```
 
-📝 Context must be exactly 8 bytes. Strings shorter than 8 are zero-padded.
+Context must be exactly 8 bytes. Strings shorter than 8 are zero-padded.
 
 ---
 
-## ✨ CryptoHChaCha20
+## CryptoHChaCha20
 
 `CryptoHChaCha20` provides fast, deterministic subkey derivation using the HChaCha20 function, originally designed for use in `XChaCha20`. It is suitable for nonce extension, domain separation and stateless derivation of subkeys from a master key.
 
-🧂 Based on libsodium’s [`crypto_core_hchacha20`](https://doc.libsodium.org/advanced/stream_ciphers/xchacha20#key-derivation-with-hchacha20)
-ℹ️ [API Reference: `CryptoHChaCha20`](../api/LibSodium.CryptoHChaCha20.yml)
+> Based on libsodium’s [`crypto_core_hchacha20`](https://doc.libsodium.org/advanced/stream_ciphers/xchacha20#key-derivation-with-hchacha20)
+> ℹ️ [API Reference: `CryptoHChaCha20`](../api/LibSodium.CryptoHChaCha20.yml)
 
 ---
 
-### 📏 Constants
+### Constants
 
 | Name         | Value | Description                           |
 | ------------ | ----- | ------------------------------------- |
@@ -157,7 +157,7 @@ CryptoKeyDerivation.DeriveSubkey(masterKey, subkey, 42, "MYCTX");
 
 ---
 
-### 📋 Derive a subkey
+### Derive a subkey
 
 You can derive a 32-byte subkey using a 32-byte master key and a 16-byte input. You may optionally provide a 16-byte domain context.
 
@@ -173,7 +173,7 @@ CryptoHChaCha20.DeriveSubkey(key, subKey, input, "app-context");
 
 ---
 
-### 📋 Example: AES256-GCM nonce extension
+### Example: AES256-GCM nonce extension
 
 HChaCha20 can be used to securely extend a nonce for AES256-GCM:
 
@@ -204,17 +204,17 @@ Aes256Gcm.Encrypt(ciphertext, plaintext, subkey, nonce: nonce);
 ```
 ---
 
-## ✨ `HKDF`
+## `CryptoHkdf`
 
-`HKDF` implements RFC 5869 using HMAC-SHA-256 or HMAC-SHA-512. It is compatible with `System.Security.Cryptography.HKDF.DeriveKey` and produces identical outputs when the inputs match.
+`CryptoHkdf` implements RFC 5869 using HMAC-SHA-256 or HMAC-SHA-512. It is compatible with `System.Security.Cryptography.HKDF.DeriveKey` and produces identical outputs when the inputs match.
 
-📝 LibSodium.Net's `HKDF` is fully interoperable with `System.Security.Cryptography.HKDF` from .NET — both produce identical outputs when using the same inputs and hash algorithm.
+LibSodium.Net's `CryptoHkdf` is fully interoperable with `System.Security.Cryptography.HKDF` from .NET — both produce identical outputs when using the same inputs and hash algorithm.
 
 Key, IKM (Initial Key Material), PRK (Pseudo-Random Key), and OKM (Output Key Material) can be provided as `SecureMemory<byte>`, `Span<byte>` / `ReadOnlySpan<byte>`, or `byte[]` (implicitly convertible to `Span<byte>`) for synchronous methods.
 For asynchronous streaming methods, use `SecureMemory<byte>`, `Memory<byte>` / `ReadOnlyMemory<byte>`, or `byte[]` (implicitly convertible to `Memory<byte>` / `ReadOnlyMemory<byte>`).
 
 
-### 📏 Constants
+### Constants
 
 | Name        | SHA256 | SHA512 | Description                              |
 | ----------- | ------ | ------ | ---------------------------------------- |
@@ -222,7 +222,7 @@ For asynchronous streaming methods, use `SecureMemory<byte>`, `Memory<byte>` / `
 | `MinOkmLen` | 4      | 4      | Minimum output length                    |
 | `MaxOkmLen` | 8160   | 16320  | Maximum output length (255 \* hash size) |
 
-### 🪄 HKDF Phases
+### HKDF Phases
 
 * `Extract`: Converts input keying material (IKM) and salt into a pseudorandom key (PRK).
 * `Expand`: Derives the final output key material (OKM) from the PRK and optional `info`.
@@ -234,45 +234,45 @@ For asynchronous streaming methods, use `SecureMemory<byte>`, `Memory<byte>` / `
 * Use `Extract` + `Expand` when you want to reuse PRK for multiple outputs.
 * Use `Expand` when you already have a good master key.
 
-### 📋 Derive a key in one step
+### Derive a key in one step
 
 
 
 ```csharp
 // Span key
 Span<byte> key = stackalloc byte[64];
-HKDF.DeriveKey(HashAlgorithmName.SHA512, ikm, key, salt, info);
+CryptoHkdf.DeriveKey(HashAlgorithmName.SHA512, ikm, key, salt, info);
 ```
 
 ```csharp
 // SecureMemory key
 using var key = new SecureMemory<byte>(64);
-HKDF.DeriveKey(HashAlgorithmName.SHA512, ikm, key, salt, info);
+CryptoHkdf.DeriveKey(HashAlgorithmName.SHA512, ikm, key, salt, info);
 ```
 
-### 📋 Separate extract and expand
+### Separate extract and expand
 
 ```csharp
-Span<byte> prk = stackalloc byte[HKDF.Sha512PrkLen];
-HKDF.Extract(HashAlgorithmName.SHA512, ikm, salt, prk);
+Span<byte> prk = stackalloc byte[CryptoHkdf.Sha512PrkLen];
+CryptoHkdf.Extract(HashAlgorithmName.SHA512, ikm, salt, prk);
 
 Span<byte> okm = stackalloc byte[64];
-HKDF.Expand(HashAlgorithmName.SHA512, prk, okm, info);
+CryptoHkdf.Expand(HashAlgorithmName.SHA512, prk, okm, info);
 ```
 
-### 📋 Extract from stream (incremental entropy)
+### Extract from stream (incremental entropy)
 
 This allows deriving a PRK from streamed IKM.
 
 ```csharp
 using var stream = File.OpenRead("large-secret.bin");
-var prk = new byte[HKDF.Sha512PrkLen];
-await HKDF.ExtractAsync(HashAlgorithmName.SHA512, stream, salt, prk);
+var prk = new byte[CryptoHkdf.Sha512PrkLen];
+await CryptoHkdf.ExtractAsync(HashAlgorithmName.SHA512, stream, salt, prk);
 ```
 
 ---
 
-## ⚠️ Error Handling
+## Error Handling
 
 * `ArgumentException` — for invalid sizes or null contexts.
 * `ArgumentOutOfRangeException` — when lengths are outside defined bounds.
@@ -281,7 +281,7 @@ await HKDF.ExtractAsync(HashAlgorithmName.SHA512, stream, salt, prk);
 
 ---
 
-## 📝 Notes
+## Notes
 
 * Prefer `DeriveKey()` when simplicity is more important than flexibility.
 * Use `Extract`/`Expand` for advanced scenarios: PRK reuse, incremental entropy, or interoperability layers.
@@ -291,7 +291,7 @@ await HKDF.ExtractAsync(HashAlgorithmName.SHA512, stream, salt, prk);
 
 ---
 
-## 👀 See Also
+## See Also
 
 * [libsodium key derivation](https://doc.libsodium.org/key_derivation)
 * [RFC 5869](https://datatracker.ietf.org/doc/html/rfc5869)

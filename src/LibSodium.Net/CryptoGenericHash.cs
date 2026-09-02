@@ -10,7 +10,7 @@ namespace LibSodium;
 	/// The output length and key length can be customized within defined bounds. The hash can be computed over a byte span or a stream,
 	/// synchronously or asynchronously.
 	/// <para>
-	/// For additional details, see the official libsodium documentation: 🧂
+/// For additional details, see the official libsodium documentation:
 	/// https://libsodium.gitbook.io/doc/hashing/generic_hashing
 	/// </para>
 	/// </remarks>
