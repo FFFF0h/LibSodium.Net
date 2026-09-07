@@ -1,6 +1,6 @@
 ﻿# LibSodium.Net
 
-[![Build and Test](https://github.com/libSodium-net/LibSodium.Net/actions/workflows/build-and-test.yml/badge.svg)](https://github.com//libSodium-net/LibSodium.Net/actions/workflows/build-and-test.yml) [![NuGet](https://img.shields.io/nuget/v/LibSodium.Net.svg)](https://www.nuget.org/packages/LibSodium.Net/)
+[![Build and Test](https://github.com/libSodium-net/LibSodium.Net/actions/workflows/build-and-test.yml/badge.svg)](https://github.com/libSodium-net/LibSodium.Net/actions/workflows/build-and-test.yml) [![NuGet](https://img.shields.io/nuget/v/LibSodium.Net.svg)](https://www.nuget.org/packages/LibSodium.Net/)
 
 **LibSodium.Net** provides idiomatic .NET 10 bindings for [libsodium](https://doc.libsodium.org/) 1.0.22. The API uses spans and secure memory where appropriate, supports Native AOT through source-generated interop, and remains compatible with libsodium data formats.
 
